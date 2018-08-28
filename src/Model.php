@@ -75,7 +75,7 @@ abstract class Model extends ErrorWarning
         $sqlFields = $sqlValues = [];
 
         foreach ($this->sqlParams as $field => $value) {
-            if (is_int($field) || !$this->isValidField($field)) {
+            if (\is_int($field) || !$this->isValidField($field)) {
                 continue;
             }
 
@@ -149,11 +149,11 @@ abstract class Model extends ErrorWarning
         }
 
         foreach ($this->sqlParams as $field => $rule) {
-            if (in_array($field, $excludePrimaryKey, true)) {
+            if (\in_array($field, $excludePrimaryKey, true)) {
                 continue;
             }
 
-            if (is_int($field) || !$this->isValidField($field)) {
+            if (\is_int($field) || !$this->isValidField($field)) {
                 continue;
             }
 
@@ -182,7 +182,7 @@ abstract class Model extends ErrorWarning
         $newParams = [];
 
         foreach ($params as $field => $value) {
-            if (is_int($field) || !$this->isValidField($field)) {
+            if (\is_int($field) || !$this->isValidField($field)) {
                 continue;
             }
 
@@ -466,7 +466,7 @@ abstract class Model extends ErrorWarning
             }
         }
 
-        if (count($sqlWhere) < 1) {
+        if (\count($sqlWhere) < 1) {
             $this->addErrorMessage('Error no primary key');
             throw new ModelException('ERROR');
         }
@@ -533,13 +533,13 @@ abstract class Model extends ErrorWarning
         foreach ($callbacks as $callback) {
             $ret = null;
 
-            if (is_array($callback) && is_object($callback[0])) {
+            if (\is_array($callback) && \is_object($callback[0])) {
                 $ret = $callback[0]->{$callback[1]}($sql, $params);
-            } elseif (is_callable($callback)) {
-                $ret = call_user_func($callback, $sql, $params);
+            } elseif (\is_callable($callback)) {
+                $ret = \call_user_func($callback, $sql, $params);
             }
 
-            if (is_array($ret)) {
+            if (\is_array($ret)) {
                 $sql = $ret[0];
                 $params = $ret[1];
             }
@@ -555,18 +555,18 @@ abstract class Model extends ErrorWarning
     protected function afterCallbacks($callbacks, ...$params)
     {
         $indexArrayParams = 0;
-        if (count($params) === 2) {
+        if (\count($params) === 2) {
             $indexArrayParams = 1;
         }
 
         foreach ($callbacks as $callback) {
             $ret = null;
 
-            if (is_callable($callback)) {
-                $ret = call_user_func_array($callback, $params);
+            if (\is_callable($callback)) {
+                $ret = \call_user_func_array($callback, $params);
             }
 
-            if (is_array($ret)) {
+            if (\is_array($ret)) {
                 $params[$indexArrayParams] = $ret;
             }
         }

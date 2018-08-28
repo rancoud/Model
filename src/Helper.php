@@ -143,7 +143,7 @@ class Helper
             $order = self::$defaultOrderByOrder;
 
             $subparts = explode(self::$pipeDelimiter, $part);
-            if (count($subparts) > 1) {
+            if (\count($subparts) > 1) {
                 $field = trim($subparts[0]);
 
                 if ($subparts[1] === 'asc' || $subparts[1] === 'desc') {
@@ -153,14 +153,14 @@ class Helper
             }
 
             if (self::isValidFieldForOrderBy($field, $validFields)) {
-                if (!in_array($field, $fieldsAlreadyTreated, true)) {
+                if (!\in_array($field, $fieldsAlreadyTreated, true)) {
                     $fieldsAlreadyTreated[] = $field;
                     $results[] = [$field => $order];
                 }
             }
         }
 
-        if (count($results) === 0) {
+        if (\count($results) === 0) {
             return [[self::$defaultOrderBy => self::$defaultOrderByOrder]];
         }
 

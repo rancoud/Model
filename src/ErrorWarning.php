@@ -27,7 +27,7 @@ class ErrorWarning
      */
     public function hasErrorMessages(): bool
     {
-        return count($this->errorMessage) > 0;
+        return \count($this->errorMessage) > 0;
     }
 
     /**
@@ -56,7 +56,7 @@ class ErrorWarning
      */
     public function hasErrorFields(): bool
     {
-        return count($this->errorFields) > 0;
+        return \count($this->errorFields) > 0;
     }
 
     /**
@@ -101,7 +101,7 @@ class ErrorWarning
      */
     public function hasWarningMessages(): bool
     {
-        return count($this->warningMessage) > 0;
+        return \count($this->warningMessage) > 0;
     }
 
     /**
@@ -130,7 +130,7 @@ class ErrorWarning
      */
     public function hasWarningFields(): bool
     {
-        return count($this->warningFields) > 0;
+        return \count($this->warningFields) > 0;
     }
 
     /**

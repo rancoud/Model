@@ -96,7 +96,7 @@ class Field
             return;
         }
 
-        if (!in_array($type, $props, true)) {
+        if (!\in_array($type, $props, true)) {
             throw new FieldException('Incorrect Type. Valid type: ' . implode(', ', $props) . ', enum:v1,v2');
         }
 
@@ -143,7 +143,7 @@ class Field
                 continue;
             }
 
-            if (!in_array($rule, $props, true)) {
+            if (!\in_array($rule, $props, true)) {
                 $messageBonus = ', max:int, min:int, range:int,int';
                 throw new FieldException('Incorrect Rule. Valid rule: ' . implode(', ', $props) . $messageBonus);
             }
@@ -267,7 +267,7 @@ class Field
 
         $function = 'convertTo' . ucfirst($this->type);
 
-        return call_user_func([$this, $function], $value);
+        return \call_user_func([$this, $function], $value);
     }
 
     /**
@@ -285,7 +285,7 @@ class Field
 
         $value = (int) $value;
 
-        if ($value < 0 && in_array('unsigned', $this->rules, true)) {
+        if ($value < 0 && \in_array('unsigned', $this->rules, true)) {
             $value = 0;
         }
 
@@ -313,7 +313,7 @@ class Field
 
         $value = (float) $value;
 
-        if ($value < 0 && in_array('unsigned', $this->rules, true)) {
+        if ($value < 0 && \in_array('unsigned', $this->rules, true)) {
             $value = 0;
         }
 
@@ -480,7 +480,7 @@ class Field
 
         $year = (int) $value;
 
-        if ($year < 0 && in_array('unsigned', $this->rules, true)) {
+        if ($year < 0 && \in_array('unsigned', $this->rules, true)) {
             $year = 0;
         }
 
@@ -504,7 +504,7 @@ class Field
     {
         $value = (string) $value;
 
-        if (!in_array($value, $this->enumValues, true)) {
+        if (!\in_array($value, $this->enumValues, true)) {
             throw new FieldException('Invalid enum value');
         }
 
@@ -522,7 +522,7 @@ class Field
         $matches = [];
         preg_match_all($pattern, $value, $matches);
 
-        return count($matches[0]) < 1;
+        return \count($matches[0]) < 1;
     }
 
     /**
@@ -627,7 +627,7 @@ class Field
             $function = 'applyRule' . ucfirst($rule);
 
             if (method_exists($this, $function)) {
-                $value = call_user_func([$this, $function], $value);
+                $value = \call_user_func([$this, $function], $value);
             }
         }
 
