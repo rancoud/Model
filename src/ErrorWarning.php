@@ -161,4 +161,10 @@ class ErrorWarning
             unset($this->warningFields[$field]);
         }
     }
+
+    protected function resetAllErrors()
+    {
+        $this->resetErrorField();
+        $this->resetErrorMessage();
+    }
 }

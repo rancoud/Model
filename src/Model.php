@@ -210,6 +210,8 @@ abstract class Model extends ErrorWarning
      */
     public function all(array $params)
     {
+        $this->resetAllErrors();
+
         if (Helper::isRowsCount($params)) {
             return $this->allCount($params);
         }
@@ -366,6 +368,8 @@ abstract class Model extends ErrorWarning
      */
     public function create(array $args)
     {
+        $this->resetAllErrors();
+
         $this->sqlParams = [];
 
         $this->sqlParams = $args;
@@ -413,6 +417,8 @@ abstract class Model extends ErrorWarning
      */
     public function update(array $args, $id, ...$ids): void
     {
+        $this->resetAllErrors();
+
         array_unshift($ids, $id);
         $this->sqlParams = [];
 
@@ -476,6 +482,8 @@ abstract class Model extends ErrorWarning
      */
     public function delete($id, ...$ids): void
     {
+        $this->resetAllErrors();
+
         array_unshift($ids, $id);
         $this->sqlParams = [];
 

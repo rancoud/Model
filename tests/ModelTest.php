@@ -102,6 +102,65 @@ class ModelTest extends TestCase
         static::assertTrue($isSuccess);
     }
 
+    public function testCreateUpdateDeleteCleanErrorFields()
+    {
+        $implem = new ImplementModel($this->database);
+        $countAssert = 1;
+        try {
+            $implem->create(['date_start' => '']);
+        }catch(Exception $e){
+            static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
+            $countAssert--;
+        }
+        static::assertSame(0, $countAssert);
+
+        $countAssert = 1;
+        try {
+            $implem->create(['date_start' => '']);
+        }catch(Exception $e){
+            static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
+            $countAssert--;
+        }
+        static::assertSame(0, $countAssert);
+
+        $countAssert = 1;
+        try {
+            $implem->update(['date_start' => ''], 1);
+        }catch(Exception $e){
+            static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
+            $countAssert--;
+        }
+        static::assertSame(0, $countAssert);
+
+        $countAssert = 1;
+        try {
+            $implem->update(['date_start' => ''], 1);
+        }catch(Exception $e){
+            static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
+            $countAssert--;
+        }
+        static::assertSame(0, $countAssert);
+
+        $countAssert = 1;
+        $implem->setWrongPk();
+        try {
+            $implem->delete(1);
+        }catch(Exception $e){
+            static::assertSame(['wrong_id' => ['Null not authorized']], $implem->getErrorFields());
+            $countAssert--;
+        }
+        static::assertSame(0, $countAssert);
+
+        $countAssert = 1;
+        try {
+            $implem->delete(1);
+        }catch(Exception $e){
+            static::assertSame(['wrong_id' => ['Null not authorized']], $implem->getErrorFields());
+            $countAssert--;
+        }
+        static::assertSame(0, $countAssert);
+    }
+    
     public function testCreateModelExceptionEmptySql()
     {
         $countAssert = 2;
