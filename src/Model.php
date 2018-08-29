@@ -62,7 +62,7 @@ abstract class Model extends ErrorWarning
      */
     protected function isValidField(string $field): bool
     {
-        return array_key_exists($field, $this->fields);
+        return \array_key_exists($field, $this->fields);
     }
 
     /**
@@ -83,7 +83,7 @@ abstract class Model extends ErrorWarning
             $sqlValues[] = ':' . $field;
         }
 
-        $sql = '(' . implode(',', $sqlFields) . ') VALUES (' . implode(',', $sqlValues) . ')';
+        $sql = '(' . \implode(',', $sqlFields) . ') VALUES (' . \implode(',', $sqlValues) . ')';
 
         if ($sql === '() VALUES ()') {
             $this->addErrorMessage('Insert sql query is empty');
@@ -111,14 +111,14 @@ abstract class Model extends ErrorWarning
                 continue;
             }
 
-            if (!array_key_exists($key, $this->sqlParams)) {
+            if (!\array_key_exists($key, $this->sqlParams)) {
                 if ($field->getDefault() === false) {
                     $this->addErrorField($key, 'field is required');
                 } else {
                     $this->sqlParams[$key] = $field->getDefault();
-                    $sql = str_replace('`) VALUES', '`,`' . $key . '`) VALUES', $sql);
+                    $sql = \str_replace('`) VALUES', '`,`' . $key . '`) VALUES', $sql);
                     $sql .= ',:' . $key . ')';
-                    $sql = str_replace('),:' . $key . ')', ',:' . $key . ')', $sql);
+                    $sql = \str_replace('),:' . $key . ')', ',:' . $key . ')', $sql);
                 }
             }
         }
@@ -160,9 +160,9 @@ abstract class Model extends ErrorWarning
             $sql[] = '`' . $field . '` = :' . $field;
         }
 
-        $str = implode(',', $sql);
+        $str = \implode(',', $sql);
 
-        if (mb_strlen($str) < 1) {
+        if (\mb_strlen($str) < 1) {
             $this->addErrorMessage('Update sql query is empty');
             throw new ModelException('ERROR');
         }
@@ -238,7 +238,7 @@ abstract class Model extends ErrorWarning
         $sql[] = $this->getSqlAllWhereAndFillSqlParams($params);
 
         try {
-            return $this->database->count(implode(' ', $sql), $this->sqlParams);
+            return $this->database->count(\implode(' ', $sql), $this->sqlParams);
         } catch (DatabaseException $databaseException) {
             $this->addErrorMessage('Error select count all');
             throw new ModelException('ERROR');
@@ -274,7 +274,7 @@ abstract class Model extends ErrorWarning
         }
 
         try {
-            $rows = $this->database->selectAll(implode(' ', $sql), $this->sqlParams);
+            $rows = $this->database->selectAll(\implode(' ', $sql), $this->sqlParams);
             foreach ($rows as $key => $row) {
                 $rows[$key] = $this->formatValues($row);
             }
@@ -342,12 +342,12 @@ abstract class Model extends ErrorWarning
      */
     public function one($id, ...$ids)
     {
-        array_unshift($ids, $id);
+        \array_unshift($ids, $id);
         $this->sqlParams = [];
 
         $sqlWhere = $this->getWhereWithPrimaryKeys($ids);
 
-        $sql = 'SELECT * FROM ' . $this->table . ' WHERE ' . implode(' AND ', $sqlWhere);
+        $sql = 'SELECT * FROM ' . $this->table . ' WHERE ' . \implode(' AND ', $sqlWhere);
 
         try {
             $row = $this->database->selectRow($sql, $this->sqlParams);
@@ -419,7 +419,7 @@ abstract class Model extends ErrorWarning
     {
         $this->resetAllErrors();
 
-        array_unshift($ids, $id);
+        \array_unshift($ids, $id);
         $this->sqlParams = [];
 
         $this->sqlParams = $args;
@@ -434,7 +434,7 @@ abstract class Model extends ErrorWarning
 
         $sqlUpdateFields = $this->getUpdateSqlFieldsFromParams();
 
-        $sql = 'UPDATE ' . $this->table . ' SET ' . $sqlUpdateFields . ' WHERE ' . implode(' AND ', $sqlWhere);
+        $sql = 'UPDATE ' . $this->table . ' SET ' . $sqlUpdateFields . ' WHERE ' . \implode(' AND ', $sqlWhere);
 
         $this->beforeUpdate($sql, $this->sqlParams);
 
@@ -460,8 +460,8 @@ abstract class Model extends ErrorWarning
         $sqlWhere = [];
         foreach ($this->fields as $field => $properties) {
             if ($properties->isPrimaryKey()) {
-                $id = array_shift($ids);
-                $this->sqlParams[$field] = current($this->formatValues([$field => $id]));
+                $id = \array_shift($ids);
+                $this->sqlParams[$field] = \current($this->formatValues([$field => $id]));
                 $sqlWhere[] = $field . ' =:' . $field;
             }
         }
@@ -484,12 +484,12 @@ abstract class Model extends ErrorWarning
     {
         $this->resetAllErrors();
 
-        array_unshift($ids, $id);
+        \array_unshift($ids, $id);
         $this->sqlParams = [];
 
         $sqlWhere = $this->getWhereWithPrimaryKeys($ids);
 
-        $sql = 'DELETE FROM ' . $this->table . ' WHERE ' . implode(' AND ', $sqlWhere);
+        $sql = 'DELETE FROM ' . $this->table . ' WHERE ' . \implode(' AND ', $sqlWhere);
 
         $this->beforeDelete($sql, $this->sqlParams);
 
@@ -506,7 +506,7 @@ abstract class Model extends ErrorWarning
     protected function removeParameters()
     {
         foreach ($this->parametersToRemove as $parameterName) {
-            if (array_key_exists($parameterName, $this->sqlParams)) {
+            if (\array_key_exists($parameterName, $this->sqlParams)) {
                 unset($this->sqlParams[$parameterName]);
             }
         }

@@ -17,10 +17,10 @@ trait JsonOutput
     public function getJson(int $id = null)
     {
         if ($id !== null) {
-            return json_encode($this->getOneJson($id));
+            return \json_encode($this->getOneJson($id));
         }
 
-        return json_encode($this->getAllJson());
+        return \json_encode($this->getAllJson());
     }
 
     /**

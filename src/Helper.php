@@ -27,7 +27,7 @@ class Helper
      */
     public static function isRowsCount(array $args): bool
     {
-        if (!array_key_exists(self::$rowsCount, $args)) {
+        if (!\array_key_exists(self::$rowsCount, $args)) {
             return false;
         }
 
@@ -41,7 +41,7 @@ class Helper
      */
     public static function hasLimit(array $args): bool
     {
-        if (!array_key_exists(self::$noLimit, $args)) {
+        if (!\array_key_exists(self::$noLimit, $args)) {
             return true;
         }
 
@@ -56,7 +56,7 @@ class Helper
     public static function getPageNumberForSql(array $args): int
     {
         $page = 0;
-        if (!array_key_exists(self::$page, $args)) {
+        if (!\array_key_exists(self::$page, $args)) {
             return $page;
         }
 
@@ -76,7 +76,7 @@ class Helper
     public static function getPageNumberForHuman(array $args): int
     {
         $page = 1;
-        if (!array_key_exists(self::$page, $args)) {
+        if (!\array_key_exists(self::$page, $args)) {
             return $page;
         }
 
@@ -95,7 +95,7 @@ class Helper
      */
     public static function getCountPerPage(array $args): int
     {
-        if (!array_key_exists(self::$count, $args)) {
+        if (!\array_key_exists(self::$count, $args)) {
             return self::$countPerPage;
         }
 
@@ -130,24 +130,24 @@ class Helper
     {
         $fieldsAlreadyTreated = [];
 
-        if (!array_key_exists(self::$order, $args)) {
+        if (!\array_key_exists(self::$order, $args)) {
             return [[self::$defaultOrderBy => self::$defaultOrderByOrder]];
         }
 
         $order = (string) $args[self::$order];
-        $parts = explode(self::$orderDelimiter, $order);
+        $parts = \explode(self::$orderDelimiter, $order);
 
         $results = [];
         foreach ($parts as $part) {
-            $field = trim($part);
+            $field = \trim($part);
             $order = self::$defaultOrderByOrder;
 
-            $subparts = explode(self::$pipeDelimiter, $part);
+            $subparts = \explode(self::$pipeDelimiter, $part);
             if (\count($subparts) > 1) {
-                $field = trim($subparts[0]);
+                $field = \trim($subparts[0]);
 
                 if ($subparts[1] === 'asc' || $subparts[1] === 'desc') {
-                    $field = trim($subparts[0]);
+                    $field = \trim($subparts[0]);
                     $order = $subparts[1];
                 }
             }
@@ -175,7 +175,7 @@ class Helper
      */
     public static function isValidFieldForOrderBy(string $field, array $validFields = []): bool
     {
-        return array_key_exists($field, $validFields);
+        return \array_key_exists($field, $validFields);
     }
 
     /**
@@ -198,9 +198,9 @@ class Helper
         $sql = [];
 
         foreach ($orders as $order) {
-            $sql[] = key($order) . ' ' . current($order);
+            $sql[] = \key($order) . ' ' . \current($order);
         }
 
-        return implode(',', $sql);
+        return \implode(',', $sql);
     }
 }

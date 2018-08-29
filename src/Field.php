@@ -90,14 +90,14 @@ class Field
     {
         $props = ['int', 'float', 'char', 'varchar', 'text', 'date', 'datetime', 'time', 'timestamp', 'year'];
 
-        if (mb_strpos($type, 'enum:') === 0) {
+        if (\mb_strpos($type, 'enum:') === 0) {
             $this->treatEnum($type);
 
             return;
         }
 
         if (!\in_array($type, $props, true)) {
-            throw new FieldException('Incorrect Type. Valid type: ' . implode(', ', $props) . ', enum:v1,v2');
+            throw new FieldException('Incorrect Type. Valid type: ' . \implode(', ', $props) . ', enum:v1,v2');
         }
 
         $this->type = $type;
@@ -110,8 +110,8 @@ class Field
     {
         $this->type = 'enum';
 
-        $values = mb_substr($type, 5);
-        $this->enumValues = explode(',', $values);
+        $values = \mb_substr($type, 5);
+        $this->enumValues = \explode(',', $values);
     }
 
     /**
@@ -128,24 +128,24 @@ class Field
                 continue;
             }
 
-            if (mb_strpos($rule, 'min:') === 0) {
+            if (\mb_strpos($rule, 'min:') === 0) {
                 $this->extractMinRule($rule);
                 continue;
             }
 
-            if (mb_strpos($rule, 'max:') === 0) {
+            if (\mb_strpos($rule, 'max:') === 0) {
                 $this->extractMaxRule($rule);
                 continue;
             }
 
-            if (mb_strpos($rule, 'range:') === 0) {
+            if (\mb_strpos($rule, 'range:') === 0) {
                 $this->extractRangeRule($rule);
                 continue;
             }
 
             if (!\in_array($rule, $props, true)) {
                 $messageBonus = ', max:int, min:int, range:int,int';
-                throw new FieldException('Incorrect Rule. Valid rule: ' . implode(', ', $props) . $messageBonus);
+                throw new FieldException('Incorrect Rule. Valid rule: ' . \implode(', ', $props) . $messageBonus);
             }
 
             if ($rule === 'not_null') {
@@ -169,7 +169,7 @@ class Field
      */
     protected function extractMinRule($rule): void
     {
-        $this->min = mb_substr($rule, 4);
+        $this->min = \mb_substr($rule, 4);
         if ($this->type === 'float') {
             $this->min = (float) $this->min;
         } else {
@@ -182,7 +182,7 @@ class Field
      */
     protected function extractMaxRule($rule): void
     {
-        $this->max = mb_substr($rule, 4);
+        $this->max = \mb_substr($rule, 4);
         if ($this->type === 'float') {
             $this->max = (float) $this->max;
         } else {
@@ -195,8 +195,8 @@ class Field
      */
     protected function extractRangeRule($rule): void
     {
-        $range = mb_substr($rule, 6);
-        $this->range = explode(',', $range);
+        $range = \mb_substr($rule, 6);
+        $this->range = \explode(',', $range);
         if ($this->type === 'float') {
             $this->range[0] = (float) $this->range[0];
             $this->range[1] = (float) $this->range[1];
@@ -265,7 +265,7 @@ class Field
             throw new FieldException('Null not authorized');
         }
 
-        $function = 'convertTo' . ucfirst($this->type);
+        $function = 'convertTo' . \ucfirst($this->type);
 
         return \call_user_func([$this, $function], $value);
     }
@@ -279,7 +279,7 @@ class Field
      */
     protected function convertToInt($value)
     {
-        if (!is_numeric($value)) {
+        if (!\is_numeric($value)) {
             throw new FieldException('Invalid int value');
         }
 
@@ -307,7 +307,7 @@ class Field
      */
     protected function convertToFloat($value): float
     {
-        if (!is_numeric($value)) {
+        if (!\is_numeric($value)) {
             throw new FieldException('Invalid float value');
         }
 
@@ -425,7 +425,7 @@ class Field
             throw new FieldException('Invalid time value');
         }
 
-        $hour = (int) (mb_substr($time, 0, 2));
+        $hour = (int) (\mb_substr($time, 0, 2));
         if ($hour > 23) {
             throw new FieldException('Invalid time value');
         }
@@ -442,17 +442,17 @@ class Field
      */
     protected function convertToTimestamp($value)
     {
-        if (is_numeric($value)) {
+        if (\is_numeric($value)) {
             $value = (int) $value;
             if ($this->isInvalidBoundaryTimestamp($value)) {
                 throw new FieldException('Invalid timestamp value');
             }
 
-            return date('Y-m-d H:i:s', $value);
+            return \date('Y-m-d H:i:s', $value);
         }
 
         $timestampString = (string) $value;
-        $timestampInt = strtotime($timestampString);
+        $timestampInt = \strtotime($timestampString);
 
         if ($timestampInt === false) {
             throw new FieldException('Invalid timestamp value');
@@ -462,7 +462,7 @@ class Field
             throw new FieldException('Invalid timestamp value');
         }
 
-        return date('Y-m-d H:i:s', $timestampInt);
+        return \date('Y-m-d H:i:s', $timestampInt);
     }
 
     /**
@@ -474,7 +474,7 @@ class Field
      */
     protected function convertToYear($value)
     {
-        if (!is_numeric($value)) {
+        if (!\is_numeric($value)) {
             throw new FieldException('Invalid year value');
         }
 
@@ -520,7 +520,7 @@ class Field
     protected function isInvalidPattern($pattern, $value): bool
     {
         $matches = [];
-        preg_match_all($pattern, $value, $matches);
+        \preg_match_all($pattern, $value, $matches);
 
         return \count($matches[0]) < 1;
     }
@@ -543,16 +543,16 @@ class Field
     protected function applyMinMaxRangeInt($value)
     {
         if ($this->min !== null) {
-            $value = (int) max($this->min, $value);
+            $value = (int) \max($this->min, $value);
         }
 
         if ($this->max !== null) {
-            $value = (int) min($this->max, $value);
+            $value = (int) \min($this->max, $value);
         }
 
         if ($this->range[0] !== null && $this->range[1] !== null) {
-            $value = max($this->range[0], $value);
-            $value = min($this->range[1], $value);
+            $value = \max($this->range[0], $value);
+            $value = \min($this->range[1], $value);
         }
 
         return $value;
@@ -566,16 +566,16 @@ class Field
     protected function applyMinMaxRangeFloat($value)
     {
         if ($this->min !== null) {
-            $value = (float) max($this->min, $value);
+            $value = (float) \max($this->min, $value);
         }
 
         if ($this->max !== null) {
-            $value = (float) min($this->max, $value);
+            $value = (float) \min($this->max, $value);
         }
 
         if ($this->range[0] !== null && $this->range[1] !== null) {
-            $value = (float) max($this->range[0], $value);
-            $value = (float) min($this->range[1], $value);
+            $value = (float) \max($this->range[0], $value);
+            $value = (float) \min($this->range[1], $value);
         }
 
         return $value;
@@ -591,21 +591,21 @@ class Field
     protected function applyMinMaxRangeString($value): string
     {
         if ($this->min !== null) {
-            if (mb_strlen($value) < $this->min) {
+            if (\mb_strlen($value) < $this->min) {
                 throw new FieldException('Invalid min length');
             }
         }
 
         if ($this->max !== null) {
-            $value = mb_substr($value, 0, $this->max);
+            $value = \mb_substr($value, 0, $this->max);
         }
 
         if ($this->range[0] !== null && $this->range[1] !== null) {
-            if (mb_strlen($value) < $this->range[0]) {
+            if (\mb_strlen($value) < $this->range[0]) {
                 throw new FieldException('Invalid min length');
             }
 
-            $value = mb_substr($value, 0, $this->range[1]);
+            $value = \mb_substr($value, 0, $this->range[1]);
         }
 
         return $value;
@@ -624,9 +624,9 @@ class Field
                 continue;
             }
 
-            $function = 'applyRule' . ucfirst($rule);
+            $function = 'applyRule' . \ucfirst($rule);
 
-            if (method_exists($this, $function)) {
+            if (\method_exists($this, $function)) {
                 $value = \call_user_func([$this, $function], $value);
             }
         }
@@ -643,8 +643,8 @@ class Field
      */
     protected function applyRuleEmail($value)
     {
-        $pos = mb_strpos($value, '@');
-        $length = mb_strlen($value);
+        $pos = \mb_strpos($value, '@');
+        $length = \mb_strlen($value);
         if ($pos === false) {
             throw new FieldException('Invalid email value');
         }
