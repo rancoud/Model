@@ -134,51 +134,58 @@ You can use JsonOutput trait for adding json format for the model.
 | default | mixed | false | default value when none given |
 
 ## Field Methods
-* isPrimaryKey():bool  
-* isForeignKey():bool  
-* isNotNull():bool  
-* getDefault():mixed  
-* formatValue(value: mixed):mixed|null  
+* isPrimaryKey(): bool  
+* isForeignKey(): bool  
+* isNotNull(): bool  
+* getDefault(): mixed  
+* formatValue(value: mixed): ?mixed  
 
 ## Model Constructor
 ### Settings
 #### Mandatory
 | Parameter | Type | Description |
 | --- | --- | --- |
-| $database | Rancoud\Database\Database | Database Instance |
+| $database | \Rancoud\Database\Database | Database Instance |
 
 ## Model Methods
 ### General Commands
-* all(params: array):array|bool|int  
-* one(id: mixed, [...ids: mixed = []]):array  
-* create(args: array):bool|int  
-* update(args: array, id: mixed, [...ids: mixed = []]):void  
-* delete(id: mixed, [...ids: mixed = []]):void  
-* getLastInsertId():int|null  
+* all(params: array): array|bool|int  
+* one(id: mixed, [...ids: mixed = []]): array  
+* create(args: array): bool|int  
+* update(args: array, id: mixed, [...ids: mixed = []]): void  
+* delete(id: mixed, [...ids: mixed = []]): void  
+* getLastInsertId(): ?int  
 
 ### Database error
-* getDatabaseErrors():array|null  
-* getDatabaseLastError():array|null  
+* getDatabaseErrors(): ?array  
+* getDatabaseLastError(): ?array  
 
-### Callbacks
-* static addBeforeCreate(name: string, callback: mixed):void  
-* static addAfterCreate(name: string, callback: mixed):void  
-* static addBeforeUpdate(name: string, callback: mixed):void  
-* static addAfterUpdate(name: string, callback: mixed):void  
-* static addBeforeCreate(name: string, callback: mixed):void  
-* static addAfterDelete(name: string, callback: mixed):void  
+### Static Callbacks
+* addBeforeCreate(name: string, callback: mixed): void  
+* addAfterCreate(name: string, callback: mixed): void  
+* addBeforeUpdate(name: string, callback: mixed): void  
+* addAfterUpdate(name: string, callback: mixed): void  
+* addBeforeCreate(name: string, callback: mixed): void  
+* addAfterDelete(name: string, callback: mixed): void  
 
-## Helper Methods
-* static getCountPerPage(args: array):int  
-* static getLimitOffsetCount(args: array):array  
-* static getOrderByOrderField(args: array, [validFields: array = []]):array  
-* static getPageNumberForHuman(args: array):int  
-* static getPageNumberForSql(args: array):int  
-* static hasInvalidPrimaryKey(value: int):bool  
-* static hasLimit(args: array):bool  
-* static implodeOrder(orders: array):string  
-* static isRowsCount(args: array):bool  
-* static isValidFieldForOrderBy(field: string, [validFields: array = []]):bool  
+* removeBeforeCreate(name: string): void  
+* removeAfterCreate(name: string): void  
+* removeBeforeUpdate(name: string): void  
+* removeAfterUpdate(name: string): void  
+* removeBeforeDelete(name: string): void  
+* removeAfterDelete(name: string): void  
+
+## Static Helper Methods
+* getCountPerPage(args: array): int  
+* getLimitOffsetCount(args: array): array  
+* getOrderByOrderField(args: array, [validFields: array = []]): array  
+* getPageNumberForHuman(args: array): int  
+* getPageNumberForSql(args: array): int  
+* hasInvalidPrimaryKey(value: int): bool  
+* hasLimit(args: array): bool  
+* implodeOrder(orders: array): string  
+* isRowsCount(args: array): bool  
+* isValidFieldForOrderBy(field: string, [validFields: array = []]): bool  
 
 ## How to Dev
 `./run_all_commands.sh` for php-cs-fixer and phpunit and coverage  

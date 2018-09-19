@@ -13,8 +13,10 @@ class Field
 {
     /** @var string */
     protected $type;
+
     /** @var mixed */
     protected $default = false;
+
     /** @var array */
     protected $rules;
 
@@ -104,9 +106,9 @@ class Field
     }
 
     /**
-     * @param $type
+     * @param string $type
      */
-    protected function treatEnum($type): void
+    protected function treatEnum(string $type): void
     {
         $this->type = 'enum';
 
@@ -165,9 +167,9 @@ class Field
     }
 
     /**
-     * @param $rule
+     * @param string $rule
      */
-    protected function extractMinRule($rule): void
+    protected function extractMinRule(string $rule): void
     {
         $this->min = \mb_substr($rule, 4);
         if ($this->type === 'float') {
@@ -178,9 +180,9 @@ class Field
     }
 
     /**
-     * @param $rule
+     * @param string $rule
      */
-    protected function extractMaxRule($rule): void
+    protected function extractMaxRule(string $rule): void
     {
         $this->max = \mb_substr($rule, 4);
         if ($this->type === 'float') {
@@ -191,9 +193,9 @@ class Field
     }
 
     /**
-     * @param $rule
+     * @param string $rule
      */
-    protected function extractRangeRule($rule): void
+    protected function extractRangeRule(string $rule): void
     {
         $range = \mb_substr($rule, 6);
         $this->range = \explode(',', $range);
@@ -207,7 +209,7 @@ class Field
     }
 
     /**
-     * @param $default
+     * @param mixed $default
      *
      * @throws FieldException
      */
@@ -229,7 +231,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -271,7 +273,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -299,7 +301,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -323,7 +325,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -339,7 +341,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -355,7 +357,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -371,7 +373,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -391,7 +393,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -411,7 +413,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -434,7 +436,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -466,7 +468,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -494,7 +496,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *
@@ -512,12 +514,12 @@ class Field
     }
 
     /**
-     * @param $pattern
-     * @param $value
+     * @param string $pattern
+     * @param mixed  $value
      *
      * @return bool
      */
-    protected function isInvalidPattern($pattern, $value): bool
+    protected function isInvalidPattern(string $pattern, $value): bool
     {
         $matches = [];
         \preg_match_all($pattern, $value, $matches);
@@ -526,17 +528,17 @@ class Field
     }
 
     /**
-     * @param $timestamp
+     * @param int $timestamp
      *
      * @return bool
      */
-    protected function isInvalidBoundaryTimestamp($timestamp): bool
+    protected function isInvalidBoundaryTimestamp(int $timestamp): bool
     {
         return $timestamp < 0 || $timestamp > 2147483647;
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @return int|mixed
      */
@@ -559,7 +561,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @return float
      */
@@ -582,13 +584,13 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param string $value
      *
      * @throws FieldException
      *
      * @return string
      */
-    protected function applyMinMaxRangeString($value): string
+    protected function applyMinMaxRangeString(string $value): string
     {
         if ($this->min !== null) {
             if (\mb_strlen($value) < $this->min) {
@@ -612,7 +614,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @return mixed
      */
@@ -635,13 +637,13 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param string $value
      *
      * @throws FieldException
      *
      * @return mixed
      */
-    protected function applyRuleEmail($value)
+    protected function applyRuleEmail(string $value)
     {
         $pos = \mb_strpos($value, '@');
         $length = \mb_strlen($value);
@@ -657,7 +659,7 @@ class Field
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws FieldException
      *

@@ -333,7 +333,7 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param       $id
+     * @param mixed $id
      * @param array ...$ids
      *
      * @throws ModelException
@@ -410,7 +410,7 @@ abstract class Model extends ErrorWarning
 
     /**
      * @param array $args
-     * @param       $id
+     * @param mixed $id
      * @param array ...$ids
      *
      * @throws ModelException
@@ -475,7 +475,7 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param       $id
+     * @param mixed $id
      * @param array ...$ids
      *
      * @throws ModelException
@@ -637,103 +637,103 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param $name
-     * @param $callback
+     * @param string   $name
+     * @param \Closure $callback
      */
-    public static function addBeforeCreate($name, $callback)
+    public static function addBeforeCreate(string $name, $callback)
     {
         static::$callbacksCud['bc'][$name] = $callback;
     }
 
     /**
-     * @param $name
-     * @param $callback
+     * @param string   $name
+     * @param \Closure $callback
      */
-    public static function addAfterCreate($name, $callback)
+    public static function addAfterCreate(string $name, $callback)
     {
         static::$callbacksCud['ac'][$name] = $callback;
     }
 
     /**
-     * @param $name
-     * @param $callback
+     * @param string   $name
+     * @param \Closure $callback
      */
-    public static function addBeforeUpdate($name, $callback)
+    public static function addBeforeUpdate(string $name, $callback)
     {
         static::$callbacksCud['bu'][$name] = $callback;
     }
 
     /**
-     * @param $name
-     * @param $callback
+     * @param string   $name
+     * @param \Closure $callback
      */
-    public static function addAfterUpdate($name, $callback)
+    public static function addAfterUpdate(string $name, $callback)
     {
         static::$callbacksCud['au'][$name] = $callback;
     }
 
     /**
-     * @param $name
-     * @param $callback
+     * @param string   $name
+     * @param \Closure $callback
      */
-    public static function addBeforeDelete($name, $callback)
+    public static function addBeforeDelete(string $name, $callback)
     {
         static::$callbacksCud['bd'][$name] = $callback;
     }
 
     /**
-     * @param $name
-     * @param $callback
+     * @param string   $name
+     * @param \Closure $callback
      */
-    public static function addAfterDelete($name, $callback)
+    public static function addAfterDelete(string $name, $callback)
     {
         static::$callbacksCud['ad'][$name] = $callback;
     }
 
     /**
-     * @param $name
+     * @param string $name
      */
-    public static function removeBeforeCreate($name)
+    public static function removeBeforeCreate(string $name)
     {
         unset(static::$callbacksCud['bc'][$name]);
     }
 
     /**
-     * @param $name
+     * @param string $name
      */
-    public static function removeAfterCreate($name)
+    public static function removeAfterCreate(string $name)
     {
         unset(static::$callbacksCud['ac'][$name]);
     }
 
     /**
-     * @param $name
+     * @param string $name
      */
-    public static function removeBeforeUpdate($name)
+    public static function removeBeforeUpdate(string $name)
     {
         unset(static::$callbacksCud['bu'][$name]);
     }
 
     /**
-     * @param $name
+     * @param string $name
      */
-    public static function removeAfterUpdate($name)
+    public static function removeAfterUpdate(string $name)
     {
         unset(static::$callbacksCud['au'][$name]);
     }
 
     /**
-     * @param $name
+     * @param string $name
      */
-    public static function removeBeforeDelete($name)
+    public static function removeBeforeDelete(string $name)
     {
         unset(static::$callbacksCud['bd'][$name]);
     }
 
     /**
-     * @param $name
+     * @param string $name
      */
-    public static function removeAfterDelete($name)
+    public static function removeAfterDelete(string $name)
     {
         unset(static::$callbacksCud['ad'][$name]);
     }

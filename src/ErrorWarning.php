@@ -65,7 +65,7 @@ class ErrorWarning
      */
     protected function addErrorField(string $field, string $reasons): void
     {
-        if (!\array_key_exists($field, $this->errorFields)) {
+        if (!isset($this->errorFields[$field])) {
             $this->errorFields[$field] = [];
         }
 
@@ -139,7 +139,7 @@ class ErrorWarning
      */
     protected function addWarningField(string $field, string $reasons)
     {
-        if (!\array_key_exists($field, $this->warningFields)) {
+        if (!isset($this->warningFields[$field])) {
             $this->warningFields[$field] = [];
         }
 
