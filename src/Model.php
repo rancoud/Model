@@ -203,12 +203,13 @@ abstract class Model extends ErrorWarning
 
     /**
      * @param array $params
+     * @param array $validFields
      *
      * @throws ModelException
      *
      * @return array|bool|int
      */
-    public function all(array $params)
+    public function all(array $params, array $validFields = [])
     {
         $this->resetAllErrors();
 
@@ -216,7 +217,7 @@ abstract class Model extends ErrorWarning
             return $this->allCount($params);
         }
 
-        return $this->allRows($params);
+        return $this->allRows($params, $validFields);
     }
 
     /**
@@ -247,17 +248,18 @@ abstract class Model extends ErrorWarning
 
     /**
      * @param array $params
+     * @param array $validFields
      *
      * @throws ModelException
      *
      * @return array|bool
      */
-    protected function allRows(array $params)
+    protected function allRows(array $params, array $validFields = [])
     {
         $sql = [];
         $this->sqlParams = [];
 
-        $orders = Helper::getOrderByOrderField($params);
+        $orders = Helper::getOrderByOrderField($params, $validFields);
         list($offset, $count) = Helper::getLimitOffsetCount($params);
 
         $sql[] = 'SELECT ' . $this->getSqlAllSelectAndFillSqlParams($params);
