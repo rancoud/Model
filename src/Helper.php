@@ -175,7 +175,7 @@ class Helper
      */
     public static function isValidFieldForOrderBy(string $field, array $validFields = []): bool
     {
-        return \array_key_exists($field, $validFields);
+        return \in_array($field, $validFields, true);
     }
 
     /**

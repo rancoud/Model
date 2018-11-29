@@ -135,34 +135,34 @@ class HelperTest extends TestCase
         $args = Helper::getOrderByOrderField(['order' => '']);
         static::assertSame([['id' => 'asc']], $args);
         
-        $args = Helper::getOrderByOrderField(['order' => 'title'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title'], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|desc'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|desc'], ['title', 'id']);
         static::assertSame([['title' => 'desc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|desc,id|desc'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|desc,id|desc'], ['title', 'id']);
         static::assertSame([['title' => 'desc'], ['id' => 'desc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => ' title '], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => ' title '], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|'], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|title|title'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|title|title'], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => 'title,title,title'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title,title,title'], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => 'title,title,title'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title,title,title'], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => 'title,'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title,'], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|,'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|,'], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
         $args = Helper::getOrderByOrderField(['order' => '|desc']);
@@ -223,34 +223,34 @@ class HelperTest extends TestCase
         $args = Helper::getOrderByOrderField(['order' => '']);
         static::assertSame('id asc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title'], ['title', 'id']);
         static::assertSame('title asc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|desc'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|desc'], ['title', 'id']);
         static::assertSame('title desc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|desc,id|desc'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|desc,id|desc'], ['title', 'id']);
         static::assertSame('title desc,id desc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => ' title '], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => ' title '], ['title', 'id']);
         static::assertSame('title asc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|'], ['title', 'id']);
         static::assertSame('title asc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|title|title'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|title|title'], ['title', 'id']);
         static::assertSame('title asc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title,title,title'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title,title,title'], ['title', 'id']);
         static::assertSame('title asc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title,title,title'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title,title,title'], ['title', 'id']);
         static::assertSame('title asc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title,'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title,'], ['title', 'id']);
         static::assertSame('title asc', Helper::implodeOrder($args));
 
-        $args = Helper::getOrderByOrderField(['order' => 'title|,'], ['title' => 'aze', 'id' => 1]);
+        $args = Helper::getOrderByOrderField(['order' => 'title|,'], ['title', 'id']);
         static::assertSame('title asc', Helper::implodeOrder($args));
 
         $args = Helper::getOrderByOrderField(['order' => '|desc']);
