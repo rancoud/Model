@@ -149,7 +149,7 @@ You can use JsonOutput trait for adding json format for the model.
 
 ## Model Methods
 ### General Commands
-* all(params: array): array|bool|int  
+* all(params: array, [validFields: array = []]): array|bool|int  
 * one(id: mixed, [...ids: mixed = []]): array  
 * create(args: array): bool|int  
 * update(args: array, id: mixed, [...ids: mixed = []]): void  
