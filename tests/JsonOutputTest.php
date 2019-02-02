@@ -77,8 +77,8 @@ class ImplementationJsonOutput
 
     protected function getOneJson(int $id) : array
     {
-        foreach ($this->data as $value){
-            if($value['id'] === $id){
+        foreach ($this->data as $value) {
+            if ($value['id'] === $id) {
                 return $value;
             }
         }

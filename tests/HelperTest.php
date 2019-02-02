@@ -27,7 +27,6 @@ class HelperTest extends TestCase
 
     public function testGetPageNumberForSql()
     {
-
         $pageIndex = Helper::getPageNumberForSql(['page' => '']);
         static::assertSame(0, $pageIndex);
         
@@ -49,7 +48,6 @@ class HelperTest extends TestCase
 
     public function testGetPageNumberForHuman()
     {
-
         $pageIndex = Helper::getPageNumberForHuman(['page' => '']);
         static::assertSame(1, $pageIndex);
         
@@ -69,9 +67,8 @@ class HelperTest extends TestCase
         static::assertSame(1, $pageIndex);
     }
 
-     public function testGetCountPerPage()
+    public function testGetCountPerPage()
     {
-
         $count = Helper::getCountPerPage(['count' => '']);
         static::assertSame(50, $count);
         

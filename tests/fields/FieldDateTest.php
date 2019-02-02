@@ -23,12 +23,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -44,12 +43,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -65,12 +63,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -86,12 +83,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -107,12 +103,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -128,12 +123,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -149,12 +143,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -170,12 +163,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -191,12 +183,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -212,12 +203,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -233,12 +223,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -254,12 +243,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -275,12 +263,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -296,12 +283,11 @@ class FieldDateTest extends TestCase
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }

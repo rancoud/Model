@@ -30,7 +30,7 @@ abstract class Model extends ErrorWarning
     /** @var int */
     protected $lastInsertId;
 
-    protected static $callbacksCud = [
+    protected $callbacksCud = [
         'bc' => [],
         'ac' => [],
         'bu' => [],
@@ -582,7 +582,7 @@ abstract class Model extends ErrorWarning
      */
     protected function beforeCreate(&$sql, &$params)
     {
-        $this->beforeCallbacks(static::$callbacksCud['bc'], $sql, $params);
+        $this->beforeCallbacks($this->callbacksCud['bc'], $sql, $params);
     }
 
     /**
@@ -593,7 +593,7 @@ abstract class Model extends ErrorWarning
      */
     protected function afterCreate($newId, $params)
     {
-        $this->afterCallbacks(static::$callbacksCud['ac'], $newId, $params);
+        $this->afterCallbacks($this->callbacksCud['ac'], $newId, $params);
     }
 
     /**
@@ -604,7 +604,7 @@ abstract class Model extends ErrorWarning
      */
     protected function beforeUpdate(&$sql, &$params)
     {
-        $this->beforeCallbacks(static::$callbacksCud['bu'], $sql, $params);
+        $this->beforeCallbacks($this->callbacksCud['bu'], $sql, $params);
     }
 
     /**
@@ -614,7 +614,7 @@ abstract class Model extends ErrorWarning
      */
     protected function afterUpdate($params)
     {
-        $this->afterCallbacks(static::$callbacksCud['au'], $params);
+        $this->afterCallbacks($this->callbacksCud['au'], $params);
     }
 
     /**
@@ -625,7 +625,7 @@ abstract class Model extends ErrorWarning
      */
     protected function beforeDelete(&$sql, &$params)
     {
-        $this->beforeCallbacks(static::$callbacksCud['bd'], $sql, $params);
+        $this->beforeCallbacks($this->callbacksCud['bd'], $sql, $params);
     }
 
     /**
@@ -635,108 +635,108 @@ abstract class Model extends ErrorWarning
      */
     protected function afterDelete($params)
     {
-        $this->afterCallbacks(static::$callbacksCud['ad'], $params);
+        $this->afterCallbacks($this->callbacksCud['ad'], $params);
     }
 
     /**
      * @param string   $name
      * @param \Closure $callback
      */
-    public static function addBeforeCreate(string $name, $callback)
+    public function addBeforeCreate(string $name, $callback)
     {
-        static::$callbacksCud['bc'][$name] = $callback;
+        $this->callbacksCud['bc'][$name] = $callback;
     }
 
     /**
      * @param string   $name
      * @param \Closure $callback
      */
-    public static function addAfterCreate(string $name, $callback)
+    public function addAfterCreate(string $name, $callback)
     {
-        static::$callbacksCud['ac'][$name] = $callback;
+        $this->callbacksCud['ac'][$name] = $callback;
     }
 
     /**
      * @param string   $name
      * @param \Closure $callback
      */
-    public static function addBeforeUpdate(string $name, $callback)
+    public function addBeforeUpdate(string $name, $callback)
     {
-        static::$callbacksCud['bu'][$name] = $callback;
+        $this->callbacksCud['bu'][$name] = $callback;
     }
 
     /**
      * @param string   $name
      * @param \Closure $callback
      */
-    public static function addAfterUpdate(string $name, $callback)
+    public function addAfterUpdate(string $name, $callback)
     {
-        static::$callbacksCud['au'][$name] = $callback;
+        $this->callbacksCud['au'][$name] = $callback;
     }
 
     /**
      * @param string   $name
      * @param \Closure $callback
      */
-    public static function addBeforeDelete(string $name, $callback)
+    public function addBeforeDelete(string $name, $callback)
     {
-        static::$callbacksCud['bd'][$name] = $callback;
+        $this->callbacksCud['bd'][$name] = $callback;
     }
 
     /**
      * @param string   $name
      * @param \Closure $callback
      */
-    public static function addAfterDelete(string $name, $callback)
+    public function addAfterDelete(string $name, $callback)
     {
-        static::$callbacksCud['ad'][$name] = $callback;
+        $this->callbacksCud['ad'][$name] = $callback;
     }
 
     /**
      * @param string $name
      */
-    public static function removeBeforeCreate(string $name)
+    public function removeBeforeCreate(string $name)
     {
-        unset(static::$callbacksCud['bc'][$name]);
+        unset($this->callbacksCud['bc'][$name]);
     }
 
     /**
      * @param string $name
      */
-    public static function removeAfterCreate(string $name)
+    public function removeAfterCreate(string $name)
     {
-        unset(static::$callbacksCud['ac'][$name]);
+        unset($this->callbacksCud['ac'][$name]);
     }
 
     /**
      * @param string $name
      */
-    public static function removeBeforeUpdate(string $name)
+    public function removeBeforeUpdate(string $name)
     {
-        unset(static::$callbacksCud['bu'][$name]);
+        unset($this->callbacksCud['bu'][$name]);
     }
 
     /**
      * @param string $name
      */
-    public static function removeAfterUpdate(string $name)
+    public function removeAfterUpdate(string $name)
     {
-        unset(static::$callbacksCud['au'][$name]);
+        unset($this->callbacksCud['au'][$name]);
     }
 
     /**
      * @param string $name
      */
-    public static function removeBeforeDelete(string $name)
+    public function removeBeforeDelete(string $name)
     {
-        unset(static::$callbacksCud['bd'][$name]);
+        unset($this->callbacksCud['bd'][$name]);
     }
 
     /**
      * @param string $name
      */
-    public static function removeAfterDelete(string $name)
+    public function removeAfterDelete(string $name)
     {
-        unset(static::$callbacksCud['ad'][$name]);
+        unset($this->callbacksCud['ad'][$name]);
     }
 }

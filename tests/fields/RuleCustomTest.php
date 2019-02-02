@@ -22,12 +22,11 @@ class RuleCustomTest extends TestCase
         $message = [null, null, 'invalid azerty value', null, null, null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -49,7 +48,7 @@ class MyRule extends CustomRule
      */
     public function applyRule($value)
     {
-        if($value === 'azerty'){
+        if ($value === 'azerty') {
             throw new FieldException('invalid azerty value');
         }
 

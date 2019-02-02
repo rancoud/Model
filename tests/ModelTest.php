@@ -17,37 +17,37 @@ class ModelTest extends TestCase
             'id' => 1,
             'title' => 'first',
             'date_start' => '2018-08-07 20:06:23',
-            'year_start' => NULL,
+            'year_start' => null,
             'hour_start' => '00:00:00',
-            'hour_stop' => NULL,
+            'hour_stop' => null,
             'is_visible' => 'yes',
-            'email' => NULL,
-            'nomaxlimit' => NULL,
-            'external_id' => NULL
+            'email' => null,
+            'nomaxlimit' => null,
+            'external_id' => null
         ],
         [
             'id' => 2,
             'title' => 'secon',
             'date_start' => '2018-08-07 20:06:23',
-            'year_start' => NULL,
+            'year_start' => null,
             'hour_start' => '00:00:00',
-            'hour_stop' => NULL,
+            'hour_stop' => null,
             'is_visible' => 'yes',
-            'email' => NULL,
-            'nomaxlimit' => NULL,
-            'external_id' => NULL
+            'email' => null,
+            'nomaxlimit' => null,
+            'external_id' => null
         ],
         [
             'id' => 3,
             'title' => 'third',
             'date_start' => '2018-08-07 20:06:23',
-            'year_start' => NULL,
+            'year_start' => null,
             'hour_start' => '00:00:00',
-            'hour_stop' => NULL,
+            'hour_stop' => null,
             'is_visible' => 'yes',
-            'email' => NULL,
-            'nomaxlimit' => NULL,
-            'external_id' => NULL
+            'email' => null,
+            'nomaxlimit' => null,
+            'external_id' => null
         ]
     ];
 
@@ -56,7 +56,7 @@ class ModelTest extends TestCase
 
     protected function initDatabaseConnexion()
     {
-        if($this->database instanceof \Rancoud\Database\Database){
+        if ($this->database instanceof \Rancoud\Database\Database) {
             return;
         }
 
@@ -108,7 +108,7 @@ class ModelTest extends TestCase
         $countAssert = 1;
         try {
             $implem->create(['date_start' => '']);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
             $countAssert--;
         }
@@ -117,7 +117,7 @@ class ModelTest extends TestCase
         $countAssert = 1;
         try {
             $implem->create(['date_start' => '']);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
             $countAssert--;
         }
@@ -126,7 +126,7 @@ class ModelTest extends TestCase
         $countAssert = 1;
         try {
             $implem->update(['date_start' => ''], 1);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
             $countAssert--;
         }
@@ -135,7 +135,7 @@ class ModelTest extends TestCase
         $countAssert = 1;
         try {
             $implem->update(['date_start' => ''], 1);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
             $countAssert--;
         }
@@ -145,7 +145,7 @@ class ModelTest extends TestCase
         $implem->setWrongPk();
         try {
             $implem->delete(1);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             static::assertSame(['wrong_id' => ['Null not authorized']], $implem->getErrorFields());
             $countAssert--;
         }
@@ -154,7 +154,7 @@ class ModelTest extends TestCase
         $countAssert = 1;
         try {
             $implem->delete(1);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             static::assertSame(['wrong_id' => ['Null not authorized']], $implem->getErrorFields());
             $countAssert--;
         }
@@ -165,10 +165,10 @@ class ModelTest extends TestCase
     {
         $countAssert = 2;
 
-        try{
+        try {
             $implem = new ImplementModel($this->database);
             $implem->create([]);
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Insert sql query is empty'], $implem->getErrorMessages());
@@ -182,10 +182,10 @@ class ModelTest extends TestCase
     {
         $countAssert = 3;
 
-        try{
+        try {
             $implem = new ImplementModel($this->database);
             $implem->create(['title' => 'a']);
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('FIELDS', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Missing required fields'], $implem->getErrorMessages());
@@ -201,10 +201,10 @@ class ModelTest extends TestCase
     {
         $countAssert = 3;
 
-        try{
+        try {
             $implem = new ImplementModel($this->database);
             $implem->create(['title' => 'a', 'date_start' => 'ggggg']);
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('FIELDS', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Formating values invalid'], $implem->getErrorMessages());
@@ -220,15 +220,14 @@ class ModelTest extends TestCase
     {
         $countAssert = 3;
 
-        ImplementModel::addBeforeCreate('a', function($sql, $params){
-            $sql = 'sql query invalid';
-            return [$sql, $params];
-        });
-
-        try{
+        try {
             $implem = new ImplementModel($this->database);
+            $implem->addBeforeCreate('a', function ($sql, $params) {
+                $sql = 'sql query invalid';
+                return [$sql, $params];
+            });
             $implem->create(['title' => 'a', 'date_start' => '2000-01-01 01:01:01']);
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error creating'], $implem->getErrorMessages());
@@ -237,8 +236,6 @@ class ModelTest extends TestCase
             $countAssert--;
         }
 
-        ImplementModel::removeBeforeCreate('a');
-        
         static::assertSame(0, $countAssert);
     }
 
@@ -246,10 +243,10 @@ class ModelTest extends TestCase
     {
         $countAssert = 2;
 
-        try{
+        try {
             $implem = new ImplementModel($this->database);
             $implem->hackCreateSqlFieldsFromParams();
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Insert sql query is empty'], $implem->getErrorMessages());
@@ -277,10 +274,9 @@ class ModelTest extends TestCase
 
         $implem = new ImplementModel($this->database);
         $implem->setHackWrongGetSqlAllWhereAndFillSqlParams(true);
-        try{
+        try {
             $implem->all([]);
-        }
-        catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error select all'], $implem->getErrorMessages());
@@ -295,10 +291,9 @@ class ModelTest extends TestCase
 
         $implem = new ImplementModel($this->database);
         $implem->setHackWrongGetSqlAllWhereAndFillSqlParams(true);
-        try{
+        try {
             $implem->all(['rows_count' => 1]);
-        }
-        catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error select count all'], $implem->getErrorMessages());
@@ -334,11 +329,10 @@ class ModelTest extends TestCase
         $countAssert = 2;
 
         $implem = new ImplementModel($this->database);
-        try{
+        try {
             $implem->removePkFields();
             $implem->one(1);
-        }
-        catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error no primary key'], $implem->getErrorMessages());
@@ -353,10 +347,9 @@ class ModelTest extends TestCase
         $countAssert = 2;
 
         $implem = new ImplementModel($this->database);
-        try{
+        try {
             $implem->one("invalid");
-        }
-        catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('FIELDS', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Formating values invalid'], $implem->getErrorMessages());
@@ -371,11 +364,10 @@ class ModelTest extends TestCase
         $countAssert = 2;
 
         $implem = new ImplementModel($this->database);
-        try{
+        try {
             $implem->setWrongPk();
-            $implem->one(1,1);
-        }
-        catch(ModelException $modelException){
+            $implem->one(1, 1);
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error select one'], $implem->getErrorMessages());
@@ -406,11 +398,10 @@ class ModelTest extends TestCase
         $countAssert = 2;
 
         $implem = new ImplementModel($this->database);
-        try{
+        try {
             $implem->removePkFields();
-            $implem->update([],1);
-        }
-        catch(ModelException $modelException){
+            $implem->update([], 1);
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error no primary key'], $implem->getErrorMessages());
@@ -424,10 +415,10 @@ class ModelTest extends TestCase
     {
         $countAssert = 2;
 
-        try{
+        try {
             $implem = new ImplementModel($this->database);
             $implem->update([], 1);
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Update sql query is empty'], $implem->getErrorMessages());
@@ -441,10 +432,10 @@ class ModelTest extends TestCase
     {
         $countAssert = 3;
 
-        try{
+        try {
             $implem = new ImplementModel($this->database);
             $implem->update(['title' => 'a', 'date_start' => 'ggggg'], 1);
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('FIELDS', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Formating values invalid'], $implem->getErrorMessages());
@@ -460,16 +451,15 @@ class ModelTest extends TestCase
     {
         $countAssert = 3;
 
-        ImplementModel::addBeforeUpdate('a', function($sql, $params){
-            $sql = 'sql query invalid';
-            return [$sql, $params];
-        });
-
-        try{
+        try {
             $implem = new ImplementModel($this->database);
+            $implem->addBeforeUpdate('a', function ($sql, $params) {
+                $sql = 'sql query invalid';
+                return [$sql, $params];
+            });
             $implem->setWrongPk();
             $implem->update(['title' => 'a'], 1, 99);
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error updating'], $implem->getErrorMessages());
@@ -478,8 +468,6 @@ class ModelTest extends TestCase
             $countAssert--;
         }
 
-        ImplementModel::removeBeforeUpdate('a');
-        
         static::assertSame(0, $countAssert);
     }
 
@@ -487,10 +475,10 @@ class ModelTest extends TestCase
     {
         $countAssert = 2;
 
-        try{
+        try {
             $implem = new ImplementModel($this->database);
             $implem->hackUpdateSqlFieldsFromParams();
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Update sql query is empty'], $implem->getErrorMessages());
@@ -519,11 +507,10 @@ class ModelTest extends TestCase
         $countAssert = 2;
 
         $implem = new ImplementModel($this->database);
-        try{
+        try {
             $implem->removePkFields();
             $implem->delete(1);
-        }
-        catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error no primary key'], $implem->getErrorMessages());
@@ -537,16 +524,15 @@ class ModelTest extends TestCase
     {
         $countAssert = 3;
 
-        ImplementModel::addBeforeDelete('a', function($sql, $params){
-            $sql = 'sql query invalid';
-            return [$sql, $params];
-        });
-        
-        try{
+        try {
             $implem = new ImplementModel($this->database);
+            $implem->addBeforeDelete('a', function ($sql, $params) {
+                $sql = 'sql query invalid';
+                return [$sql, $params];
+            });
             $implem->setWrongPk();
             $implem->delete(1, 1);
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error deleting'], $implem->getErrorMessages());
@@ -555,8 +541,6 @@ class ModelTest extends TestCase
             $countAssert--;
         }
 
-        ImplementModel::removeBeforeDelete('a');
-        
         static::assertSame(0, $countAssert);
     }
 
@@ -564,10 +548,10 @@ class ModelTest extends TestCase
     {
         $countAssert = 3;
 
-        try{
+        try {
             $implem = new ImplementModel($this->database);
             $implem->delete("invalid");
-        }catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('FIELDS', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Formating values invalid'], $implem->getErrorMessages());
@@ -593,10 +577,10 @@ class ModelTest extends TestCase
         static::assertSame([], $row);
     }
 
-    /** @runInSeparateProcess  */
     public function testCallbacks()
     {
-        ImplementModel::addBeforeCreate('a', function($sql, $params){
+        $implem = new ImplementModel($this->database);
+        $implem->addBeforeCreate('a', function ($sql, $params) {
             static::assertSame("INSERT INTO crud_table (`title`,`date_start`) VALUES (:title,:date_start)", $sql);
             $sql = 'toto';
 
@@ -605,8 +589,8 @@ class ModelTest extends TestCase
 
             return [$sql, $params];
         });
-
-        ImplementModel::addBeforeCreate('b', function($sql, $params){
+        
+        $implem->addBeforeCreate('b', function ($sql, $params) {
             static::assertSame("toto", $sql);
             $sql = "INSERT INTO crud_table (`title`,`date_start`, `year_start`) VALUES (:title,:date_start, :year_start)";
             $params['year_start'] = 1956;
@@ -616,8 +600,8 @@ class ModelTest extends TestCase
 
             return [$sql, $params];
         });
-
-        ImplementModel::addAfterCreate('a', function($newId, $params){
+        
+        $implem->addAfterCreate('a', function ($newId, $params) {
             static::assertTrue(is_int($newId));
             static::assertSame('aze', $params['title']);
             static::assertSame(1956, $params['year_start']);
@@ -626,12 +610,12 @@ class ModelTest extends TestCase
 
             return $params;
         });
-
-        ImplementModel::addAfterCreate('b', function($newId, $params){
+        
+        $implem->addAfterCreate('b', function ($newId, $params) {
             static::assertSame('done', $params['other']);
         });
-
-        ImplementModel::addBeforeUpdate('a', function($sql, $params){
+        
+        $implem->addBeforeUpdate('a', function ($sql, $params) {
             static::assertSame("UPDATE crud_table SET `title` = :title WHERE id =:id", $sql);
             $sql = 'toto';
 
@@ -640,8 +624,8 @@ class ModelTest extends TestCase
 
             return [$sql, $params];
         });
-
-        ImplementModel::addBeforeUpdate('b', function($sql, $params){
+        
+        $implem->addBeforeUpdate('b', function ($sql, $params) {
             static::assertSame("toto", $sql);
             $sql = "UPDATE crud_table SET `title` = :title, `year_start` = :year_start WHERE id =:id";
             $params['year_start'] = 2056;
@@ -651,29 +635,29 @@ class ModelTest extends TestCase
 
             return [$sql, $params];
         });
-
-        ImplementModel::addAfterUpdate('a', function($params){
+        
+        $implem->addAfterUpdate('a', function ($params) {
             static::assertSame('bze', $params['title']);
             $params['other'] = 'done';
 
             return $params;
         });
-
-        ImplementModel::addAfterUpdate('b', function($params){
+        
+        $implem->addAfterUpdate('b', function ($params) {
             static::assertSame('bze', $params['title']);
             static::assertSame(2056, $params['year_start']);
             static::assertSame('done', $params['other']);
         });
-
-        ImplementModel::addBeforeDelete('a', function($sql, $params){
+        
+        $implem->addBeforeDelete('a', function ($sql, $params) {
             static::assertSame("DELETE FROM crud_table WHERE id =:id", $sql);
             $sql = 'toto';
             $params['other'] = 'done';
 
             return [$sql, $params];
         });
-
-        ImplementModel::addBeforeDelete('b', function($sql, $params){
+        
+        $implem->addBeforeDelete('b', function ($sql, $params) {
             static::assertSame("toto", $sql);
             $sql = "DELETE FROM crud_table WHERE id =:id AND year_start=:year_start";
             $params['year_start'] = 2056;
@@ -683,20 +667,19 @@ class ModelTest extends TestCase
 
             return [$sql, $params];
         });
-
-        ImplementModel::addAfterDelete('a', function($params){
+        
+        $implem->addAfterDelete('a', function ($params) {
             static::assertTrue(is_int($params['id']));
             $params['other_2'] = 'done';
 
             return $params;
         });
-
-        ImplementModel::addAfterDelete('b', function($params){
+        
+        $implem->addAfterDelete('b', function ($params) {
             static::assertSame('done', $params['other_2']);
         });
-
-        $implem = new ImplementModel($this->database);
-        try{
+        
+        try {
             $newId = $implem->create(['title' => 'a', 'date_start' => date('Y-m-d H:i:s')]);
             $row = $implem->one($newId);
             static::assertSame('aze', $row['title']);
@@ -711,12 +694,11 @@ class ModelTest extends TestCase
             $row = $implem->one($newId);
             static::assertSame([], $row);
 
-            ImplementModel::removeAfterCreate('a');
-            ImplementModel::removeAfterUpdate('a');
-            ImplementModel::removeAfterDelete('a');
-            ImplementModel::removeAfterDelete('invalid');
-        }
-        catch (ModelException $modelException){
+            $implem->removeAfterCreate('a');
+            $implem->removeAfterUpdate('a');
+            $implem->removeAfterDelete('a');
+            $implem->removeAfterDelete('invalid');
+        } catch (ModelException $modelException) {
             var_dump($modelException->getMessage());
             var_dump($implem->getErrorFields());
             var_dump($implem->getErrorMessages());
@@ -724,20 +706,18 @@ class ModelTest extends TestCase
         }
     }
 
-    /** @runInSeparateProcess  */
     public function testCallbacksWithClass()
     {
         $myCallback = new MyCallback();
-        ImplementModel::addBeforeCreate('a', [$myCallback, 'before']);
 
         $implem = new ImplementModel($this->database);
-        try{
+        $implem->addBeforeCreate('a', [$myCallback, 'before']);
+        try {
             $newId = $implem->create(['title' => 'azert', 'date_start' => date('Y-m-d H:i:s')]);
             $row = $implem->one($newId);
             static::assertSame('azert', $row['title']);
             static::assertSame(2000, $row['year_start']);
-        }
-        catch (ModelException $modelException){
+        } catch (ModelException $modelException) {
             var_dump($modelException->getMessage());
             var_dump($implem->getErrorFields());
             var_dump($implem->getErrorMessages());
@@ -755,10 +735,9 @@ class ModelTest extends TestCase
         $countAssert = 3;
 
         $implem = new ImplementModel($this->database);
-        try{
+        try {
             $implem->one($newId);
-        }
-        catch(ModelException $modelException){
+        } catch (ModelException $modelException) {
             static::assertSame('FIELDS', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Formating values invalid'], $implem->getErrorMessages());
@@ -841,13 +820,13 @@ class ImplementModel extends Model
 /**
  * Class MyCallback
  */
-class MyCallback{
-
-    public function before($sql, $params){
+class MyCallback
+{
+    public function before($sql, $params)
+    {
         $sql = 'INSERT INTO crud_table (`title`,`date_start`, `year_start`) VALUES (:title,:date_start, :year_start)';
         $params['year_start'] = 2000;
 
         return [$sql, $params];
     }
-
 }

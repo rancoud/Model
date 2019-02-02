@@ -53,7 +53,7 @@ class FieldTest extends TestCase
 
         try {
             new Field('varchar', ['email'], '8');
-        }catch (FieldException $fieldException){
+        } catch (FieldException $fieldException) {
             static::assertSame('Invalid email value', $fieldException->getMessage());
             $countAssert--;
         }

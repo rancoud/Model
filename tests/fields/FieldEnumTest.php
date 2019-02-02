@@ -21,12 +21,11 @@ class FieldEnumTest extends TestCase
         $message = [null, null, 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -40,12 +39,11 @@ class FieldEnumTest extends TestCase
         $message = [null, null, 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -59,12 +57,11 @@ class FieldEnumTest extends TestCase
         $message = ['Invalid default value', 'Null not authorized', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -78,12 +75,11 @@ class FieldEnumTest extends TestCase
         $message = [null, 'Null not authorized', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -97,12 +93,11 @@ class FieldEnumTest extends TestCase
         $message = [null, null, 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -116,12 +111,11 @@ class FieldEnumTest extends TestCase
         $message = ['Invalid default value', 'Null not authorized', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -135,12 +129,11 @@ class FieldEnumTest extends TestCase
         $message = [null, null, 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -154,12 +147,11 @@ class FieldEnumTest extends TestCase
         $message = ['Invalid default value', 'Null not authorized', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -173,12 +165,11 @@ class FieldEnumTest extends TestCase
         $message = [null, null, 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -192,12 +183,11 @@ class FieldEnumTest extends TestCase
         $message = ['Invalid default value', 'Null not authorized', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -211,12 +201,11 @@ class FieldEnumTest extends TestCase
         $message = [null, 'Null not authorized', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -230,12 +219,11 @@ class FieldEnumTest extends TestCase
         $message = [null, null, 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -249,12 +237,11 @@ class FieldEnumTest extends TestCase
         $message = [null, null, 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
@@ -268,12 +255,11 @@ class FieldEnumTest extends TestCase
         $message = [null, null, 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', 'Invalid enum value', null, null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
-            try{
+            try {
                 $output = $rule->formatValue($this->inputs[$i]);
                 static::assertSame($expected[$i], $output);
                 static::assertNull($message[$i]);
-            }
-            catch(FieldException $e){
+            } catch (FieldException $e) {
                 static::assertSame($message[$i], $e->getMessage());
                 static::assertSame($expected[$i], get_class($e));
             }
