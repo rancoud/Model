@@ -87,32 +87,32 @@ You can change values output in Model::all() with override functions:
 ## Callbacks
 You can add callback before and after create, update and delete.  
 ```php
-ImplementModel::addBeforeCreate('a', function($sql, $params){
+$model->addBeforeCreate('a', function($sql, $params){
     // for modifying sql and params use this return otherwise don't
     return [$sql, $params];
 });
 
-ImplementModel::addAfterCreate('a', function($newId, $params){
+$model->addAfterCreate('a', function($newId, $params){
     // for modifying params use this return otherwise don't
     return $params;
 });
 
-ImplementModel::addBeforeUpdate('a', function($sql, $params){
+$model->addBeforeUpdate('a', function($sql, $params){
     // for modifying sql and params use this return otherwise don't
     return [$sql, $params];
 });
 
-ImplementModel::addAfterUpdate('a', function($params){
+$model->addAfterUpdate('a', function($params){
     // for modifying params use this return otherwise don't
     return $params;
 });
 
-ImplementModel::addBeforeDelete('a', function($sql, $params){
+$model->addBeforeDelete('a', function($sql, $params){
     // for modifying sql and params use this return otherwise don't
     return [$sql, $params];
 });
 
-ImplementModel::addAfterDelete('a', function($params){
+$model->addAfterDelete('a', function($params){
     // for modifying params use this return otherwise don't
     return $params;
 });
@@ -160,7 +160,7 @@ You can use JsonOutput trait for adding json format for the model.
 * getDatabaseErrors(): ?array  
 * getDatabaseLastError(): ?array  
 
-### Static Callbacks
+### Callbacks
 * addBeforeCreate(name: string, callback: mixed): void  
 * addAfterCreate(name: string, callback: mixed): void  
 * addBeforeUpdate(name: string, callback: mixed): void  
