@@ -1,6 +1,12 @@
 # Model Package
 
-[![Build Status](https://travis-ci.org/rancoud/Model.svg?branch=master)](https://travis-ci.org/rancoud/Model) [![Coverage Status](https://coveralls.io/repos/github/rancoud/Model/badge.svg?branch=master)](https://coveralls.io/github/rancoud/Model?branch=master)
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/rancoud/model)
+[![Packagist Version](https://img.shields.io/packagist/v/rancoud/model)](https://packagist.org/packages/rancoud/model)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/rancoud/model)](https://packagist.org/packages/rancoud/model)
+[![Composer dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://github.com/rancoud/model/blob/master/composer.json)
+[![Test workflow](https://img.shields.io/github/workflow/status/rancoud/model/test?label=test&logo=github)](https://github.com/rancoud/model/actions?workflow=test)
+[![Codecov](https://img.shields.io/codecov/c/github/rancoud/model?logo=codecov)](https://codecov.io/gh/rancoud/model)
+[![composer.lock](https://poser.pugx.org/rancoud/model/composerlock)](https://packagist.org/packages/rancoud/model)
 
 Abstract Model for better data manipulation between code and database.  
 

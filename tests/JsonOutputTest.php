@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class JsonOutputTest extends TestCase
 {
-    protected $data = [
+    protected array $data = [
         [
             'id' => 1,
             'title' => 'my title',
@@ -27,37 +27,65 @@ class JsonOutputTest extends TestCase
             'external_id' => 1
         ]
     ];
-    
-    public function testGetOneJson()
+
+    /**
+     * @throws JsonException
+     */
+    public function testGetOneJson(): void
     {
-        $implem = new ImplementationJsonOutput($this->data);
-        $data = $implem->getJson(1);
-        $data = json_decode($data, true);
-        static::assertSame($this->data[0], $data);
+        try {
+            $implem = new ImplementationJsonOutput($this->data);
+            $data = $implem->getJson(1);
+            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            static::assertSame($this->data[0], $data);
+        } catch(JsonException $e) {
+            throw $e;
+        }
     }
 
-    public function testGetOneJsonEmpty()
+    /**
+     * @throws JsonException
+     */
+    public function testGetOneJsonEmpty(): void
     {
-        $implem = new ImplementationJsonOutput([]);
-        $data = $implem->getJson(1);
-        $data = json_decode($data, true);
-        static::assertSame([], $data);
+        try {
+            $implem = new ImplementationJsonOutput([]);
+            $data = $implem->getJson(1);
+            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            static::assertSame([], $data);
+        } catch(JsonException $e) {
+            throw $e;
+        }
     }
 
-    public function testGetAllJson()
+    /**
+     * @throws JsonException
+     */
+    public function testGetAllJson(): void
     {
-        $implem = new ImplementationJsonOutput($this->data);
-        $data = $implem->getJson();
-        $data = json_decode($data, true);
-        static::assertSame($this->data, $data);
+        try {
+            $implem = new ImplementationJsonOutput($this->data);
+            $data = $implem->getJson();
+            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            static::assertSame($this->data, $data);
+        } catch(JsonException $e) {
+            throw $e;
+        }
     }
 
-    public function testGetAllJsonEmpty()
+    /**
+     * @throws JsonException
+     */
+    public function testGetAllJsonEmpty(): void
     {
-        $implem = new ImplementationJsonOutput([]);
-        $data = $implem->getJson();
-        $data = json_decode($data, true);
-        static::assertSame([], $data);
+        try {
+            $implem = new ImplementationJsonOutput([]);
+            $data = $implem->getJson();
+            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            static::assertSame([], $data);
+        } catch(JsonException $e) {
+            throw $e;
+        }
     }
 }
 

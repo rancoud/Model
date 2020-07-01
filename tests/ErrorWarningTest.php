@@ -10,103 +10,103 @@ use PHPUnit\Framework\TestCase;
  */
 class ErrorWarningTest extends TestCase
 {
-    public function testErrorMessage()
+    public function testErrorMessage(): void
     {
         $implem = new ImplementationErrorWarning();
-        static::assertSame(false, $implem->hasErrorMessages());
+        static::assertFalse($implem->hasErrorMessages());
         static::assertSame([], $implem->getErrorMessages());
 
         $implem->addErrorMessage('error 1');
-        static::assertSame(true, $implem->hasErrorMessages());
+        static::assertTrue($implem->hasErrorMessages());
         static::assertSame(['error 1'], $implem->getErrorMessages());
 
         $implem->addErrorMessage('error 2');
-        static::assertSame(true, $implem->hasErrorMessages());
+        static::assertTrue($implem->hasErrorMessages());
         static::assertSame(['error 1', 'error 2'], $implem->getErrorMessages());
 
         $implem->resetErrorMessage();
-        static::assertSame(false, $implem->hasErrorMessages());
+        static::assertFalse($implem->hasErrorMessages());
         static::assertSame([], $implem->getErrorMessages());
     }
 
-    public function testWarningMessage()
+    public function testWarningMessage(): void
     {
         $implem = new ImplementationErrorWarning();
-        static::assertSame(false, $implem->hasWarningMessages());
+        static::assertFalse($implem->hasWarningMessages());
         static::assertSame([], $implem->getWarningMessages());
 
         $implem->addWarningMessage('warning 1');
-        static::assertSame(true, $implem->hasWarningMessages());
+        static::assertTrue($implem->hasWarningMessages());
         static::assertSame(['warning 1'], $implem->getWarningMessages());
 
         $implem->addWarningMessage('warning 2');
-        static::assertSame(true, $implem->hasWarningMessages());
+        static::assertTrue($implem->hasWarningMessages());
         static::assertSame(['warning 1', 'warning 2'], $implem->getWarningMessages());
 
         $implem->resetWarningMessage();
-        static::assertSame(false, $implem->hasWarningMessages());
+        static::assertFalse($implem->hasWarningMessages());
         static::assertSame([], $implem->getWarningMessages());
     }
 
-    public function testErrorField()
+    public function testErrorField(): void
     {
         $implem = new ImplementationErrorWarning();
-        static::assertSame(false, $implem->hasErrorFields());
+        static::assertFalse($implem->hasErrorFields());
         static::assertSame([], $implem->getErrorFields());
 
         $implem->addErrorField('field 1', 'invalid 1');
-        static::assertSame(true, $implem->hasErrorFields());
+        static::assertTrue($implem->hasErrorFields());
         static::assertSame(['field 1' => ['invalid 1']], $implem->getErrorFields());
 
         $implem->addErrorField('field 1', 'invalid 2');
-        static::assertSame(true, $implem->hasErrorFields());
+        static::assertTrue($implem->hasErrorFields());
         static::assertSame(['field 1' => ['invalid 1', 'invalid 2']], $implem->getErrorFields());
 
         $implem->addErrorField('field 2', 'invalid 11');
-        static::assertSame(true, $implem->hasErrorFields());
+        static::assertTrue($implem->hasErrorFields());
         static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getErrorFields());
 
         $implem->addErrorField('field 2', 'invalid 22');
-        static::assertSame(true, $implem->hasErrorFields());
+        static::assertTrue($implem->hasErrorFields());
         static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getErrorFields());
 
         $implem->resetErrorField('field 2');
-        static::assertSame(true, $implem->hasErrorFields());
+        static::assertTrue($implem->hasErrorFields());
         static::assertSame(['field 1' => ['invalid 1', 'invalid 2']], $implem->getErrorFields());
 
         $implem->resetErrorField();
-        static::assertSame(false, $implem->hasErrorFields());
+        static::assertFalse($implem->hasErrorFields());
         static::assertSame([], $implem->getErrorFields());
     }
 
-    public function testWarningField()
+    public function testWarningField(): void
     {
         $implem = new ImplementationErrorWarning();
-        static::assertSame(false, $implem->hasWarningFields());
+        static::assertFalse($implem->hasWarningFields());
         static::assertSame([], $implem->getWarningFields());
 
         $implem->addWarningField('field 1', 'invalid 1');
-        static::assertSame(true, $implem->hasWarningFields());
+        static::assertTrue($implem->hasWarningFields());
         static::assertSame(['field 1' => ['invalid 1']], $implem->getWarningFields());
 
         $implem->addWarningField('field 1', 'invalid 2');
-        static::assertSame(true, $implem->hasWarningFields());
+        static::assertTrue($implem->hasWarningFields());
         static::assertSame(['field 1' => ['invalid 1', 'invalid 2']], $implem->getWarningFields());
 
         $implem->addWarningField('field 2', 'invalid 11');
-        static::assertSame(true, $implem->hasWarningFields());
+        static::assertTrue($implem->hasWarningFields());
         static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getWarningFields());
 
         $implem->addWarningField('field 2', 'invalid 22');
-        static::assertSame(true, $implem->hasWarningFields());
+        static::assertTrue($implem->hasWarningFields());
         static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getWarningFields());
 
         $implem->resetWarningField('field 2');
-        static::assertSame(true, $implem->hasWarningFields());
+        static::assertTrue($implem->hasWarningFields());
         static::assertSame(['field 1' => ['invalid 1', 'invalid 2']], $implem->getWarningFields());
 
         $implem->resetWarningField();
-        static::assertSame(false, $implem->hasWarningFields());
+        static::assertFalse($implem->hasWarningFields());
         static::assertSame([], $implem->getWarningFields());
     }
 }
@@ -163,7 +163,7 @@ class ImplementationErrorWarning extends ErrorWarning
      * @param string $field
      * @param string $reasons
      */
-    public function addWarningField(string $field, string $reasons)
+    public function addWarningField(string $field, string $reasons): void
     {
         parent::addWarningField($field, $reasons);
     }

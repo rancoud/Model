@@ -9,16 +9,16 @@ namespace Rancoud\Model;
  */
 class Helper
 {
-    protected static $countPerPage = 50;
-    protected static $rowsCount = 'rows_count';
-    protected static $noLimit = 'no_limit';
-    protected static $count = 'count';
-    protected static $page = 'page';
-    protected static $order = 'order';
-    protected static $pipeDelimiter = '|';
-    protected static $orderDelimiter = ',';
-    protected static $defaultOrderBy = 'id';
-    protected static $defaultOrderByOrder = 'asc';
+    protected static int $countPerPage = 50;
+    protected static string $rowsCount = 'rows_count';
+    protected static string $noLimit = 'no_limit';
+    protected static string $count = 'count';
+    protected static string $page = 'page';
+    protected static string $order = 'order';
+    protected static string $pipeDelimiter = '|';
+    protected static string $orderDelimiter = ',';
+    protected static string $defaultOrderBy = 'id';
+    protected static string $defaultOrderByOrder = 'asc';
 
     /**
      * @param array $args
@@ -152,11 +152,9 @@ class Helper
                 }
             }
 
-            if (self::isValidFieldForOrderBy($field, $validFields)) {
-                if (!\in_array($field, $fieldsAlreadyTreated, true)) {
-                    $fieldsAlreadyTreated[] = $field;
-                    $results[] = [$field => $order];
-                }
+            if (self::isValidFieldForOrderBy($field, $validFields) && !\in_array($field, $fieldsAlreadyTreated, true)) {
+                $fieldsAlreadyTreated[] = $field;
+                $results[] = [$field => $order];
             }
         }
 

@@ -13,24 +13,24 @@ use Rancoud\Database\DatabaseException;
 abstract class Model extends ErrorWarning
 {
     /** @var Database */
-    protected $database;
+    protected Database $database;
 
     /** @var string */
-    protected $table;
+    protected string $table;
 
     /** @var Field[] */
-    protected $fields = [];
+    protected array $fields = [];
 
     /** @var array */
-    protected $sqlParams = [];
+    protected array $sqlParams = [];
 
     /** @var array */
-    protected $parametersToRemove = [];
+    protected array $parametersToRemove = [];
 
     /** @var int */
-    protected $lastInsertId;
+    protected int $lastInsertId;
 
-    protected $callbacksCud = [
+    protected array $callbacksCud = [
         'bc' => [],
         'ac' => [],
         'bu' => [],

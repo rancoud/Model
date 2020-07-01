@@ -12,36 +12,36 @@ use DateTime;
 class Field
 {
     /** @var string */
-    protected $type;
+    protected string $type;
 
     /** @var mixed */
     protected $default = false;
 
     /** @var array */
-    protected $rules;
+    protected array $rules;
 
     /** @var bool */
-    protected $notNull = false;
+    protected bool $notNull = false;
 
     /** @var bool */
-    protected $isKey = false;
-    protected $isPKey = false;
-    protected $isFKey = false;
+    protected bool $isKey = false;
+    protected bool $isPKey = false;
+    protected bool $isFKey = false;
 
     /** @var array */
-    protected $enumValues = [];
+    protected array $enumValues = [];
 
-    /** @var int */
+    /** @var mixed */
     protected $min = null;
 
-    /** @var int */
+    /** @var mixed */
     protected $max = null;
 
     /** @var array */
-    protected $range = [null, null];
+    protected array $range = [null, null];
 
-    protected $patternTime = '[0-2]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}';
-    protected $patternDate = '[1-9]{1}[0-9]{3}\-[0-1]{1}[0-9]{1}\-[0-3]{1}[0-9]{1}';
+    protected string $patternTime = '[0-2]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}';
+    protected string $patternDate = '[1-9]{1}[0-9]{3}\-[0-1]{1}[0-9]{1}\-[0-3]{1}[0-9]{1}';
 
     /**
      * Field constructor.
@@ -171,11 +171,10 @@ class Field
      */
     protected function extractMinRule(string $rule): void
     {
-        $this->min = \mb_substr($rule, 4);
         if ($this->type === 'float') {
-            $this->min = (float) $this->min;
+            $this->min = (float) \mb_substr($rule, 4);
         } else {
-            $this->min = (int) $this->min;
+            $this->min = (int) \mb_substr($rule, 4);
         }
     }
 
@@ -184,11 +183,10 @@ class Field
      */
     protected function extractMaxRule(string $rule): void
     {
-        $this->max = \mb_substr($rule, 4);
         if ($this->type === 'float') {
-            $this->max = (float) $this->max;
+            $this->max = (float) \mb_substr($rule, 4);
         } else {
-            $this->max = (int) $this->max;
+            $this->max = (int) \mb_substr($rule, 4);
         }
     }
 
@@ -269,7 +267,7 @@ class Field
 
         $function = 'convertTo' . \ucfirst($this->type);
 
-        return \call_user_func([$this, $function], $value);
+        return $this->$function($value);
     }
 
     /**
@@ -565,7 +563,7 @@ class Field
      *
      * @return float
      */
-    protected function applyMinMaxRangeFloat($value)
+    protected function applyMinMaxRangeFloat($value): float
     {
         if ($this->min !== null) {
             $value = (float) \max($this->min, $value);
@@ -629,7 +627,7 @@ class Field
             $function = 'applyRule' . \ucfirst($rule);
 
             if (\method_exists($this, $function)) {
-                $value = \call_user_func([$this, $function], $value);
+                $value = $this->$function($value);
             }
         }
 

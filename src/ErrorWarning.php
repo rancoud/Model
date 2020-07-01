@@ -9,10 +9,10 @@ namespace Rancoud\Model;
  */
 class ErrorWarning
 {
-    protected $errorMessage = [];
-    protected $errorFields = [];
-    protected $warningMessage = [];
-    protected $warningFields = [];
+    protected array $errorMessage = [];
+    protected array $errorFields = [];
+    protected array $warningMessage = [];
+    protected array $warningFields = [];
 
     /**
      * @return array
@@ -137,7 +137,7 @@ class ErrorWarning
      * @param string $field
      * @param string $reasons
      */
-    protected function addWarningField(string $field, string $reasons)
+    protected function addWarningField(string $field, string $reasons): void
     {
         if (!isset($this->warningFields[$field])) {
             $this->warningFields[$field] = [];
@@ -162,7 +162,7 @@ class ErrorWarning
         }
     }
 
-    protected function resetAllErrors()
+    protected function resetAllErrors(): void
     {
         $this->resetErrorField();
         $this->resetErrorMessage();

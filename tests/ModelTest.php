@@ -1,4 +1,5 @@
 <?php
+/** @noinspection SqlDialectInspection */
 
 declare(strict_types=1);
 
@@ -12,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ModelTest extends TestCase
 {
-    protected $data = [
+    protected array $data = [
         [
             'id' => 1,
             'title' => 'first',
@@ -52,57 +53,67 @@ class ModelTest extends TestCase
     ];
 
     /** @var \Rancoud\Database\Database */
-    protected $database;
+    protected ?\Rancoud\Database\Database $database = null;
 
-    protected function initDatabaseConnexion()
+    /**
+     * @throws \Rancoud\Database\DatabaseException
+     */
+    protected function initDatabaseConnexion(): void
     {
-        if ($this->database instanceof \Rancoud\Database\Database) {
+        if ($this->database !== null) {
             return;
         }
 
         $config = new \Rancoud\Database\Configurator([
-            'engine'       => 'mysql',
-            'host'         => '127.0.0.1',
-            'user'         => 'root',
-            'password'     => '',
-            'database'     => 'test_database',
+            'engine' => 'mysql',
+            'host' => '127.0.0.1',
+            'user' => 'root',
+            'password' => '',
+            'database' => 'test_database',
             'save_queries' => true]);
         $this->database = new \Rancoud\Database\Database($config);
     }
 
-    protected function setUp()
+    /**
+     * @throws \Rancoud\Database\DatabaseException
+     */
+    protected function setUp(): void
     {
         $this->initDatabaseConnexion();
         parent::setUp();
     }
 
-    public function testInitDatabase()
+    /**
+     * @throws \Rancoud\Database\DatabaseException
+     */
+    public function testInitDatabase(): void
     {
         $this->data[0]['date_start'] = date('Y-m-d H:i:s');
 
-        $this->database->dropTable('crud_table');
+        $this->database->dropTables('crud_table');
 
-        $sql = '
+        $sql = <<<SQL
             CREATE TABLE `crud_table` (
               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
               `title` varchar(5) DEFAULT NULL,
               `date_start` datetime NOT NULL,
               `year_start` year(4) DEFAULT NULL,
-              `hour_start` time DEFAULT \'00:00:00\',
+              `hour_start` time DEFAULT '00:00:00',
               `hour_stop` time DEFAULT NULL,
-              `is_visible` enum(\'yes\',\'no\') DEFAULT \'yes\',
+              `is_visible` enum('yes', 'no') DEFAULT 'yes',
               `email` varchar(255) DEFAULT NULL,
               `nomaxlimit` varchar(255) DEFAULT NULL,
               `external_id` int(11) DEFAULT NULL,
               PRIMARY KEY (`id`),
               UNIQUE KEY `external_id_UNIQUE` (`external_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-        ';
-        $isSuccess = $this->database->exec($sql);
-        static::assertTrue($isSuccess);
+SQL;
+        $this->database->exec($sql);
+
+        $this->assertTrue(true);
     }
 
-    public function testCreateUpdateDeleteCleanErrorFields()
+    public function testCreateUpdateDeleteCleanErrorFields(): void
     {
         $implem = new ImplementModel($this->database);
         $countAssert = 1;
@@ -161,7 +172,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
     
-    public function testCreateModelExceptionEmptySql()
+    public function testCreateModelExceptionEmptySql(): void
     {
         $countAssert = 2;
 
@@ -178,7 +189,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionMissingRequiredFields()
+    public function testCreateModelExceptionMissingRequiredFields(): void
     {
         $countAssert = 3;
 
@@ -197,7 +208,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionInvalidValues()
+    public function testCreateModelExceptionInvalidValues(): void
     {
         $countAssert = 3;
 
@@ -216,13 +227,13 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionErrorSql()
+    public function testCreateModelExceptionErrorSql(): void
     {
         $countAssert = 3;
 
         try {
             $implem = new ImplementModel($this->database);
-            $implem->addBeforeCreate('a', function ($sql, $params) {
+            $implem->addBeforeCreate('a', static function($sql, $params) {
                 $sql = 'sql query invalid';
                 return [$sql, $params];
             });
@@ -239,7 +250,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionHackInvalidField()
+    public function testCreateModelExceptionHackInvalidField(): void
     {
         $countAssert = 2;
 
@@ -759,14 +770,17 @@ class ModelTest extends TestCase
  */
 class ImplementModel extends Model
 {
-    protected $parametersToRemove = ["param_to_remove"];
-    protected $isHackWrong = false;
+    protected array $parametersToRemove = ["param_to_remove"];
+    protected bool $isHackWrong = false;
 
     public function __construct($database)
     {
         parent::__construct($database);
     }
 
+    /**
+     * @throws \Rancoud\Model\FieldException
+     */
     protected function setFields() : void
     {
         $this->fields = [
@@ -798,26 +812,37 @@ class ImplementModel extends Model
         return ($this->isHackWrong) ? 'AND' : parent::getSqlAllWhereAndFillSqlParams($params);
     }
 
-    public function removePkFields()
+    public function removePkFields(): void
     {
         array_shift($this->fields);
     }
 
-    public function setWrongPk()
+    /**
+     * @throws \Rancoud\Model\FieldException
+     */
+    public function setWrongPk(): void
     {
         $this->fields['wrong_id'] = new Field('int', ['pk', 'unsigned', 'not_null']);
     }
 
+    /**
+     * @return string
+     * @throws ModelException
+     */
     public function hackCreateSqlFieldsFromParams() : string
     {
         $this->sqlParams = ['invalid', 'key' => 'value'];
-        return parent::getCreateSqlFieldsFromParams();
+        return $this->getCreateSqlFieldsFromParams();
     }
 
+    /**
+     * @return string
+     * @throws ModelException
+     */
     public function hackUpdateSqlFieldsFromParams() : string
     {
         $this->sqlParams = ['invalid', 'key' => 'value'];
-        return parent::getUpdateSqlFieldsFromParams();
+        return $this->getUpdateSqlFieldsFromParams();
     }
 }
 
@@ -826,7 +851,7 @@ class ImplementModel extends Model
  */
 class MyCallback
 {
-    public function before($sql, $params)
+    public function before($sql, $params): array
     {
         $sql = 'INSERT INTO crud_table (`title`,`date_start`, `year_start`) VALUES (:title,:date_start, :year_start)';
         $params['year_start'] = 2000;
