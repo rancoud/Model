@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Fields\Test;
+
 use Rancoud\Model\CustomRule;
 use Rancoud\Model\Field;
 use Rancoud\Model\FieldException;
@@ -12,10 +14,13 @@ use PHPUnit\Framework\TestCase;
  */
 class RuleCustomTest extends TestCase
 {
-    protected $inputs = [false, null, 'azerty', '-1', '10', 50.50, ''];
-    protected $countInputs = 7;
+    protected array $inputs = [false, null, 'azerty', '-1', '10', 50.50, ''];
+    protected int $countInputs = 7;
 
-    public function testFieldCharWithCustomRule()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldCharWithCustomRule(): void
     {
         $rule = new Field('char', [new MyRule()]);
         $expected = [null, null, FieldException::class, '-1', '10', '50.5', ''];

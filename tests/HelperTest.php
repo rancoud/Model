@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Test;
+
 use Rancoud\Model\Helper;
 use PHPUnit\Framework\TestCase;
 

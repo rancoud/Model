@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Fields\Test;
+
 use Rancoud\Model\Field;
 use Rancoud\Model\FieldException;
 use PHPUnit\Framework\TestCase;
@@ -11,10 +13,10 @@ use PHPUnit\Framework\TestCase;
  */
 class FieldVarcharTest extends TestCase
 {
-    protected $inputs = [false, null, 'azerty', '-1', '10', 50.50, ''];
-    protected $countInputs = 7;
+    protected array $inputs = [false, null, 'azerty', '-1', '10', 50.50, ''];
+    protected int $countInputs = 7;
 
-    public function testFieldVarchar()
+    public function testFieldVarchar(): void
     {
         $rule = new Field('varchar');
         $expected = [null, null, 'azerty', '-1', '10', '50.5', ''];
@@ -32,7 +34,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharDefault(): void
     {
         $rule = new Field('varchar', [], '999');
         $expected = ['999', null, 'azerty', '-1', '10', '50.5', ''];
@@ -50,7 +55,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharNotNull(): void
     {
         $rule = new Field('varchar', ['not_null']);
         $expected = [FieldException::class, FieldException::class, 'azerty', '-1', '10', '50.5', ''];
@@ -68,7 +76,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharNotNullDefault(): void
     {
         $rule = new Field('varchar', ['not_null'], '999');
         $expected = ['999', FieldException::class, 'azerty', '-1', '10', '50.5', ''];
@@ -86,7 +97,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharPk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharPk(): void
     {
         $rule = new Field('varchar', ['pk']);
         $expected = [null, null, 'azerty', '-1', '10', '50.5', ''];
@@ -104,7 +118,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharPkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharPkNotNull(): void
     {
         $rule = new Field('varchar', ['pk', 'not_null']);
         $expected = [FieldException::class, FieldException::class, 'azerty', '-1', '10', '50.5', ''];
@@ -122,7 +139,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharFk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharFk(): void
     {
         $rule = new Field('varchar', ['fk']);
         $expected = [null, null, 'azerty', '-1', '10', '50.5', ''];
@@ -140,7 +160,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharFkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharFkNotNull(): void
     {
         $rule = new Field('varchar', ['fk', 'not_null']);
         $expected = [FieldException::class, FieldException::class, 'azerty', '-1', '10', '50.5', ''];
@@ -158,7 +181,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharUnsigned()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharUnsigned(): void
     {
         $rule = new Field('varchar', ['unsigned']);
         $expected = [null, null, 'azerty', '-1', '10', '50.5', ''];
@@ -176,7 +202,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharUnsignedNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharUnsignedNotNull(): void
     {
         $rule = new Field('varchar', ['unsigned', 'not_null']);
         $expected = [FieldException::class, FieldException::class, 'azerty', '-1', '10', '50.5', ''];
@@ -194,7 +223,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharUnsignedNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharUnsignedNotNullDefault(): void
     {
         $rule = new Field('varchar', ['unsigned', 'not_null'], '999');
         $expected = ['999', FieldException::class, 'azerty', '-1', '10', '50.5', ''];
@@ -212,7 +244,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharMin()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharMin(): void
     {
         $rule = new Field('varchar', ['min:3']);
         $expected = [null, null, 'azerty', FieldException::class, FieldException::class, '50.5', FieldException::class];
@@ -230,7 +265,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharMax()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharMax(): void
     {
         $rule = new Field('varchar', ['max:3']);
         $expected = [null, null, 'aze', '-1', '10', '50.', ''];
@@ -248,7 +286,10 @@ class FieldVarcharTest extends TestCase
         }
     }
 
-    public function testFieldVarcharRange()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharRange(): void
     {
         $rule = new Field('varchar', ['range:3,4']);
         $expected = [null, null, 'azer', FieldException::class, FieldException::class, '50.5', FieldException::class];

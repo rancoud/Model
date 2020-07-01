@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Fields\Test;
+
 use Rancoud\Model\Field;
 use Rancoud\Model\FieldException;
 use PHPUnit\Framework\TestCase;
@@ -11,10 +13,13 @@ use PHPUnit\Framework\TestCase;
  */
 class FieldVarcharEmailTest extends TestCase
 {
-    protected $inputs = [false, null, 'azerty', '-1', '10', 50.50, '', '@', 'a@', '@a', 'a@a'];
-    protected $countInputs = 11;
+    protected array $inputs = [false, null, 'azerty', '-1', '10', 50.50, '', '@', 'a@', '@a', 'a@a'];
+    protected int $countInputs = 11;
 
-    public function testFieldVarcharEmail()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmail(): void
     {
         $rule = new Field('varchar', ['email']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -32,7 +37,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailDefault(): void
     {
         $rule = new Field('varchar', ['email'], 'az@az');
         $expected = ['az@az', null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -50,7 +58,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailNotNull(): void
     {
         $rule = new Field('varchar', ['email', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -68,7 +79,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailNotNullDefault(): void
     {
         $rule = new Field('varchar', ['email', 'not_null'], 'az@az');
         $expected = ['az@az', FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -86,7 +100,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailPk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailPk(): void
     {
         $rule = new Field('varchar', ['email', 'pk']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -104,7 +121,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailPkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailPkNotNull(): void
     {
         $rule = new Field('varchar', ['email', 'pk', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -122,7 +142,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailFk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailFk(): void
     {
         $rule = new Field('varchar', ['email', 'fk']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -140,7 +163,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailFkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailFkNotNull(): void
     {
         $rule = new Field('varchar', ['email', 'fk', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -158,7 +184,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailUnsigned()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailUnsigned(): void
     {
         $rule = new Field('varchar', ['email', 'unsigned']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -176,7 +205,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailUnsignedNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailUnsignedNotNull(): void
     {
         $rule = new Field('varchar', ['email', 'unsigned', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -194,7 +226,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailUnsignedNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailUnsignedNotNullDefault(): void
     {
         $rule = new Field('varchar', ['email', 'unsigned', 'not_null'], 'az@az');
         $expected = ['az@az', FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -212,7 +247,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailMin()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailMin(): void
     {
         $rule = new Field('varchar', ['email', 'min:1']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -230,7 +268,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailMax()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailMax(): void
     {
         $rule = new Field('varchar', ['email', 'max:3']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];
@@ -248,7 +289,10 @@ class FieldVarcharEmailTest extends TestCase
         }
     }
 
-    public function testFieldVarcharEmailRange()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldVarcharEmailRange(): void
     {
         $rule = new Field('varchar', ['email', 'range:1,4']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, 'a@a'];

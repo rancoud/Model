@@ -32,10 +32,10 @@ class Field
     protected array $enumValues = [];
 
     /** @var mixed */
-    protected $min = null;
+    protected $min;
 
     /** @var mixed */
-    protected $max = null;
+    protected $max;
 
     /** @var array */
     protected array $range = [null, null];
@@ -276,6 +276,7 @@ class Field
      * @throws FieldException
      *
      * @return int|mixed
+     * @noinspection PhpUnused
      */
     protected function convertToInt($value)
     {
@@ -304,6 +305,7 @@ class Field
      * @throws FieldException
      *
      * @return float
+     * @noinspection PhpUnused
      */
     protected function convertToFloat($value): float
     {
@@ -328,6 +330,7 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
     protected function convertToChar($value): string
     {
@@ -344,6 +347,7 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
     protected function convertToVarchar($value): string
     {
@@ -360,6 +364,7 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
     protected function convertToText($value): string
     {
@@ -376,8 +381,9 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
-    protected function convertToDate($value)
+    protected function convertToDate($value): string
     {
         $date = (string) $value;
 
@@ -396,8 +402,9 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
-    protected function convertToDatetime($value)
+    protected function convertToDatetime($value): string
     {
         $datetime = (string) $value;
 
@@ -416,8 +423,9 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
-    protected function convertToTime($value)
+    protected function convertToTime($value): string
     {
         $time = (string) $value;
 
@@ -439,6 +447,7 @@ class Field
      * @throws FieldException
      *
      * @return false|int|string
+     * @noinspection PhpUnused
      */
     protected function convertToTimestamp($value)
     {
@@ -471,6 +480,7 @@ class Field
      * @throws FieldException
      *
      * @return int|mixed
+     * @noinspection PhpUnused
      */
     protected function convertToYear($value)
     {
@@ -499,8 +509,9 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
-    protected function convertToEnum($value)
+    protected function convertToEnum($value): string
     {
         $value = (string) $value;
 
@@ -590,10 +601,8 @@ class Field
      */
     protected function applyMinMaxRangeString(string $value): string
     {
-        if ($this->min !== null) {
-            if (\mb_strlen($value) < $this->min) {
-                throw new FieldException('Invalid min length');
-            }
+        if (($this->min !== null) && \mb_strlen($value) < $this->min) {
+            throw new FieldException('Invalid min length');
         }
 
         if ($this->max !== null) {
@@ -640,6 +649,7 @@ class Field
      * @throws FieldException
      *
      * @return mixed
+     * @noinspection PhpUnused
      */
     protected function applyRuleEmail(string $value)
     {
@@ -673,14 +683,12 @@ class Field
             return $this->default;
         }
 
-        if (!$this->notNull) {
-            if ($value === false) {
-                if ($this->default !== false) {
-                    return $this->default;
-                }
-
-                return null;
+        if (!$this->notNull && $value === false) {
+            if ($this->default !== false) {
+                return $this->default;
             }
+
+            return null;
         }
 
         if ($this->notNull) {

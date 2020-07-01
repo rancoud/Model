@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection SqlNoDataSourceInspection */
+
 declare(strict_types=1);
 
 namespace Rancoud\Model;
@@ -162,7 +164,7 @@ abstract class Model extends ErrorWarning
 
         $str = \implode(',', $sql);
 
-        if (\mb_strlen($str) < 1) {
+        if ($str === '') {
             $this->addErrorMessage('Update sql query is empty');
             throw new ModelException('ERROR');
         }
@@ -260,7 +262,7 @@ abstract class Model extends ErrorWarning
         $this->sqlParams = [];
 
         $orders = Helper::getOrderByOrderField($params, $validFields);
-        list($offset, $count) = Helper::getLimitOffsetCount($params);
+        [$offset, $count] = Helper::getLimitOffsetCount($params);
 
         $sql[] = 'SELECT ' . $this->getSqlAllSelectAndFillSqlParams($params);
         $sql[] = 'FROM ' . $this->table;
@@ -292,6 +294,7 @@ abstract class Model extends ErrorWarning
      * @param array $params
      *
      * @return string
+     * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllSelectAndFillSqlParams(array $params): string
     {
@@ -302,6 +305,7 @@ abstract class Model extends ErrorWarning
      * @param array $params
      *
      * @return string
+     * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllJoinAndFillSqlParams(array $params): string
     {
@@ -312,6 +316,7 @@ abstract class Model extends ErrorWarning
      * @param array $params
      *
      * @return string
+     * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllWhereAndFillSqlParams(array $params): string
     {
@@ -321,7 +326,7 @@ abstract class Model extends ErrorWarning
     /**
      * @return array|null
      */
-    public function getDatabaseErrors()
+    public function getDatabaseErrors(): ?array
     {
         return $this->database->getErrors();
     }
@@ -329,7 +334,7 @@ abstract class Model extends ErrorWarning
     /**
      * @return array|null
      */
-    public function getDatabaseLastError()
+    public function getDatabaseLastError(): ?array
     {
         return $this->database->getLastError();
     }
@@ -342,7 +347,7 @@ abstract class Model extends ErrorWarning
      *
      * @return array
      */
-    public function one($id, ...$ids)
+    public function one($id, ...$ids): ?array
     {
         \array_unshift($ids, $id);
         $this->sqlParams = [];
@@ -372,8 +377,6 @@ abstract class Model extends ErrorWarning
     {
         $this->resetAllErrors();
 
-        $this->sqlParams = [];
-
         $this->sqlParams = $args;
 
         $this->removeParameters();
@@ -391,6 +394,7 @@ abstract class Model extends ErrorWarning
         $sql = $this->checkNotNullFieldIsPresent($sql);
 
         try {
+            /* @noinspection PhpFieldAssignmentTypeMismatchInspection */
             $this->lastInsertId = $this->database->insert($sql, $this->sqlParams, true);
         } catch (DatabaseException $de) {
             $this->addErrorMessage('Error creating');
@@ -413,16 +417,15 @@ abstract class Model extends ErrorWarning
     /**
      * @param array $args
      * @param mixed $id
-     * @param array ...$ids
+     * @param int   ...$ids
      *
      * @throws ModelException
      */
-    public function update(array $args, $id, ...$ids): void
+    public function update(array $args, $id, int ...$ids): void
     {
         $this->resetAllErrors();
 
         \array_unshift($ids, $id);
-        $this->sqlParams = [];
 
         $this->sqlParams = $args;
 
@@ -457,7 +460,7 @@ abstract class Model extends ErrorWarning
      *
      * @return array
      */
-    protected function getWhereWithPrimaryKeys($ids)
+    protected function getWhereWithPrimaryKeys($ids): array
     {
         $sqlWhere = [];
         foreach ($this->fields as $field => $properties) {
@@ -505,7 +508,7 @@ abstract class Model extends ErrorWarning
         $this->afterDelete($this->sqlParams);
     }
 
-    protected function removeParameters()
+    protected function removeParameters(): void
     {
         foreach ($this->parametersToRemove as $parameterName) {
             if (\array_key_exists($parameterName, $this->sqlParams)) {
@@ -518,8 +521,9 @@ abstract class Model extends ErrorWarning
      * @param string $mode
      *
      * @throws ModelException
+     * @noinspection PhpDocRedundantThrowsInspection
      */
-    protected function treatParametersAfterClean(string $mode)
+    protected function treatParametersAfterClean(string $mode): void
     {
     }
 
@@ -529,8 +533,9 @@ abstract class Model extends ErrorWarning
      * @param $params
      *
      * @throws ModelException
+     * @noinspection PhpDocRedundantThrowsInspection
      */
-    protected function beforeCallbacks($callbacks, &$sql, &$params)
+    protected function beforeCallbacks($callbacks, &$sql, &$params): void
     {
         foreach ($callbacks as $callback) {
             $ret = null;
@@ -538,7 +543,7 @@ abstract class Model extends ErrorWarning
             if (\is_array($callback) && \is_object($callback[0])) {
                 $ret = $callback[0]->{$callback[1]}($sql, $params);
             } elseif (\is_callable($callback)) {
-                $ret = \call_user_func($callback, $sql, $params);
+                $ret = $callback($sql, $params);
             }
 
             if (\is_array($ret)) {
@@ -553,8 +558,9 @@ abstract class Model extends ErrorWarning
      * @param array ...$params
      *
      * @throws ModelException
+     * @noinspection PhpDocRedundantThrowsInspection
      */
-    protected function afterCallbacks($callbacks, ...$params)
+    protected function afterCallbacks($callbacks, ...$params): void
     {
         $indexArrayParams = 0;
         if (\count($params) === 2) {
@@ -580,7 +586,7 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      */
-    protected function beforeCreate(&$sql, &$params)
+    protected function beforeCreate(&$sql, &$params): void
     {
         $this->beforeCallbacks($this->callbacksCud['bc'], $sql, $params);
     }
@@ -591,7 +597,7 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      */
-    protected function afterCreate($newId, $params)
+    protected function afterCreate($newId, $params): void
     {
         $this->afterCallbacks($this->callbacksCud['ac'], $newId, $params);
     }
@@ -602,7 +608,7 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      */
-    protected function beforeUpdate(&$sql, &$params)
+    protected function beforeUpdate(&$sql, &$params): void
     {
         $this->beforeCallbacks($this->callbacksCud['bu'], $sql, $params);
     }
@@ -612,7 +618,7 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      */
-    protected function afterUpdate($params)
+    protected function afterUpdate($params): void
     {
         $this->afterCallbacks($this->callbacksCud['au'], $params);
     }
@@ -623,7 +629,7 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      */
-    protected function beforeDelete(&$sql, &$params)
+    protected function beforeDelete(&$sql, &$params): void
     {
         $this->beforeCallbacks($this->callbacksCud['bd'], $sql, $params);
     }
@@ -633,7 +639,7 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      */
-    protected function afterDelete($params)
+    protected function afterDelete($params): void
     {
         $this->afterCallbacks($this->callbacksCud['ad'], $params);
     }
@@ -642,7 +648,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addBeforeCreate(string $name, $callback)
+    public function addBeforeCreate(string $name, $callback): void
     {
         $this->callbacksCud['bc'][$name] = $callback;
     }
@@ -651,7 +657,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addAfterCreate(string $name, $callback)
+    public function addAfterCreate(string $name, $callback): void
     {
         $this->callbacksCud['ac'][$name] = $callback;
     }
@@ -660,7 +666,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addBeforeUpdate(string $name, $callback)
+    public function addBeforeUpdate(string $name, $callback): void
     {
         $this->callbacksCud['bu'][$name] = $callback;
     }
@@ -669,7 +675,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addAfterUpdate(string $name, $callback)
+    public function addAfterUpdate(string $name, $callback): void
     {
         $this->callbacksCud['au'][$name] = $callback;
     }
@@ -678,7 +684,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addBeforeDelete(string $name, $callback)
+    public function addBeforeDelete(string $name, $callback): void
     {
         $this->callbacksCud['bd'][$name] = $callback;
     }
@@ -687,7 +693,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addAfterDelete(string $name, $callback)
+    public function addAfterDelete(string $name, $callback): void
     {
         $this->callbacksCud['ad'][$name] = $callback;
     }
@@ -695,7 +701,7 @@ abstract class Model extends ErrorWarning
     /**
      * @param string $name
      */
-    public function removeBeforeCreate(string $name)
+    public function removeBeforeCreate(string $name): void
     {
         unset($this->callbacksCud['bc'][$name]);
     }
@@ -703,7 +709,7 @@ abstract class Model extends ErrorWarning
     /**
      * @param string $name
      */
-    public function removeAfterCreate(string $name)
+    public function removeAfterCreate(string $name): void
     {
         unset($this->callbacksCud['ac'][$name]);
     }
@@ -711,7 +717,7 @@ abstract class Model extends ErrorWarning
     /**
      * @param string $name
      */
-    public function removeBeforeUpdate(string $name)
+    public function removeBeforeUpdate(string $name): void
     {
         unset($this->callbacksCud['bu'][$name]);
     }
@@ -719,7 +725,7 @@ abstract class Model extends ErrorWarning
     /**
      * @param string $name
      */
-    public function removeAfterUpdate(string $name)
+    public function removeAfterUpdate(string $name): void
     {
         unset($this->callbacksCud['au'][$name]);
     }
@@ -727,7 +733,7 @@ abstract class Model extends ErrorWarning
     /**
      * @param string $name
      */
-    public function removeBeforeDelete(string $name)
+    public function removeBeforeDelete(string $name): void
     {
         unset($this->callbacksCud['bd'][$name]);
     }
@@ -735,7 +741,7 @@ abstract class Model extends ErrorWarning
     /**
      * @param string $name
      */
-    public function removeAfterDelete(string $name)
+    public function removeAfterDelete(string $name): void
     {
         unset($this->callbacksCud['ad'][$name]);
     }

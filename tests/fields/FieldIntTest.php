@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Fields\Test;
+
 use Rancoud\Model\Field;
 use Rancoud\Model\FieldException;
 use PHPUnit\Framework\TestCase;
@@ -11,10 +13,10 @@ use PHPUnit\Framework\TestCase;
  */
 class FieldIntTest extends TestCase
 {
-    protected $inputs = [false, null, 'azerty', '-1', '10', 50.50, ''];
-    protected $countInputs = 7;
+    protected array $inputs = [false, null, 'azerty', '-1', '10', 50.50, ''];
+    protected int $countInputs = 7;
 
-    public function testFieldInt()
+    public function testFieldInt(): void
     {
         $rule = new Field('int');
         $expected = [null, null, FieldException::class, -1, 10, 50, FieldException::class];
@@ -32,7 +34,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntDefault(): void
     {
         $rule = new Field('int', [], 999);
         $expected = [999, null, FieldException::class, -1, 10, 50, FieldException::class];
@@ -50,7 +55,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntNotNull(): void
     {
         $rule = new Field('int', ['not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, -1, 10, 50, FieldException::class];
@@ -68,7 +76,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntNotNullDefault(): void
     {
         $rule = new Field('int', ['not_null'], 999);
         $expected = [999, FieldException::class, FieldException::class, -1, 10, 50, FieldException::class];
@@ -86,7 +97,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntPk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntPk(): void
     {
         $rule = new Field('int', ['pk']);
         $expected = [null, null, FieldException::class, FieldException::class, 10, 50, FieldException::class];
@@ -104,7 +118,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntPkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntPkNotNull(): void
     {
         $rule = new Field('int', ['pk', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, 10, 50, FieldException::class];
@@ -122,7 +139,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntFk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntFk(): void
     {
         $rule = new Field('int', ['fk']);
         $expected = [null, null, FieldException::class, FieldException::class, 10, 50, FieldException::class];
@@ -140,7 +160,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntFkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntFkNotNull(): void
     {
         $rule = new Field('int', ['fk', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, 10, 50, FieldException::class];
@@ -158,7 +181,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntUnsigned()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntUnsigned(): void
     {
         $rule = new Field('int', ['unsigned']);
         $expected = [null, null, FieldException::class, 0, 10, 50, FieldException::class];
@@ -176,7 +202,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntUnsignedNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntUnsignedNotNull(): void
     {
         $rule = new Field('int', ['unsigned', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, 0, 10, 50, FieldException::class];
@@ -194,7 +223,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntUnsignedNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntUnsignedNotNullDefault(): void
     {
         $rule = new Field('int', ['unsigned', 'not_null'], 999);
         $expected = [999, FieldException::class, FieldException::class, 0, 10, 50, FieldException::class];
@@ -212,7 +244,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntMin()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntMin(): void
     {
         $rule = new Field('int', ['min:50']);
         $expected = [null, null, FieldException::class, 50, 50, 50, FieldException::class];
@@ -230,7 +265,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntMax()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntMax(): void
     {
         $rule = new Field('int', ['max:20']);
         $expected = [null, null, FieldException::class, -1, 10, 20, FieldException::class];
@@ -248,7 +286,10 @@ class FieldIntTest extends TestCase
         }
     }
 
-    public function testFieldIntRange()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldIntRange(): void
     {
         $rule = new Field('int', ['range:25,30']);
         $expected = [null, null, FieldException::class, 25, 25, 30, FieldException::class];

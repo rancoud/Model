@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Fields\Test;
+
 use Rancoud\Model\Field;
 use Rancoud\Model\FieldException;
 use PHPUnit\Framework\TestCase;
@@ -11,10 +13,10 @@ use PHPUnit\Framework\TestCase;
  */
 class FieldYearTest extends TestCase
 {
-    protected $inputs = [false, null, 'azerty', '-1', '10', 50.50, '', 1900, '1901', 2000, 2155, '2156'];
-    protected $countInputs = 12;
+    protected array $inputs = [false, null, 'azerty', '-1', '10', 50.50, '', 1900, '1901', 2000, 2155, '2156'];
+    protected int $countInputs = 12;
 
-    public function testFieldYear()
+    public function testFieldYear(): void
     {
         $rule = new Field('year');
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -34,7 +36,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearDefault(): void
     {
         $rule = new Field('year', [], 2000);
         $expected = [2000, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -54,7 +59,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearNotNull(): void
     {
         $rule = new Field('year', ['not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -74,7 +82,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearNotNullDefault(): void
     {
         $rule = new Field('year', ['not_null'], 2000);
         $expected = [2000, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -94,7 +105,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearPk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearPk(): void
     {
         $rule = new Field('year', ['pk']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -114,7 +128,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearPkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearPkNotNull(): void
     {
         $rule = new Field('year', ['pk', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -134,7 +151,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearFk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearFk(): void
     {
         $rule = new Field('year', ['fk']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -154,7 +174,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearFkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearFkNotNull(): void
     {
         $rule = new Field('year', ['fk', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -174,7 +197,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearUnsigned()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearUnsigned(): void
     {
         $rule = new Field('year', ['unsigned']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -194,7 +220,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearUnsignedNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearUnsignedNotNull(): void
     {
         $rule = new Field('year', ['unsigned', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -214,7 +243,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearUnsignedNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearUnsignedNotNullDefault(): void
     {
         $rule = new Field('year', ['unsigned', 'not_null'], 2000);
         $expected = [2000, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -234,7 +266,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearMin()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearMin(): void
     {
         $rule = new Field('year', ['min:1999']);
         $expected = [null, null, FieldException::class, 1999, 1999, 1999, FieldException::class,
@@ -254,7 +289,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearMax()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearMax(): void
     {
         $rule = new Field('year', ['max:2005']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -274,7 +312,10 @@ class FieldYearTest extends TestCase
         }
     }
 
-    public function testFieldYearRange()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldYearRange(): void
     {
         $rule = new Field('year', ['range:1999,2050']);
         $expected = [null, null, FieldException::class, 1999, 1999, 1999, FieldException::class,

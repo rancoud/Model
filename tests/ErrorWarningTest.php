@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Test;
+
 use Rancoud\Model\ErrorWarning;
 use PHPUnit\Framework\TestCase;
 
@@ -175,5 +177,4 @@ class ImplementationErrorWarning extends ErrorWarning
     {
         parent::resetWarningField($field);
     }
-
 }

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Fields\Test;
+
 use Rancoud\Model\Field;
 use Rancoud\Model\FieldException;
 use PHPUnit\Framework\TestCase;
@@ -11,10 +13,10 @@ use PHPUnit\Framework\TestCase;
  */
 class FieldDateTest extends TestCase
 {
-    protected $inputs = [false, null, 'azerty', '-1', '10', 50.50, '', '1000-01-01', '9999-12-31', '2000-52-31', '2000-02-31'];
-    protected $countInputs = 11;
+    protected array $inputs = [false, null, 'azerty', '-1', '10', 50.50, '', '1000-01-01', '9999-12-31', '2000-52-31', '2000-02-31'];
+    protected int $countInputs = 11;
 
-    public function testFieldDate()
+    public function testFieldDate(): void
     {
         $rule = new Field('date');
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -34,7 +36,10 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateDefault(): void
     {
         $rule = new Field('date', [], '2000-01-01');
         $expected = ['2000-01-01', null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -54,12 +59,29 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateNotNull(): void
     {
         $rule = new Field('date', ['not_null']);
-        $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
+        $expected = [
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
             '1000-01-01', '9999-12-31', FieldException::class, '2000-03-02'];
-        $message = ['Invalid default value', 'Null not authorized', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value',
+        $message = [
+            'Invalid default value',
+            'Null not authorized',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
@@ -74,12 +96,29 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateNotNullDefault(): void
     {
         $rule = new Field('date', ['not_null'], '2000-01-01');
-        $expected = ['2000-01-01', FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
+        $expected = [
+            '2000-01-01',
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
             '1000-01-01', '9999-12-31', FieldException::class, '2000-03-02'];
-        $message = [null, 'Null not authorized', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value',
+        $message = [
+            null,
+            'Null not authorized',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
@@ -94,12 +133,29 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDatePk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDatePk(): void
     {
         $rule = new Field('date', ['pk']);
-        $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
+        $expected = [
+            null,
+            null,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
             '1000-01-01', '9999-12-31', FieldException::class, '2000-03-02'];
-        $message = [null, null, 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value',
+        $message = [
+            null,
+            null,
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
@@ -114,12 +170,29 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDatePkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDatePkNotNull(): void
     {
         $rule = new Field('date', ['pk', 'not_null']);
-        $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
+        $expected = [
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
             '1000-01-01', '9999-12-31', FieldException::class, '2000-03-02'];
-        $message = ['Invalid default value', 'Null not authorized', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value',
+        $message = [
+            'Invalid default value',
+            'Null not authorized',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
@@ -134,12 +207,29 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateFk()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateFk(): void
     {
         $rule = new Field('date', ['fk']);
-        $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
+        $expected = [
+            null,
+            null,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
             '1000-01-01', '9999-12-31', FieldException::class, '2000-03-02'];
-        $message = [null, null, 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value',
+        $message = [
+            null,
+            null,
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
@@ -154,12 +244,29 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateFkNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateFkNotNull(): void
     {
         $rule = new Field('date', ['fk', 'not_null']);
-        $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
+        $expected = [
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
             '1000-01-01', '9999-12-31', FieldException::class, '2000-03-02'];
-        $message = ['Invalid default value', 'Null not authorized', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value',
+        $message = [
+            'Invalid default value',
+            'Null not authorized',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
@@ -174,12 +281,29 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateUnsigned()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateUnsigned(): void
     {
         $rule = new Field('date', ['unsigned']);
-        $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
+        $expected = [
+            null,
+            null,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
+            FieldException::class,
             '1000-01-01', '9999-12-31', FieldException::class, '2000-03-02'];
-        $message = [null, null, 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value', 'Invalid date value',
+        $message = [
+            null,
+            null,
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
+            'Invalid date value',
             null, null, 'Invalid date value', null];
 
         for ($i = 0; $i < $this->countInputs; $i++) {
@@ -194,7 +318,10 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateUnsignedNotNull()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateUnsignedNotNull(): void
     {
         $rule = new Field('date', ['unsigned', 'not_null']);
         $expected = [FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -214,7 +341,10 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateUnsignedNotNullDefault()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateUnsignedNotNullDefault(): void
     {
         $rule = new Field('date', ['unsigned', 'not_null'], '2000-01-01');
         $expected = ['2000-01-01', FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -234,7 +364,10 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateMin()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateMin(): void
     {
         $rule = new Field('date', ['min:3']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -254,7 +387,10 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateMax()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateMax(): void
     {
         $rule = new Field('date', ['max:3']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,
@@ -274,7 +410,10 @@ class FieldDateTest extends TestCase
         }
     }
 
-    public function testFieldDateRange()
+    /**
+     * @throws FieldException
+     */
+    public function testFieldDateRange(): void
     {
         $rule = new Field('date', ['range:3,4']);
         $expected = [null, null, FieldException::class, FieldException::class, FieldException::class, FieldException::class, FieldException::class,

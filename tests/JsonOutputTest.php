@@ -1,7 +1,11 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Test;
+
+use JsonException;
 use Rancoud\Model\JsonOutput;
 use PHPUnit\Framework\TestCase;
 
@@ -33,14 +37,10 @@ class JsonOutputTest extends TestCase
      */
     public function testGetOneJson(): void
     {
-        try {
-            $implem = new ImplementationJsonOutput($this->data);
-            $data = $implem->getJson(1);
-            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-            static::assertSame($this->data[0], $data);
-        } catch(JsonException $e) {
-            throw $e;
-        }
+        $implem = new ImplementationJsonOutput($this->data);
+        $data = $implem->getJson(1);
+        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        static::assertSame($this->data[0], $data);
     }
 
     /**
@@ -48,14 +48,10 @@ class JsonOutputTest extends TestCase
      */
     public function testGetOneJsonEmpty(): void
     {
-        try {
-            $implem = new ImplementationJsonOutput([]);
-            $data = $implem->getJson(1);
-            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-            static::assertSame([], $data);
-        } catch(JsonException $e) {
-            throw $e;
-        }
+        $implem = new ImplementationJsonOutput([]);
+        $data = $implem->getJson(1);
+        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        static::assertSame([], $data);
     }
 
     /**
@@ -63,14 +59,10 @@ class JsonOutputTest extends TestCase
      */
     public function testGetAllJson(): void
     {
-        try {
-            $implem = new ImplementationJsonOutput($this->data);
-            $data = $implem->getJson();
-            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-            static::assertSame($this->data, $data);
-        } catch(JsonException $e) {
-            throw $e;
-        }
+        $implem = new ImplementationJsonOutput($this->data);
+        $data = $implem->getJson();
+        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        static::assertSame($this->data, $data);
     }
 
     /**
@@ -78,14 +70,10 @@ class JsonOutputTest extends TestCase
      */
     public function testGetAllJsonEmpty(): void
     {
-        try {
-            $implem = new ImplementationJsonOutput([]);
-            $data = $implem->getJson();
-            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-            static::assertSame([], $data);
-        } catch(JsonException $e) {
-            throw $e;
-        }
+        $implem = new ImplementationJsonOutput([]);
+        $data = $implem->getJson();
+        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        static::assertSame([], $data);
     }
 }
 
