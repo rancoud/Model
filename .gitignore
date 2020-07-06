@@ -14,4 +14,5 @@ build/
 
 # Dev / Testing
 test.php
+tests/test_database.db
 coverage/

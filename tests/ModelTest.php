@@ -1,4 +1,5 @@
 <?php
+/** @noinspection SqlNoDataSourceInspection */
 /** @noinspection ForgottenDebugOutputInspection */
 /** @noinspection SqlDialectInspection */
 
@@ -7,6 +8,9 @@ declare(strict_types=1);
 namespace Rancoud\Model\Test;
 
 use Exception;
+use MongoDB\Driver\Exception\ExecutionTimeoutException;
+use Rancoud\Database\Configurator;
+use Rancoud\Model\FieldException;
 use Rancoud\Model\Model;
 use Rancoud\Model\Field;
 use Rancoud\Model\ModelException;
@@ -17,65 +21,280 @@ use PHPUnit\Framework\TestCase;
  */
 class ModelTest extends TestCase
 {
-    protected array $data = [
-        [
-            'id' => 1,
-            'title' => 'first',
-            'date_start' => '2018-08-07 20:06:23',
-            'year_start' => null,
-            'hour_start' => '00:00:00',
-            'hour_stop' => null,
-            'is_visible' => 'yes',
-            'email' => null,
-            'nomaxlimit' => null,
-            'external_id' => null
+    protected array $sgbds = [
+        'mysql' => [
+            /** @var ?Database $db; */
+            'db' => null,
+            'parameters' => [
+                'engine'       => 'mysql',
+                'host'         => '127.0.0.1',
+                'user'         => 'root',
+                'password'     => '',
+                'database'     => 'test_database'
+            ],
         ],
-        [
-            'id' => 2,
-            'title' => 'secon',
-            'date_start' => '2018-08-07 20:06:23',
-            'year_start' => null,
-            'hour_start' => '00:00:00',
-            'hour_stop' => null,
-            'is_visible' => 'yes',
-            'email' => null,
-            'nomaxlimit' => null,
-            'external_id' => null
+        'pgsql' => [
+            /** @var ?Database $db; */
+            'db' => null,
+            'parameters' => [
+                'engine'        => 'pgsql',
+                'host'          => '127.0.0.1',
+                'user'          => 'postgres',
+                'password'      => '',
+                'database'      => 'test_database'
+            ],
         ],
-        [
-            'id' => 3,
-            'title' => 'third',
-            'date_start' => '2018-08-07 20:06:23',
-            'year_start' => null,
-            'hour_start' => '00:00:00',
-            'hour_stop' => null,
-            'is_visible' => 'yes',
-            'email' => null,
-            'nomaxlimit' => null,
-            'external_id' => null
+        'sqlite' => [
+            /** @var ?Database $db; */
+            'db' => null,
+            'parameters' => [
+                'engine'       => 'sqlite',
+                'host'         => '127.0.0.1',
+                'user'         => '',
+                'password'     => '',
+                'database'     => __DIR__ . '/test_database.db'
+            ],
         ]
     ];
 
-    /** @var \Rancoud\Database\Database */
-    protected ?\Rancoud\Database\Database $database = null;
+    protected array $data = [
+        'mysql' => [
+            [
+                'id' => 1,
+                'title' => 'first',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => '00:00:00',
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ],
+            [
+                'id' => 2,
+                'title' => 'secon',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => '00:00:00',
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ],
+            [
+                'id' => 3,
+                'title' => 'third',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => '00:00:00',
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ]
+        ],
+        'pgsql' => [
+            [
+                'id' => 1,
+                'title' => 'first',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => null,
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ],
+            [
+                'id' => 2,
+                'title' => 'secon',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => null,
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ],
+            [
+                'id' => 3,
+                'title' => 'third',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => null,
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ]
+        ],
+        'sqlite' => [
+            [
+                'id' => 1,
+                'title' => 'first',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => '00:00:00',
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ],
+            [
+                'id' => 2,
+                'title' => 'secon',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => '00:00:00',
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ],
+            [
+                'id' => 3,
+                'title' => 'third',
+                'date_start' => '2018-08-07 20:06:23',
+                'year_start' => null,
+                'hour_start' => '00:00:00',
+                'hour_stop' => null,
+                'is_visible' => 'yes',
+                'email' => null,
+                'nomaxlimit' => null,
+                'external_id' => null
+            ]
+        ],
+    ];
 
-    /**
-     * @throws \Rancoud\Database\DatabaseException
-     */
-    protected function initDatabaseConnexion(): void
+    protected array $sqlQueries = [
+        'mysql' => [
+            'create' => [
+                'CREATE TABLE `crud_table` (
+                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `title` varchar(5) DEFAULT NULL,
+                  `date_start` datetime NOT NULL,
+                  `year_start` year(4) DEFAULT NULL,
+                  `hour_start` time DEFAULT \'00:00:00\',
+                  `hour_stop` time DEFAULT NULL,
+                  `is_visible` enum(\'yes\', \'no\') DEFAULT \'yes\',
+                  `email` varchar(255) DEFAULT NULL,
+                  `nomaxlimit` varchar(255) DEFAULT NULL,
+                  `external_id` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`id`),
+                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;'
+            ],
+            'all' => [
+                'CREATE TABLE `crud_table` (
+                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `title` varchar(5) DEFAULT NULL,
+                  `date_start` datetime NOT NULL,
+                  `year_start` year(4) DEFAULT NULL,
+                  `hour_start` time DEFAULT \'00:00:00\',
+                  `hour_stop` time DEFAULT NULL,
+                  `is_visible` enum(\'yes\', \'no\') DEFAULT \'yes\',
+                  `email` varchar(255) DEFAULT NULL,
+                  `nomaxlimit` varchar(255) DEFAULT NULL,
+                  `external_id` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`id`),
+                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;',
+                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)",
+                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)",
+                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)",
+            ],
+        ],
+        'pgsql' => [
+            'create' => [
+                'CREATE TYPE mood AS ENUM (\'yes\', \'no\');',
+                'create table crud_table
+                (
+                    id SERIAL PRIMARY KEY,
+                    title varchar(5),
+                    date_start timestamp not null,
+                    year_start timestamp,
+                    hour_start time,
+                    hour_stop time,
+                    is_visible mood,
+                    email varchar(255),
+                    nomaxlimit varchar(255),
+                    external_id int
+                );'
+            ],
+            'all' => [
+                'CREATE TYPE mood AS ENUM (\'yes\', \'no\');',
+                'create table crud_table
+                (
+                    id SERIAL PRIMARY KEY,
+                    title varchar(5),
+                    date_start timestamp not null,
+                    year_start timestamp,
+                    hour_start time,
+                    hour_stop time,
+                    is_visible mood,
+                    email varchar(255),
+                    nomaxlimit varchar(255),
+                    external_id int
+                );',
+                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, null, null, 'yes', null, null, null)",
+                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)",
+                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)",
+            ],
+        ],
+        'sqlite' => [
+            'create' => [
+                'create table crud_table
+                (
+                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title varchar(5),
+                    date_start datetime not null,
+                    year_start timestamp,
+                    hour_start time default \'00:00:00\' not null,
+                    hour_stop time default NULL,
+                    is_visible text default \'yes\',
+                    email varchar(255),
+                    nomaxlimit varchar(255),
+                    external_id int
+                );',
+                'create unique index crud_table_external_id_uindex on crud_table (external_id);'
+            ],
+            'all' => [
+                'create table crud_table
+                (
+                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title varchar(5),
+                    date_start datetime not null,
+                    year_start timestamp,
+                    hour_start time default \'00:00:00\' not null,
+                    hour_stop time default NULL,
+                    is_visible text default \'yes\',
+                    email varchar(255),
+                    nomaxlimit varchar(255),
+                    external_id int
+                );',
+                'create unique index crud_table_external_id_uindex on crud_table (external_id);',
+                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)",
+                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)",
+                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)",
+            ],
+        ],
+    ];
+
+    public function sgbds(): array
     {
-        if ($this->database !== null) {
-            return;
-        }
-
-        $config = new \Rancoud\Database\Configurator([
-            'engine' => 'mysql',
-            'host' => '127.0.0.1',
-            'user' => 'root',
-            'password' => '',
-            'database' => 'test_database',
-            'save_queries' => true]);
-        $this->database = new \Rancoud\Database\Database($config);
+        return [
+            'mysql' => ['mysql'],
+            'postgresql' => ['pgsql'],
+            'sqlite' => ['sqlite']
+        ];
     }
 
     /**
@@ -83,47 +302,43 @@ class ModelTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->initDatabaseConnexion();
+        $this->data['mysql'][0]['date_start'] = date('Y-m-d H:i:s');
+        $this->data['pgsql'][0]['date_start'] = date('Y-m-d H:i:s');
+        $this->data['sqlite'][0]['date_start'] = date('Y-m-d H:i:s');
+
+        foreach ($this->sgbds as $k => $sgbd) {
+            $configurator = new Configurator($this->sgbds[$k]['parameters']);
+            $this->sgbds[$k]['db'] = new \Rancoud\Database\Database(new Configurator($this->sgbds[$k]['parameters']));
+            $pdo = $configurator->createPDOConnection();
+
+            $pdo->exec('DROP TABLE IF EXISTS crud_table');
+            if ($this->sgbds[$k]['parameters']['engine'] === 'pgsql') {
+                $pdo->exec('DROP TYPE IF EXISTS mood');
+            }
+        }
+
         parent::setUp();
     }
 
-    /**
-     * @throws \Rancoud\Database\DatabaseException
-     */
-    public function testInitDatabase(): void
+    public function tearDown(): void
     {
-        $this->data[0]['date_start'] = date('Y-m-d H:i:s');
-
-        $this->database->dropTables('crud_table');
-
-        $sql = <<<SQL
-            CREATE TABLE `crud_table` (
-              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-              `title` varchar(5) DEFAULT NULL,
-              `date_start` datetime NOT NULL,
-              `year_start` year(4) DEFAULT NULL,
-              `hour_start` time DEFAULT '00:00:00',
-              `hour_stop` time DEFAULT NULL,
-              `is_visible` enum('yes', 'no') DEFAULT 'yes',
-              `email` varchar(255) DEFAULT NULL,
-              `nomaxlimit` varchar(255) DEFAULT NULL,
-              `external_id` int(11) DEFAULT NULL,
-              PRIMARY KEY (`id`),
-              UNIQUE KEY `external_id_UNIQUE` (`external_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-SQL;
-        $this->database->exec($sql);
-
-        static::assertTrue(true);
+        foreach ($this->sgbds as $k => $sgbd) {
+            $this->sgbds[$k]['db']->disconnect();
+            $this->sgbds[$k]['db'] = null;
+        }
     }
 
     /**
-     * @throws \Rancoud\Model\FieldException
+     * @dataProvider sgbds
+     * @param string $sgbd
+     * @throws FieldException
      */
-    public function testCreateUpdateDeleteCleanErrorFields(): void
+    public function testCreateUpdateDeleteCleanErrorFields(string $sgbd): void
     {
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+
         $countAssert = 1;
+
         try {
             $implem->create(['date_start' => '']);
         } catch (Exception $e) {
@@ -133,6 +348,7 @@ SQL;
         static::assertSame(0, $countAssert);
 
         $countAssert = 1;
+
         try {
             $implem->create(['date_start' => '']);
         } catch (Exception $e) {
@@ -142,6 +358,7 @@ SQL;
         static::assertSame(0, $countAssert);
 
         $countAssert = 1;
+
         try {
             $implem->update(['date_start' => ''], 1);
         } catch (Exception $e) {
@@ -151,6 +368,7 @@ SQL;
         static::assertSame(0, $countAssert);
 
         $countAssert = 1;
+
         try {
             $implem->update(['date_start' => ''], 1);
         } catch (Exception $e) {
@@ -161,6 +379,7 @@ SQL;
 
         $countAssert = 1;
         $implem->setWrongPk();
+
         try {
             $implem->delete(1);
         } catch (Exception $e) {
@@ -170,6 +389,7 @@ SQL;
         static::assertSame(0, $countAssert);
 
         $countAssert = 1;
+
         try {
             $implem->delete(1);
         } catch (Exception $e) {
@@ -179,11 +399,15 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionEmptySql(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testCreateModelExceptionEmptySql(string $sgbd): void
     {
         $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->create([]);
@@ -197,11 +421,15 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionMissingRequiredFields(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testCreateModelExceptionMissingRequiredFields(string $sgbd): void
     {
         $countAssert = 3;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->create(['title' => 'a']);
@@ -217,11 +445,15 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionInvalidValues(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testCreateModelExceptionInvalidValues(string $sgbd): void
     {
         $countAssert = 3;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->create(['title' => 'a', 'date_start' => 'ggggg']);
@@ -237,11 +469,15 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionErrorSql(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testCreateModelExceptionErrorSql(string $sgbd): void
     {
-        $countAssert = 3;
+        $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->addBeforeCreate('a', static function ($sql, $params) {
@@ -254,18 +490,20 @@ SQL;
             $countAssert--;
             static::assertSame(['Error creating'], $implem->getErrorMessages());
             $countAssert--;
-            static::assertSame('HY093', $implem->getDatabaseErrors()[0]['query_error'][0]);
-            $countAssert--;
         }
 
         static::assertSame(0, $countAssert);
     }
 
-    public function testCreateModelExceptionHackInvalidField(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testCreateModelExceptionHackInvalidField(string $sgbd): void
     {
         $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->hackCreateSqlFieldsFromParams();
@@ -280,26 +518,43 @@ SQL;
     }
 
     /**
+     * @dataProvider sgbds
+     * @param string $sgbd
      * @throws ModelException
      */
-    public function testCreate(): void
+    public function testCreate(string $sgbd): void
     {
-        $implem = new ImplementModel($this->database);
-        $id = $implem->create(['title' => $this->data[0]['title'], 'date_start' => $this->data[0]['date_start']]);
+        $sqls = $this->sqlQueries[$sgbd]['create'];
+        foreach ($sqls as $sql) {
+            $this->sgbds[$sgbd]['db']->exec($sql);
+        }
+
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+
+        $id = $implem->create(['title' => $this->data[$sgbd][0]['title'], 'date_start' => $this->data[$sgbd][0]['date_start']]);
         static::assertSame(1, $id);
-        $id = $implem->create(['title' => $this->data[1]['title'], 'date_start' => $this->data[1]['date_start'], 'params_to_remove' => 'this will be remove in parametersToRemove function']);
+        $id = $implem->create(['title' => $this->data[$sgbd][1]['title'], 'date_start' => $this->data[$sgbd][1]['date_start'], 'param_to_remove' => 'this will be remove in parametersToRemove function']);
         static::assertSame(2, $id);
-        $id = $implem->create(['title' => $this->data[2]['title'], 'date_start' => $this->data[2]['date_start'], 'extra_field' => 'this will be remove in create sql']);
+        $id = $implem->create(['title' => $this->data[$sgbd][2]['title'], 'date_start' => $this->data[$sgbd][2]['date_start'], 'extra_field' => 'this will be remove in create sql']);
         static::assertSame(3, $id);
         static::assertSame(3, $implem->getLastInsertId());
+
+        static::assertSame($this->data[$sgbd][0], $implem->one(1));
+        static::assertSame($this->data[$sgbd][1], $implem->one(2));
+        static::assertSame($this->data[$sgbd][2], $implem->one(3));
     }
 
-    public function testAllModelExceptionErrorSql(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testAllModelExceptionErrorSql(string $sgbd): void
     {
-        $countAssert = 3;
+        $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
         $implem->setHackWrongGetSqlAllWhereAndFillSqlParams(true);
+
         try {
             $implem->all([]);
         } catch (ModelException $modelException) {
@@ -307,16 +562,15 @@ SQL;
             $countAssert--;
             static::assertSame(['Error select all'], $implem->getErrorMessages());
             $countAssert--;
-            static::assertSame('42000', $implem->getDatabaseErrors()[0]['query_error'][0]);
-            $countAssert--;
         }
 
         static::assertSame(0, $countAssert);
 
-        $countAssert = 3;
+        $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
         $implem->setHackWrongGetSqlAllWhereAndFillSqlParams(true);
+
         try {
             $implem->all(['rows_count' => 1]);
         } catch (ModelException $modelException) {
@@ -324,40 +578,52 @@ SQL;
             $countAssert--;
             static::assertSame(['Error select count all'], $implem->getErrorMessages());
             $countAssert--;
-            static::assertSame('42000', $implem->getDatabaseLastError()['query_error'][0]);
-            $countAssert--;
         }
 
         static::assertSame(0, $countAssert);
     }
 
     /**
+     * @dataProvider sgbds
+     * @param string $sgbd
      * @throws ModelException
      */
-    public function testAll(): void
+    public function testAll(string $sgbd): void
     {
-        $firstRow = [];
-        $firstRow[]= $this->data[0];
+        $sqls = $this->sqlQueries[$sgbd]['all'];
+        foreach ($sqls as $sql) {
+            $sql = str_replace('{{DATE_START}}', $this->data[$sgbd][0]['date_start'], $sql);
+            $this->sgbds[$sgbd]['db']->exec($sql);
+        }
 
-        $implem = new ImplementModel($this->database);
+        $firstRow = [];
+        $firstRow[] = $this->data[$sgbd][0];
+
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+
         $rows = $implem->all([]);
-        static::assertSame($this->data, $rows);
+        static::assertSame($this->data[$sgbd], $rows);
 
         $rows = $implem->all(['count' => 1]);
         static::assertSame($firstRow, $rows);
-        
+
         $count = $implem->all(['rows_count' => 1]);
         static::assertSame(3, $count);
-        
+
         $implem->all(['no_limit' => 1, 'count' => 1]);
         static::assertSame($firstRow, $rows);
     }
 
-    public function testOneModelExceptionNoPrimaryKey(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testOneModelExceptionNoPrimaryKey(string $sgbd): void
     {
         $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+
         try {
             $implem->removePkFields();
             $implem->one(1);
@@ -371,11 +637,16 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
-    public function testOneModelExceptionInvalidPrimaryKey(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testOneModelExceptionInvalidPrimaryKey(string $sgbd): void
     {
         $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+
         try {
             $implem->one("invalid");
         } catch (ModelException $modelException) {
@@ -389,13 +660,16 @@ SQL;
     }
 
     /**
-     * @throws \Rancoud\Model\FieldException
+     * @dataProvider sgbds
+     * @param string $sgbd
+     * @throws FieldException
      */
-    public function testOneModelExceptionErrorSelect(): void
+    public function testOneModelExceptionErrorSelect(string $sgbd): void
     {
         $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+
         try {
             $implem->setWrongPk();
             $implem->one(1, 1);
@@ -410,16 +684,24 @@ SQL;
     }
 
     /**
+     * @dataProvider sgbds
+     * @param string $sgbd
      * @throws ModelException
      */
-    public function testOne(): void
+    public function testOne(string $sgbd): void
     {
-        $implem = new ImplementModel($this->database);
+        $sqls = $this->sqlQueries[$sgbd]['all'];
+        foreach ($sqls as $sql) {
+            $sql = str_replace('{{DATE_START}}', $this->data[$sgbd][0]['date_start'], $sql);
+            $this->sgbds[$sgbd]['db']->exec($sql);
+        }
+
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
         $row = $implem->one(1);
-        static::assertSame($this->data[0], $row);
+        static::assertSame($this->data[$sgbd][0], $row);
 
         $row = $implem->one(1, 999);
-        static::assertSame($this->data[0], $row);
+        static::assertSame($this->data[$sgbd][0], $row);
 
         $row = $implem->one(999);
         static::assertSame([], $row);
@@ -428,11 +710,16 @@ SQL;
         static::assertSame([], $row);
     }
 
-    public function testUpdateModelExceptionNoPrimaryKey(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testUpdateModelExceptionNoPrimaryKey(string $sgbd): void
     {
         $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+
         try {
             $implem->removePkFields();
             $implem->update([], 1);
@@ -446,12 +733,17 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
-    public function testUpdateModelExceptionEmptySql(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testUpdateModelExceptionEmptySql(string $sgbd): void
     {
         $countAssert = 2;
 
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+
         try {
-            $implem = new ImplementModel($this->database);
             $implem->update([], 1);
         } catch (ModelException $modelException) {
             static::assertSame('ERROR', $modelException->getMessage());
@@ -463,11 +755,15 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
-    public function testUpdateModelExceptionInvalidValues(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testUpdateModelExceptionInvalidValues(string $sgbd): void
     {
         $countAssert = 3;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->update(['title' => 'a', 'date_start' => 'ggggg'], 1);
@@ -483,17 +779,20 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @throws \Rancoud\Model\FieldException
-     */
-    public function testUpdateModelExceptionErrorSql(): void
-    {
-        $countAssert = 3;
 
-        $implem = new ImplementModel($this->database);
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     * @throws FieldException
+     */
+    public function testUpdateModelExceptionErrorSql(string $sgbd): void
+    {
+        $countAssert = 2;
+
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
-            $implem->addBeforeUpdate('a', function ($sql, $params) {
+            $implem->addBeforeUpdate('a', static function ($sql, $params) {
                 $sql = 'sql query invalid';
                 return [$sql, $params];
             });
@@ -504,18 +803,20 @@ SQL;
             $countAssert--;
             static::assertSame(['Error updating'], $implem->getErrorMessages());
             $countAssert--;
-            static::assertSame('42000', $implem->getDatabaseErrors()[0]['query_error'][0]);
-            $countAssert--;
         }
 
         static::assertSame(0, $countAssert);
     }
 
-    public function testUpdateModelExceptionHackInvalidField(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testUpdateModelExceptionHackInvalidField(string $sgbd): void
     {
         $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->hackUpdateSqlFieldsFromParams();
@@ -529,13 +830,22 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
+
     /**
+     * @dataProvider sgbds
+     * @param string $sgbd
      * @throws ModelException
      */
-    public function testUpdate(): void
+    public function testUpdate(string $sgbd): void
     {
-        $implem = new ImplementModel($this->database);
-        $implem->update(['title' => 'youpie'], 1);
+        $sqls = $this->sqlQueries[$sgbd]['all'];
+        foreach ($sqls as $sql) {
+            $sql = str_replace('{{DATE_START}}', $this->data[$sgbd][0]['date_start'], $sql);
+            $this->sgbds[$sgbd]['db']->exec($sql);
+        }
+
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
+        $implem->update(['title' => 'youpie', 'param_to_remove' => 'this will be remove in parametersToRemove function'], 1);
 
         $row = $implem->one(1);
         static::assertSame('youpi', $row['title']);
@@ -546,11 +856,15 @@ SQL;
         static::assertSame('first', $row['title']);
     }
 
-    public function testDeleteModelExceptionNoPrimaryKey(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testDeleteModelExceptionNoPrimaryKey(string $sgbd): void
     {
         $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->removePkFields();
@@ -566,16 +880,18 @@ SQL;
     }
 
     /**
-     * @throws \Rancoud\Model\FieldException
+     * @dataProvider sgbds
+     * @param string $sgbd
+     * @throws FieldException
      */
-    public function testDeleteModelExceptionErrorSql(): void
+    public function testDeleteModelExceptionErrorSql(string $sgbd): void
     {
-        $countAssert = 3;
+        $countAssert = 2;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
-            $implem->addBeforeDelete('a', function ($sql, $params) {
+            $implem->addBeforeDelete('a', static function ($sql, $params) {
                 $sql = 'sql query invalid';
                 return [$sql, $params];
             });
@@ -586,18 +902,20 @@ SQL;
             $countAssert--;
             static::assertSame(['Error deleting'], $implem->getErrorMessages());
             $countAssert--;
-            static::assertSame('42000', $implem->getDatabaseErrors()[0]['query_error'][0]);
-            $countAssert--;
         }
 
         static::assertSame(0, $countAssert);
     }
 
-    public function testDeleteModelExceptionInvalidValues(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     */
+    public function testDeleteModelExceptionInvalidValues(string $sgbd): void
     {
         $countAssert = 3;
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         try {
             $implem->delete("invalid");
@@ -613,28 +931,48 @@ SQL;
         static::assertSame(0, $countAssert);
     }
 
+
     /**
+     * @dataProvider sgbds
+     * @param string $sgbd
      * @throws ModelException
      */
-    public function testDelete(): void
+    public function testDelete(string $sgbd): void
     {
-        $implem = new ImplementModel($this->database);
+        $sqls = $this->sqlQueries[$sgbd]['all'];
+        foreach ($sqls as $sql) {
+            $sql = str_replace('{{DATE_START}}', $this->data[$sgbd][0]['date_start'], $sql);
+            $this->sgbds[$sgbd]['db']->exec($sql);
+        }
+
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
         $row = $implem->one(1);
-        static::assertSame($this->data[0], $row);
+        static::assertSame($this->data[$sgbd][0], $row);
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
         $implem->delete(1);
 
         $row = $implem->one(1);
         static::assertSame([], $row);
     }
 
-    public function testCallbacks(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     * @throws ModelException
+     */
+    public function testCallbacks(string $sgbd): void
     {
-        $implem = new ImplementModel($this->database);
+        $sqls = $this->sqlQueries[$sgbd]['all'];
+        foreach ($sqls as $sql) {
+            $sql = str_replace('{{DATE_START}}', $this->data[$sgbd][0]['date_start'], $sql);
+            $this->sgbds[$sgbd]['db']->exec($sql);
+        }
+
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
         $implem->addBeforeCreate('a', static function ($sql, $params) {
-            static::assertSame("INSERT INTO crud_table (`title`,`date_start`) VALUES (:title,:date_start)", $sql);
+            static::assertSame("INSERT INTO crud_table (title,date_start) VALUES (:title,:date_start)", $sql);
             $sql = 'toto';
 
             static::assertSame('a', $params['title']);
@@ -669,7 +1007,7 @@ SQL;
         });
         
         $implem->addBeforeUpdate('a', static function ($sql, $params) {
-            static::assertSame("UPDATE crud_table SET `title` = :title WHERE id =:id", $sql);
+            static::assertSame("UPDATE crud_table SET title = :title WHERE id =:id", $sql);
             $sql = 'toto';
 
             static::assertSame('b', $params['title']);
@@ -710,7 +1048,7 @@ SQL;
             return [$sql, $params];
         });
         
-        $implem->addBeforeDelete('b', function ($sql, $params) {
+        $implem->addBeforeDelete('b', static function ($sql, $params) {
             static::assertSame("toto", $sql);
             $sql = "DELETE FROM crud_table WHERE id =:id AND year_start=:year_start";
             $params['year_start'] = 2056;
@@ -731,80 +1069,72 @@ SQL;
         $implem->addAfterDelete('b', static function ($params) {
             static::assertSame('done', $params['other_2']);
         });
-        
-        try {
-            $newId = $implem->create(['title' => 'a', 'date_start' => date('Y-m-d H:i:s')]);
-            $row = $implem->one($newId);
-            static::assertSame('aze', $row['title']);
-            static::assertSame(1956, $row['year_start']);
-            
-            $implem->update(['title' => 'b'], $newId);
-            $row = $implem->one($newId);
-            static::assertSame('bze', $row['title']);
-            static::assertSame(2056, $row['year_start']);
-            
-            $implem->delete($newId);
-            $row = $implem->one($newId);
-            static::assertSame([], $row);
 
-            $implem->removeBeforeCreate('a');
-            $implem->removeBeforeUpdate('a');
-            $implem->removeBeforeDelete('a');
-            
-            $implem->removeAfterCreate('a');
-            $implem->removeAfterUpdate('a');
-            $implem->removeAfterDelete('a');
-            $implem->removeAfterDelete('invalid');
-        } catch (ModelException $modelException) {
-            var_dump($modelException->getMessage());
-            var_dump($implem->getErrorFields());
-            var_dump($implem->getErrorMessages());
-            var_dump($implem->getDatabaseLastError());
+        $params = ['title' => 'a', 'date_start' => date('Y-m-d H:i:s')];
+
+        if ($sgbd === 'pgsql') {
+            $implem->usePostgresql();
+            $params['date_start'] = time();
         }
+
+        $newId = $implem->create($params);
+        $row = $implem->one($newId);
+        static::assertSame('aze', $row['title']);
+        static::assertSame(1956, $row['year_start']);
+
+        $implem->update(['title' => 'b'], $newId);
+        $row = $implem->one($newId);
+        static::assertSame('bze', $row['title']);
+        static::assertSame(2056, $row['year_start']);
+
+        $implem->delete($newId);
+        $row = $implem->one($newId);
+        static::assertSame([], $row);
+
+        $implem->removeBeforeCreate('a');
+        $implem->removeBeforeUpdate('a');
+        $implem->removeBeforeDelete('a');
+
+        $implem->removeAfterCreate('a');
+        $implem->removeAfterUpdate('a');
+        $implem->removeAfterDelete('a');
+        $implem->removeAfterDelete('invalid');
     }
 
-    public function testCallbacksWithClass(): void
+    /**
+     * @dataProvider sgbds
+     * @param string $sgbd
+     * @throws ModelException
+     */
+    public function testCallbacksWithClass(string $sgbd): void
     {
+        $sqls = $this->sqlQueries[$sgbd]['all'];
+        foreach ($sqls as $sql) {
+            $sql = str_replace('{{DATE_START}}', $this->data[$sgbd][0]['date_start'], $sql);
+            $this->sgbds[$sgbd]['db']->exec($sql);
+        }
+
         $myCallback = new MyCallback();
 
-        $implem = new ImplementModel($this->database);
+        $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
         $implem->addBeforeCreate('a', [$myCallback, 'before']);
-        try {
-            $newId = $implem->create(['title' => 'azert', 'date_start' => date('Y-m-d H:i:s')]);
-            $row = $implem->one($newId);
-            static::assertSame('azert', $row['title']);
-            static::assertSame(2000, $row['year_start']);
-        } catch (ModelException $modelException) {
-            var_dump($modelException->getMessage());
-            var_dump($implem->getErrorFields());
-            var_dump($implem->getErrorMessages());
-            var_dump($implem->getDatabaseLastError());
+
+        $params = ['title' => 'azert', 'date_start' => date('Y-m-d H:i:s')];
+
+        if ($sgbd === 'pgsql') {
+            $implem->usePostgresql();
+            $params['date_start'] = time();
         }
+
+        try {
+            $newId = $implem->create($params);
+        } catch (Exception $e) {
+            throw $e;
+        }
+        $row = $implem->one($newId);
+        static::assertSame('azert', $row['title']);
+        static::assertSame(2000, $row['year_start']);
     }
-
-    // Only work with database accepting invalid values, like travis
-    /*public function testBadDataInDatabaseRaiseException()
-    {
-        $sql = 'INSERT INTO crud_table (`title`,`date_start`) VALUES (:title,:date_start)';
-        $params = ['title' => 'aze', 'date_start' => '0000-00-00 00:00:00'];
-        $newId = $this->database->insert($sql, $params, true);
-
-        $countAssert = 3;
-
-        $implem = new ImplementModel($this->database);
-        try {
-            $implem->one($newId);
-        } catch (ModelException $modelException) {
-            static::assertSame('FIELDS', $modelException->getMessage());
-            $countAssert--;
-            static::assertSame(['Formating values invalid'], $implem->getErrorMessages());
-            $countAssert--;
-            static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
-            $countAssert--;
-        }
-
-        static::assertSame(0, $countAssert);
-    }*/
 }
 
 /**
@@ -821,7 +1151,7 @@ class ImplementModel extends Model
     }
 
     /**
-     * @throws \Rancoud\Model\FieldException
+     * @throws FieldException
      */
     protected function setFields() : void
     {
@@ -860,7 +1190,7 @@ class ImplementModel extends Model
     }
 
     /**
-     * @throws \Rancoud\Model\FieldException
+     * @throws FieldException
      */
     public function setWrongPk(): void
     {
@@ -885,6 +1215,13 @@ class ImplementModel extends Model
     {
         $this->sqlParams = ['invalid', 'key' => 'value'];
         return $this->getUpdateSqlFieldsFromParams();
+    }
+
+    public function usePostgresql()
+    {
+        $this->fields = [
+            'date_start' => new Field('timestamp', ['not_null'])
+        ];
     }
 }
 

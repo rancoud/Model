@@ -81,7 +81,7 @@ abstract class Model extends ErrorWarning
                 continue;
             }
 
-            $sqlFields[] = '`' . $field . '`';
+            $sqlFields[] = $field;
             $sqlValues[] = ':' . $field;
         }
 
@@ -118,7 +118,7 @@ abstract class Model extends ErrorWarning
                     $this->addErrorField($key, 'field is required');
                 } else {
                     $this->sqlParams[$key] = $field->getDefault();
-                    $sql = \str_replace('`) VALUES', '`,`' . $key . '`) VALUES', $sql);
+                    $sql = \str_replace(') VALUES', ',' . $key . ') VALUES', $sql);
                     $sql .= ',:' . $key . ')';
                     $sql = \str_replace('),:' . $key . ')', ',:' . $key . ')', $sql);
                 }
@@ -159,7 +159,7 @@ abstract class Model extends ErrorWarning
                 continue;
             }
 
-            $sql[] = '`' . $field . '` = :' . $field;
+            $sql[] = $field . ' = :' . $field;
         }
 
         $str = \implode(',', $sql);
@@ -272,9 +272,9 @@ abstract class Model extends ErrorWarning
         $sql[] = 'ORDER BY ' . Helper::implodeOrder($orders);
 
         if (Helper::hasLimit($params)) {
-            $sql[] = 'LIMIT :offset, :count';
-            $this->sqlParams['offset'] = $offset;
+            $sql[] = 'LIMIT :count OFFSET :offset';
             $this->sqlParams['count'] = $count;
+            $this->sqlParams['offset'] = $offset;
         }
 
         try {
