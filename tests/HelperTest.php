@@ -93,37 +93,37 @@ class HelperTest extends TestCase
     public function testGetLimitOffsetCount(): void
     {
         $limitOffset = Helper::getLimitOffsetCount(['page' => '']);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['page' => '1']);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount([]);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['page' => '10']);
-        static::assertSame([450, 50], $limitOffset);
+        static::assertSame([50, 450], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['page' => '0']);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['page' => '-1']);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['count' => 100]);
-        static::assertSame([0, 100], $limitOffset);
+        static::assertSame([100, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount([]);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['count' => -100]);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['count' => 0]);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['count' => 1]);
-        static::assertSame([0, 1], $limitOffset);
+        static::assertSame([1, 0], $limitOffset);
     }
     
     public function testGetOrderField(): void

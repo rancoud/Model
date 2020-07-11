@@ -117,7 +117,7 @@ class Helper
         $count = self::getCountPerPage($args);
         $page = self::getPageNumberForSql($args);
 
-        return [$count * $page, $count];
+        return [$count, $count * $page];
     }
 
     /**

@@ -41,7 +41,57 @@ class User extends Model
 }
 ```
 
-Now you have methods for pagination, create, read, update and delete.  
+### What is Field?
+Field represent a field in the table.  
+It have 3 arguments:  
+1. field type
+2. rules
+3. default value
+
+#### Field type
+It support those field type
+* int
+* float
+* char
+* varchar
+* text
+* date
+* datetime
+* time
+* timestamp
+* year
+* enum:x,y,z (x,y,z represent each possible value)
+
+#### Rules
+* pk : primary key
+* fk : foreign key
+* unsigned : only positive value
+* email : check if it is valid email
+* not_null : can't be null
+* max:x : max size (x is size)
+* min:x : min size (x is size)
+* range:x,y : min size + max size (x is min size, y is max size)
+
+#### Custom rule
+```php
+class MyRule extends CustomRule
+{
+    public function applyRule($value)
+    {
+        if ($value === 'azerty') {
+            throw new FieldException('invalid azerty value');
+        }
+
+        return $value;
+    }
+}
+```
+
+#### Default
+When value is not setted it can be set with those argument
+
+### Helpers
+It have methods for pagination, create, read, update and delete.  
 
 ```php
 // $database is an instance of Rancoud\Database\Database
@@ -66,9 +116,9 @@ Model::all() accept an array with some keys that triggers specific actions
 // $database is an instance of Rancoud\Database\Database
 $user = new User($database);
 
-// 50 rows using LIMIT 50,50
+// 50 rows using LIMIT 50 OFFSET 50
 $rows = $user->all(['page' => 1]);
-// 10 rows using LIMIT 10,10
+// 10 rows using LIMIT 10 OFFSET 10
 $rows = $user->all(['count' => 10, 'page' => 1]);
 
 // count rows in table
@@ -131,12 +181,12 @@ You can use JsonOutput trait for adding json format for the model.
 #### Mandatory
 | Parameter | Type | Description |
 | --- | --- | --- |
-| type | string | type of field, values used : int\|float\|char\|varchar\|text\|date\|datetime\|time\|timestamp\|year |
+| type | string | type of field, values used : int \| float \| char \| varchar \| text \| date \| datetime \| time \| timestamp \| year |
 
 #### Optionnals
 | Parameter | Type | Default value | Description |
 | --- | --- | --- | --- |
-| rules | array | [] | rules for checking values, values used : pk\|fk\|unsigned\|email\|not_null\|max\|min\|range\|Rancoud\Model\CustomRule |
+| rules | array | [] | rules for checking values, values used : pk \| fk \| unsigned \| email \| not_null \| max \| min \| range \| Rancoud\Model\CustomRule |
 | default | mixed | false | default value when none given |
 
 ## Field Methods
@@ -167,13 +217,15 @@ You can use JsonOutput trait for adding json format for the model.
 * getDatabaseLastError(): ?array  
 
 ### Callbacks
+#### Add
 * addBeforeCreate(name: string, callback: mixed): void  
 * addAfterCreate(name: string, callback: mixed): void  
 * addBeforeUpdate(name: string, callback: mixed): void  
 * addAfterUpdate(name: string, callback: mixed): void  
-* addBeforeCreate(name: string, callback: mixed): void  
+* addBeforeDelete(name: string, callback: mixed): void  
 * addAfterDelete(name: string, callback: mixed): void  
 
+#### Remove
 * removeBeforeCreate(name: string): void  
 * removeAfterCreate(name: string): void  
 * removeBeforeUpdate(name: string): void  

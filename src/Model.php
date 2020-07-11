@@ -262,7 +262,7 @@ abstract class Model extends ErrorWarning
         $this->sqlParams = [];
 
         $orders = Helper::getOrderByOrderField($params, $validFields);
-        [$offset, $count] = Helper::getLimitOffsetCount($params);
+        [$count, $offset] = Helper::getLimitOffsetCount($params);
 
         $sql[] = 'SELECT ' . $this->getSqlAllSelectAndFillSqlParams($params);
         $sql[] = 'FROM ' . $this->table;
