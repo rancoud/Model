@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Test;
+
 use Rancoud\Model\Helper;
 use PHPUnit\Framework\TestCase;
 
@@ -10,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class HelperTest extends TestCase
 {
-    public function testIsTotalCount()
+    public function testIsTotalCount(): void
     {
         $bool = Helper::isRowsCount(['rows_count' => 1]);
         static::assertTrue($bool);
@@ -25,7 +27,7 @@ class HelperTest extends TestCase
         static::assertFalse($bool);
     }
 
-    public function testGetPageNumberForSql()
+    public function testGetPageNumberForSql(): void
     {
         $pageIndex = Helper::getPageNumberForSql(['page' => '']);
         static::assertSame(0, $pageIndex);
@@ -46,7 +48,7 @@ class HelperTest extends TestCase
         static::assertSame(0, $pageIndex);
     }
 
-    public function testGetPageNumberForHuman()
+    public function testGetPageNumberForHuman(): void
     {
         $pageIndex = Helper::getPageNumberForHuman(['page' => '']);
         static::assertSame(1, $pageIndex);
@@ -67,7 +69,7 @@ class HelperTest extends TestCase
         static::assertSame(1, $pageIndex);
     }
 
-    public function testGetCountPerPage()
+    public function testGetCountPerPage(): void
     {
         $count = Helper::getCountPerPage(['count' => '']);
         static::assertSame(50, $count);
@@ -88,43 +90,43 @@ class HelperTest extends TestCase
         static::assertSame(1, $count);
     }
 
-    public function testGetLimitOffsetCount()
+    public function testGetLimitOffsetCount(): void
     {
         $limitOffset = Helper::getLimitOffsetCount(['page' => '']);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['page' => '1']);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount([]);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['page' => '10']);
-        static::assertSame([450, 50], $limitOffset);
+        static::assertSame([50, 450], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['page' => '0']);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['page' => '-1']);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['count' => 100]);
-        static::assertSame([0, 100], $limitOffset);
+        static::assertSame([100, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount([]);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['count' => -100]);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['count' => 0]);
-        static::assertSame([0, 50], $limitOffset);
+        static::assertSame([50, 0], $limitOffset);
 
         $limitOffset = Helper::getLimitOffsetCount(['count' => 1]);
-        static::assertSame([0, 1], $limitOffset);
+        static::assertSame([1, 0], $limitOffset);
     }
     
-    public function testGetOrderField()
+    public function testGetOrderField(): void
     {
         $args = Helper::getOrderByOrderField([]);
         static::assertSame([['id' => 'asc']], $args);
@@ -172,7 +174,7 @@ class HelperTest extends TestCase
         static::assertSame([['id' => 'asc']], $args);
     }
 
-    public function testHasInvalidPrimaryKey()
+    public function testHasInvalidPrimaryKey(): void
     {
 
         $dataInput = -10;
@@ -196,7 +198,7 @@ class HelperTest extends TestCase
         static::assertFalse($dataOutput);
     }
 
-    public function testHasLimit()
+    public function testHasLimit(): void
     {
 
         $bool = Helper::hasLimit(['no_limit' => 1]);
@@ -212,7 +214,7 @@ class HelperTest extends TestCase
         static::assertTrue($bool);
     }
 
-    public function testImplodeOrder()
+    public function testImplodeOrder(): void
     {
         $args = Helper::getOrderByOrderField([]);
         static::assertSame('id asc', Helper::implodeOrder($args));

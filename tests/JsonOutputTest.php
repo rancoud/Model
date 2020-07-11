@@ -1,7 +1,11 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
 
 declare(strict_types=1);
 
+namespace Rancoud\Model\Test;
+
+use JsonException;
 use Rancoud\Model\JsonOutput;
 use PHPUnit\Framework\TestCase;
 
@@ -10,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class JsonOutputTest extends TestCase
 {
-    protected $data = [
+    protected array $data = [
         [
             'id' => 1,
             'title' => 'my title',
@@ -27,36 +31,48 @@ class JsonOutputTest extends TestCase
             'external_id' => 1
         ]
     ];
-    
-    public function testGetOneJson()
+
+    /**
+     * @throws JsonException
+     */
+    public function testGetOneJson(): void
     {
         $implem = new ImplementationJsonOutput($this->data);
         $data = $implem->getJson(1);
-        $data = json_decode($data, true);
+        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         static::assertSame($this->data[0], $data);
     }
 
-    public function testGetOneJsonEmpty()
+    /**
+     * @throws JsonException
+     */
+    public function testGetOneJsonEmpty(): void
     {
         $implem = new ImplementationJsonOutput([]);
         $data = $implem->getJson(1);
-        $data = json_decode($data, true);
+        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         static::assertSame([], $data);
     }
 
-    public function testGetAllJson()
+    /**
+     * @throws JsonException
+     */
+    public function testGetAllJson(): void
     {
         $implem = new ImplementationJsonOutput($this->data);
         $data = $implem->getJson();
-        $data = json_decode($data, true);
+        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         static::assertSame($this->data, $data);
     }
 
-    public function testGetAllJsonEmpty()
+    /**
+     * @throws JsonException
+     */
+    public function testGetAllJsonEmpty(): void
     {
         $implem = new ImplementationJsonOutput([]);
         $data = $implem->getJson();
-        $data = json_decode($data, true);
+        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         static::assertSame([], $data);
     }
 }

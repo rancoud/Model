@@ -12,15 +12,17 @@ trait JsonOutput
     /**
      * @param int|null $id
      *
+     * @throws \JsonException
+     *
      * @return string
      */
-    public function getJson(int $id = null)
+    public function getJson(int $id = null): string
     {
         if ($id !== null) {
-            return \json_encode($this->getOneJson($id));
+            return \json_encode($this->getOneJson($id), JSON_THROW_ON_ERROR);
         }
 
-        return \json_encode($this->getAllJson());
+        return \json_encode($this->getAllJson(), JSON_THROW_ON_ERROR);
     }
 
     /**

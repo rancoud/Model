@@ -12,36 +12,36 @@ use DateTime;
 class Field
 {
     /** @var string */
-    protected $type;
+    protected string $type;
 
     /** @var mixed */
     protected $default = false;
 
     /** @var array */
-    protected $rules;
+    protected array $rules;
 
     /** @var bool */
-    protected $notNull = false;
+    protected bool $notNull = false;
 
     /** @var bool */
-    protected $isKey = false;
-    protected $isPKey = false;
-    protected $isFKey = false;
+    protected bool $isKey = false;
+    protected bool $isPKey = false;
+    protected bool $isFKey = false;
 
     /** @var array */
-    protected $enumValues = [];
+    protected array $enumValues = [];
 
-    /** @var int */
-    protected $min = null;
+    /** @var mixed */
+    protected $min;
 
-    /** @var int */
-    protected $max = null;
+    /** @var mixed */
+    protected $max;
 
     /** @var array */
-    protected $range = [null, null];
+    protected array $range = [null, null];
 
-    protected $patternTime = '[0-2]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}';
-    protected $patternDate = '[1-9]{1}[0-9]{3}\-[0-1]{1}[0-9]{1}\-[0-3]{1}[0-9]{1}';
+    protected string $patternTime = '[0-2]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}';
+    protected string $patternDate = '[1-9]{1}[0-9]{3}\-[0-1]{1}[0-9]{1}\-[0-3]{1}[0-9]{1}';
 
     /**
      * Field constructor.
@@ -171,11 +171,10 @@ class Field
      */
     protected function extractMinRule(string $rule): void
     {
-        $this->min = \mb_substr($rule, 4);
         if ($this->type === 'float') {
-            $this->min = (float) $this->min;
+            $this->min = (float) \mb_substr($rule, 4);
         } else {
-            $this->min = (int) $this->min;
+            $this->min = (int) \mb_substr($rule, 4);
         }
     }
 
@@ -184,11 +183,10 @@ class Field
      */
     protected function extractMaxRule(string $rule): void
     {
-        $this->max = \mb_substr($rule, 4);
         if ($this->type === 'float') {
-            $this->max = (float) $this->max;
+            $this->max = (float) \mb_substr($rule, 4);
         } else {
-            $this->max = (int) $this->max;
+            $this->max = (int) \mb_substr($rule, 4);
         }
     }
 
@@ -269,7 +267,7 @@ class Field
 
         $function = 'convertTo' . \ucfirst($this->type);
 
-        return \call_user_func([$this, $function], $value);
+        return $this->$function($value);
     }
 
     /**
@@ -278,6 +276,7 @@ class Field
      * @throws FieldException
      *
      * @return int|mixed
+     * @noinspection PhpUnused
      */
     protected function convertToInt($value)
     {
@@ -306,6 +305,7 @@ class Field
      * @throws FieldException
      *
      * @return float
+     * @noinspection PhpUnused
      */
     protected function convertToFloat($value): float
     {
@@ -330,6 +330,7 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
     protected function convertToChar($value): string
     {
@@ -346,6 +347,7 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
     protected function convertToVarchar($value): string
     {
@@ -362,6 +364,7 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
     protected function convertToText($value): string
     {
@@ -378,8 +381,9 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
-    protected function convertToDate($value)
+    protected function convertToDate($value): string
     {
         $date = (string) $value;
 
@@ -398,8 +402,9 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
-    protected function convertToDatetime($value)
+    protected function convertToDatetime($value): string
     {
         $datetime = (string) $value;
 
@@ -418,8 +423,9 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
-    protected function convertToTime($value)
+    protected function convertToTime($value): string
     {
         $time = (string) $value;
 
@@ -441,6 +447,7 @@ class Field
      * @throws FieldException
      *
      * @return false|int|string
+     * @noinspection PhpUnused
      */
     protected function convertToTimestamp($value)
     {
@@ -473,6 +480,7 @@ class Field
      * @throws FieldException
      *
      * @return int|mixed
+     * @noinspection PhpUnused
      */
     protected function convertToYear($value)
     {
@@ -501,8 +509,9 @@ class Field
      * @throws FieldException
      *
      * @return string
+     * @noinspection PhpUnused
      */
-    protected function convertToEnum($value)
+    protected function convertToEnum($value): string
     {
         $value = (string) $value;
 
@@ -565,7 +574,7 @@ class Field
      *
      * @return float
      */
-    protected function applyMinMaxRangeFloat($value)
+    protected function applyMinMaxRangeFloat($value): float
     {
         if ($this->min !== null) {
             $value = (float) \max($this->min, $value);
@@ -592,10 +601,8 @@ class Field
      */
     protected function applyMinMaxRangeString(string $value): string
     {
-        if ($this->min !== null) {
-            if (\mb_strlen($value) < $this->min) {
-                throw new FieldException('Invalid min length');
-            }
+        if (($this->min !== null) && \mb_strlen($value) < $this->min) {
+            throw new FieldException('Invalid min length');
         }
 
         if ($this->max !== null) {
@@ -629,7 +636,7 @@ class Field
             $function = 'applyRule' . \ucfirst($rule);
 
             if (\method_exists($this, $function)) {
-                $value = \call_user_func([$this, $function], $value);
+                $value = $this->$function($value);
             }
         }
 
@@ -642,6 +649,7 @@ class Field
      * @throws FieldException
      *
      * @return mixed
+     * @noinspection PhpUnused
      */
     protected function applyRuleEmail(string $value)
     {
@@ -675,14 +683,12 @@ class Field
             return $this->default;
         }
 
-        if (!$this->notNull) {
-            if ($value === false) {
-                if ($this->default !== false) {
-                    return $this->default;
-                }
-
-                return null;
+        if (!$this->notNull && $value === false) {
+            if ($this->default !== false) {
+                return $this->default;
             }
+
+            return null;
         }
 
         if ($this->notNull) {
