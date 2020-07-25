@@ -246,5 +246,6 @@ You can use JsonOutput trait for adding json format for the model.
 * isValidFieldForOrderBy(field: string, [validFields: array = []]): bool  
 
 ## How to Dev
-`./run_all_commands.sh` for php-cs-fixer and phpunit and coverage  
-`./run_php_unit_coverage.sh` for phpunit and coverage  
+`composer ci` for php-cs-fixer and phpunit and coverage  
+`composer lint` for php-cs-fixer  
+`composer test` for phpunit and coverage
