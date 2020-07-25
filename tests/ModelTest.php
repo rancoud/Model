@@ -26,7 +26,7 @@ class ModelTest extends TestCase
             /** @var ?Database $db; */
             'db' => null,
             'parameters' => [
-                'engine'       => 'mysql',
+                'driver'       => 'mysql',
                 'host'         => '127.0.0.1',
                 'user'         => 'root',
                 'password'     => '',
@@ -37,7 +37,7 @@ class ModelTest extends TestCase
             /** @var ?Database $db; */
             'db' => null,
             'parameters' => [
-                'engine'        => 'pgsql',
+                'driver'        => 'pgsql',
                 'host'          => '127.0.0.1',
                 'user'          => 'postgres',
                 'password'      => '',
@@ -48,7 +48,7 @@ class ModelTest extends TestCase
             /** @var ?Database $db; */
             'db' => null,
             'parameters' => [
-                'engine'       => 'sqlite',
+                'driver'       => 'sqlite',
                 'host'         => '127.0.0.1',
                 'user'         => '',
                 'password'     => '',
@@ -312,7 +312,7 @@ class ModelTest extends TestCase
             $pdo = $configurator->createPDOConnection();
 
             $pdo->exec('DROP TABLE IF EXISTS crud_table');
-            if ($this->sgbds[$k]['parameters']['engine'] === 'pgsql') {
+            if ($this->sgbds[$k]['parameters']['driver'] === 'pgsql') {
                 $pdo->exec('DROP TYPE IF EXISTS mood');
             }
         }
@@ -889,7 +889,7 @@ class ModelTest extends TestCase
      */
     public function testDeleteModelExceptionErrorSql(string $sgbd): void
     {
-        $countAssert = 2;
+        $countAssert = 4;
 
         $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
 
@@ -904,6 +904,12 @@ class ModelTest extends TestCase
             static::assertSame('ERROR', $modelException->getMessage());
             $countAssert--;
             static::assertSame(['Error deleting'], $implem->getErrorMessages());
+            $countAssert--;
+            static::assertNotEmpty($implem->getDatabaseErrors());
+            static::assertSame('sql query invalid', $implem->getDatabaseErrors()[0]['query']);
+            $countAssert--;
+            static::assertNotEmpty($implem->getDatabaseLastError());
+            static::assertSame('sql query invalid', $implem->getDatabaseLastError()['query']);
             $countAssert--;
         }
 
