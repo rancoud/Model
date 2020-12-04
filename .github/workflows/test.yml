@@ -81,7 +81,7 @@ jobs:
           MYSQL_PASSWORD:
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v1.0.7
+        uses: codecov/codecov-action@v1.0.15
         if: success()
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
