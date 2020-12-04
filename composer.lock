@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "740b5bc38662a006d55c9da5783ed3a4",
+    "content-hash": "3fff40cf0814414412f5f153cbb648f8",
     "packages": [
         {
             "name": "rancoud/database",
-            "version": "5.0.1",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rancoud/Database.git",
-                "reference": "4b06a2f3291a6d04bd6a90149a9d750fa6147db0"
+                "reference": "1490a1bcd657fcea8beac59b9a8d69b115d19e04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rancoud/Database/zipball/4b06a2f3291a6d04bd6a90149a9d750fa6147db0",
-                "reference": "4b06a2f3291a6d04bd6a90149a9d750fa6147db0",
+                "url": "https://api.github.com/repos/rancoud/Database/zipball/1490a1bcd657fcea8beac59b9a8d69b115d19e04",
+                "reference": "1490a1bcd657fcea8beac59b9a8d69b115d19e04",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "Database package",
-            "time": "2020-07-25T16:36:52+00:00"
+            "time": "2020-08-03T18:56:27+00:00"
         }
     ],
     "packages-dev": [
