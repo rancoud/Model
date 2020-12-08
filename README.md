@@ -11,7 +11,7 @@
 Abstract Model for better data manipulation between code and database.  
 
 ## Dependencies
-[Database package](https://github.com/rancoud/Database)
+[Database package: https://github.com/rancoud/Database](https://github.com/rancoud/Database)
 
 ## Installation
 ```php
