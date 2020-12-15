@@ -12,7 +12,7 @@ trait JsonOutput
     /**
      * @param int|null $id
      *
-     * @throws \JsonException
+     * @throws \Exception
      *
      * @return string
      */
