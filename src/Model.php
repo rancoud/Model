@@ -648,7 +648,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addBeforeCreate(string $name, $callback): void
+    public function addBeforeCreate(string $name, \Closure $callback): void
     {
         $this->callbacksCud['bc'][$name] = $callback;
     }
@@ -657,7 +657,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addAfterCreate(string $name, $callback): void
+    public function addAfterCreate(string $name, \Closure $callback): void
     {
         $this->callbacksCud['ac'][$name] = $callback;
     }
@@ -666,7 +666,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addBeforeUpdate(string $name, $callback): void
+    public function addBeforeUpdate(string $name, \Closure $callback): void
     {
         $this->callbacksCud['bu'][$name] = $callback;
     }
@@ -675,7 +675,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addAfterUpdate(string $name, $callback): void
+    public function addAfterUpdate(string $name, \Closure $callback): void
     {
         $this->callbacksCud['au'][$name] = $callback;
     }
@@ -684,7 +684,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addBeforeDelete(string $name, $callback): void
+    public function addBeforeDelete(string $name, \Closure $callback): void
     {
         $this->callbacksCud['bd'][$name] = $callback;
     }
@@ -693,7 +693,7 @@ abstract class Model extends ErrorWarning
      * @param string   $name
      * @param \Closure $callback
      */
-    public function addAfterDelete(string $name, $callback): void
+    public function addAfterDelete(string $name, \Closure $callback): void
     {
         $this->callbacksCud['ad'][$name] = $callback;
     }
