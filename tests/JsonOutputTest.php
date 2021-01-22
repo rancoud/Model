@@ -39,7 +39,7 @@ class JsonOutputTest extends TestCase
     {
         $implem = new ImplementationJsonOutput($this->data);
         $data = $implem->getJson(1);
-        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($data, true, 512, \JSON_THROW_ON_ERROR);
         static::assertSame($this->data[0], $data);
     }
 
@@ -50,7 +50,7 @@ class JsonOutputTest extends TestCase
     {
         $implem = new ImplementationJsonOutput([]);
         $data = $implem->getJson(1);
-        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($data, true, 512, \JSON_THROW_ON_ERROR);
         static::assertSame([], $data);
     }
 
@@ -61,7 +61,7 @@ class JsonOutputTest extends TestCase
     {
         $implem = new ImplementationJsonOutput($this->data);
         $data = $implem->getJson();
-        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($data, true, 512, \JSON_THROW_ON_ERROR);
         static::assertSame($this->data, $data);
     }
 
@@ -72,7 +72,7 @@ class JsonOutputTest extends TestCase
     {
         $implem = new ImplementationJsonOutput([]);
         $data = $implem->getJson();
-        $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($data, true, 512, \JSON_THROW_ON_ERROR);
         static::assertSame([], $data);
     }
 }
