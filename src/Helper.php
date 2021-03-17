@@ -183,7 +183,7 @@ class Helper
      */
     public static function hasInvalidPrimaryKey(int $value): bool
     {
-        return 1 > $value;
+        return $value < 1;
     }
 
     /**
