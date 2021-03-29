@@ -11,11 +11,11 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-18.04
+          - ubuntu-latest
 
     services:
       mysql:
-        image: mariadb:10.5
+        image: mariadb:10.4
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_USER: root
