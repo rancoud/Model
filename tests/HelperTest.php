@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rancoud\Model\Test;
+namespace tests;
 
-use Rancoud\Model\Helper;
 use PHPUnit\Framework\TestCase;
+use Rancoud\Model\Helper;
 
 /**
- * Class HelperTest
+ * Class HelperTest.
  */
 class HelperTest extends TestCase
 {
@@ -22,7 +22,7 @@ class HelperTest extends TestCase
 
         $bool = Helper::isRowsCount(['rows_count' => '']);
         static::assertFalse($bool);
-        
+
         $bool = Helper::isRowsCount([]);
         static::assertFalse($bool);
     }
@@ -31,7 +31,7 @@ class HelperTest extends TestCase
     {
         $pageIndex = Helper::getPageNumberForSql(['page' => '']);
         static::assertSame(0, $pageIndex);
-        
+
         $pageIndex = Helper::getPageNumberForSql(['page' => '1']);
         static::assertSame(0, $pageIndex);
 
@@ -52,7 +52,7 @@ class HelperTest extends TestCase
     {
         $pageIndex = Helper::getPageNumberForHuman(['page' => '']);
         static::assertSame(1, $pageIndex);
-        
+
         $pageIndex = Helper::getPageNumberForHuman(['page' => '1']);
         static::assertSame(1, $pageIndex);
 
@@ -73,7 +73,7 @@ class HelperTest extends TestCase
     {
         $count = Helper::getCountPerPage(['count' => '']);
         static::assertSame(50, $count);
-        
+
         $count = Helper::getCountPerPage(['count' => '100']);
         static::assertSame(100, $count);
 
@@ -125,7 +125,7 @@ class HelperTest extends TestCase
         $limitOffset = Helper::getLimitOffsetCount(['count' => 1]);
         static::assertSame([1, 0], $limitOffset);
     }
-    
+
     public function testGetOrderField(): void
     {
         $args = Helper::getOrderByOrderField([]);
@@ -133,7 +133,7 @@ class HelperTest extends TestCase
 
         $args = Helper::getOrderByOrderField(['order' => '']);
         static::assertSame([['id' => 'asc']], $args);
-        
+
         $args = Helper::getOrderByOrderField(['order' => 'title'], ['title', 'id']);
         static::assertSame([['title' => 'asc']], $args);
 
@@ -169,18 +169,17 @@ class HelperTest extends TestCase
 
         $args = Helper::getOrderByOrderField(['order' => '|desc,|asc']);
         static::assertSame([['id' => 'asc']], $args);
-        
+
         $args = Helper::getOrderByOrderField(['order' => 'toto']);
         static::assertSame([['id' => 'asc']], $args);
     }
 
     public function testHasInvalidPrimaryKey(): void
     {
-
         $dataInput = -10;
         $dataOutput = Helper::hasInvalidPrimaryKey($dataInput);
         static::assertTrue($dataOutput);
-        
+
         $dataInput = -1;
         $dataOutput = Helper::hasInvalidPrimaryKey($dataInput);
         static::assertTrue($dataOutput);
@@ -200,7 +199,6 @@ class HelperTest extends TestCase
 
     public function testHasLimit(): void
     {
-
         $bool = Helper::hasLimit(['no_limit' => 1]);
         static::assertFalse($bool);
 

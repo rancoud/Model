@@ -17,78 +17,21 @@ jobs:
           - '7.4'
           - '8.0'
 
-    services:
-      mysql:
-        image: mariadb:10.4
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_USER: root
-          MYSQL_PASSWORD: ''
-          MYSQL_DATABASE: test_database
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=10
-
-      postgres:
-        image: postgres:10.8
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ''
-          POSTGRES_DB: test_database
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-      - name: Verify MySQL connection from host
-        run: |
-          sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 3306 -uroot --password="" -e "SHOW DATABASES"
-
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          coverage: xdebug
+      - name: Pull
+        run: docker-compose pull --quiet
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+      - name: Build
+        run: docker-compose build --build-arg PHPVERSION=${{ matrix.php-version }}
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-${{ matrix.php-version }}-composer-
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Lint
-        run: |
-          vendor/bin/phpcs -s
-          vendor/bin/php-cs-fixer fix --diff --dry-run
-
-      - name: PHPUnit
-        run: |
-          vendor/bin/phpunit --colors --coverage-text --coverage-clover coverage/clover.xml
-        env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
-          MYSQL_USER: root
-          MYSQL_PASSWORD:
+      - name: Test
+        run: docker-compose run lib composer ci
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1.3.2
         if: success()
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/clover.xml

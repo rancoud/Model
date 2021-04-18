@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Rancoud\Model\Test;
+namespace tests;
 
-use Rancoud\Model\ErrorWarning;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ErrorWarningTest
+ * Class ErrorWarningTest.
  */
 class ErrorWarningTest extends TestCase
 {
@@ -66,11 +65,11 @@ class ErrorWarningTest extends TestCase
 
         $implem->addErrorField('field 2', 'invalid 11');
         static::assertTrue($implem->hasErrorFields());
-        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getErrorFields());
+        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getErrorFields()); //phpcs:ignore
 
         $implem->addErrorField('field 2', 'invalid 22');
         static::assertTrue($implem->hasErrorFields());
-        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getErrorFields());
+        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getErrorFields()); //phpcs:ignore
 
         $implem->resetErrorField('field 2');
         static::assertTrue($implem->hasErrorFields());
@@ -97,11 +96,11 @@ class ErrorWarningTest extends TestCase
 
         $implem->addWarningField('field 2', 'invalid 11');
         static::assertTrue($implem->hasWarningFields());
-        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getWarningFields());
+        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getWarningFields()); //phpcs:ignore
 
         $implem->addWarningField('field 2', 'invalid 22');
         static::assertTrue($implem->hasWarningFields());
-        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getWarningFields());
+        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getWarningFields()); //phpcs:ignore
 
         $implem->resetWarningField('field 2');
         static::assertTrue($implem->hasWarningFields());
@@ -110,71 +109,5 @@ class ErrorWarningTest extends TestCase
         $implem->resetWarningField();
         static::assertFalse($implem->hasWarningFields());
         static::assertSame([], $implem->getWarningFields());
-    }
-}
-
-/**
- * Class ImplementationErrorWarning
- */
-class ImplementationErrorWarning extends ErrorWarning
-{
-    /**
-     * @param string $error
-     */
-    public function addErrorMessage(string $error) : void
-    {
-        parent::addErrorMessage($error);
-    }
-
-    public function resetErrorMessage() : void
-    {
-        parent::resetErrorMessage();
-    }
-
-    /**
-     * @param string $warning
-     */
-    public function addWarningMessage(string $warning) : void
-    {
-        parent::addWarningMessage($warning);
-    }
-
-    public function resetWarningMessage() : void
-    {
-        parent::resetWarningMessage();
-    }
-
-    /**
-     * @param string $field
-     * @param string $reasons
-     */
-    public function addErrorField(string $field, string $reasons) : void
-    {
-        parent::addErrorField($field, $reasons);
-    }
-
-    /**
-     * @param string|null $field
-     */
-    public function resetErrorField(string $field = null) : void
-    {
-        parent::resetErrorField($field);
-    }
-
-    /**
-     * @param string $field
-     * @param string $reasons
-     */
-    public function addWarningField(string $field, string $reasons): void
-    {
-        parent::addWarningField($field, $reasons);
-    }
-
-    /**
-     * @param string|null $field
-     */
-    public function resetWarningField(string $field = null) : void
-    {
-        parent::resetWarningField($field);
     }
 }

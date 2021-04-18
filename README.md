@@ -246,6 +246,4 @@ You can use JsonOutput trait for adding json format for the model.
 * isValidFieldForOrderBy(field: string, [validFields: array = []]): bool  
 
 ## How to Dev
-`composer ci` for php-cs-fixer and phpunit and coverage  
-`composer lint` for php-cs-fixer  
-`composer test` for phpunit and coverage
+`docker-compose build && docker-compose run lib composer ci` for launching tests

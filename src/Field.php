@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 declare(strict_types=1);
 
 namespace Rancoud\Model;
@@ -11,24 +13,19 @@ use DateTime;
  */
 class Field
 {
-    /** @var string */
     protected string $type;
 
     /** @var mixed */
     protected $default = false;
 
-    /** @var array */
     protected array $rules;
 
-    /** @var bool */
     protected bool $notNull = false;
 
-    /** @var bool */
     protected bool $isKey = false;
     protected bool $isPKey = false;
     protected bool $isFKey = false;
 
-    /** @var array */
     protected array $enumValues = [];
 
     /** @var mixed */
@@ -37,7 +34,6 @@ class Field
     /** @var mixed */
     protected $max;
 
-    /** @var array */
     protected array $range = [null, null];
 
     protected string $patternTime = '[0-2]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}';
@@ -247,9 +243,8 @@ class Field
 
         $value = $this->convertType($value);
         $value = $this->applyRules($value);
-        $value = $this->applyDefault($value);
 
-        return $value;
+        return $this->applyDefault($value);
     }
 
     /**
@@ -276,7 +271,6 @@ class Field
      * @throws FieldException
      *
      * @return int|mixed
-     * @noinspection PhpUnused
      */
     protected function convertToInt($value)
     {
@@ -294,9 +288,7 @@ class Field
             throw new FieldException('Invalid key value');
         }
 
-        $value = $this->applyMinMaxRangeInt($value);
-
-        return $value;
+        return $this->applyMinMaxRangeInt($value);
     }
 
     /**
@@ -305,7 +297,6 @@ class Field
      * @throws FieldException
      *
      * @return float
-     * @noinspection PhpUnused
      */
     protected function convertToFloat($value): float
     {
@@ -319,9 +310,7 @@ class Field
             $value = 0;
         }
 
-        $value = $this->applyMinMaxRangeFloat($value);
-
-        return $value;
+        return $this->applyMinMaxRangeFloat($value);
     }
 
     /**
@@ -330,15 +319,12 @@ class Field
      * @throws FieldException
      *
      * @return string
-     * @noinspection PhpUnused
      */
     protected function convertToChar($value): string
     {
         $value = (string) $value;
 
-        $value = $this->applyMinMaxRangeString($value);
-
-        return $value;
+        return $this->applyMinMaxRangeString($value);
     }
 
     /**
@@ -347,15 +333,12 @@ class Field
      * @throws FieldException
      *
      * @return string
-     * @noinspection PhpUnused
      */
     protected function convertToVarchar($value): string
     {
         $value = (string) $value;
 
-        $value = $this->applyMinMaxRangeString($value);
-
-        return $value;
+        return $this->applyMinMaxRangeString($value);
     }
 
     /**
@@ -364,15 +347,12 @@ class Field
      * @throws FieldException
      *
      * @return string
-     * @noinspection PhpUnused
      */
     protected function convertToText($value): string
     {
         $value = (string) $value;
 
-        $value = $this->applyMinMaxRangeString($value);
-
-        return $value;
+        return $this->applyMinMaxRangeString($value);
     }
 
     /**
@@ -381,7 +361,6 @@ class Field
      * @throws FieldException
      *
      * @return string
-     * @noinspection PhpUnused
      */
     protected function convertToDate($value): string
     {
@@ -402,7 +381,6 @@ class Field
      * @throws FieldException
      *
      * @return string
-     * @noinspection PhpUnused
      */
     protected function convertToDatetime($value): string
     {
@@ -423,7 +401,6 @@ class Field
      * @throws FieldException
      *
      * @return string
-     * @noinspection PhpUnused
      */
     protected function convertToTime($value): string
     {
@@ -447,7 +424,6 @@ class Field
      * @throws FieldException
      *
      * @return false|int|string
-     * @noinspection PhpUnused
      */
     protected function convertToTimestamp($value)
     {
@@ -480,7 +456,6 @@ class Field
      * @throws FieldException
      *
      * @return int|mixed
-     * @noinspection PhpUnused
      */
     protected function convertToYear($value)
     {
@@ -509,7 +484,6 @@ class Field
      * @throws FieldException
      *
      * @return string
-     * @noinspection PhpUnused
      */
     protected function convertToEnum($value): string
     {
@@ -649,7 +623,6 @@ class Field
      * @throws FieldException
      *
      * @return mixed
-     * @noinspection PhpUnused
      */
     protected function applyRuleEmail(string $value)
     {
@@ -689,14 +662,6 @@ class Field
             }
 
             return null;
-        }
-
-        if ($this->notNull) {
-            return $value;
-        }
-
-        if ($this->default === false) {
-            return $value;
         }
 
         return $value;
