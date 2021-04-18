@@ -14,22 +14,17 @@ use Rancoud\Database\DatabaseException;
  */
 abstract class Model extends ErrorWarning
 {
-    /** @var Database */
     protected Database $database;
 
-    /** @var string */
     protected string $table;
 
     /** @var Field[] */
     protected array $fields = [];
 
-    /** @var array */
     protected array $sqlParams = [];
 
-    /** @var array */
     protected array $parametersToRemove = [];
 
-    /** @var int */
     protected int $lastInsertId;
 
     protected array $callbacksCud = [
@@ -209,7 +204,7 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      *
-     * @return array|bool|int
+     * @return array|int|null
      */
     public function all(array $params, array $validFields = [])
     {
@@ -227,9 +222,9 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      *
-     * @return bool|int
+     * @return int|null
      */
-    protected function allCount(array $params)
+    protected function allCount(array $params): ?int
     {
         $sql = [];
         $this->sqlParams = [];
@@ -254,9 +249,9 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      *
-     * @return array|bool
+     * @return array
      */
-    protected function allRows(array $params, array $validFields = [])
+    protected function allRows(array $params, array $validFields = []): array
     {
         $sql = [];
         $this->sqlParams = [];
@@ -294,7 +289,6 @@ abstract class Model extends ErrorWarning
      * @param array $params
      *
      * @return string
-     * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllSelectAndFillSqlParams(array $params): string
     {
@@ -305,7 +299,6 @@ abstract class Model extends ErrorWarning
      * @param array $params
      *
      * @return string
-     * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllJoinAndFillSqlParams(array $params): string
     {
@@ -316,7 +309,6 @@ abstract class Model extends ErrorWarning
      * @param array $params
      *
      * @return string
-     * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllWhereAndFillSqlParams(array $params): string
     {
@@ -341,11 +333,11 @@ abstract class Model extends ErrorWarning
 
     /**
      * @param mixed $id
-     * @param array ...$ids
+     * @param mixed ...$ids
      *
      * @throws ModelException
      *
-     * @return array
+     * @return array|null
      */
     public function one($id, ...$ids): ?array
     {
@@ -371,9 +363,9 @@ abstract class Model extends ErrorWarning
      *
      * @throws ModelException
      *
-     * @return bool|int
+     * @return int
      */
-    public function create(array $args)
+    public function create(array $args): int
     {
         $this->resetAllErrors();
 
@@ -417,11 +409,11 @@ abstract class Model extends ErrorWarning
     /**
      * @param array $args
      * @param mixed $id
-     * @param int   ...$ids
+     * @param mixed ...$ids
      *
      * @throws ModelException
      */
-    public function update(array $args, $id, int ...$ids): void
+    public function update(array $args, $id, ...$ids): void
     {
         $this->resetAllErrors();
 
@@ -481,7 +473,7 @@ abstract class Model extends ErrorWarning
 
     /**
      * @param mixed $id
-     * @param array ...$ids
+     * @param mixed ...$ids
      *
      * @throws ModelException
      */
@@ -547,15 +539,14 @@ abstract class Model extends ErrorWarning
             }
 
             if (\is_array($ret)) {
-                $sql = $ret[0];
-                $params = $ret[1];
+                [$sql, $params] = $ret;
             }
         }
     }
 
     /**
      * @param       $callbacks
-     * @param array ...$params
+     * @param mixed ...$params
      *
      * @throws ModelException
      * @noinspection PhpDocRedundantThrowsInspection

@@ -1,0 +1,21 @@
+# Git
+.git
+
+# IntelliJ
+.idea
+*.iml
+
+# Composer
+vendor
+
+# PHP code sniffer
+.php_cs.cache
+
+# PHP Unit
+build
+.phpunit.result.cache
+
+# Dev / Testing
+test.php
+test_database.db*
+coverage/*
