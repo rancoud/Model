@@ -207,9 +207,9 @@ class ModelTest extends TestCase
                   PRIMARY KEY (`id`),
                   UNIQUE KEY `external_id_UNIQUE` (`external_id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;',
-                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)", //phpcs:ignore
-                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", //phpcs:ignore
-                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", //phpcs:ignore
+                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
+                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
+                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
             ],
         ],
         'pgsql' => [
@@ -244,9 +244,9 @@ class ModelTest extends TestCase
                     nomaxlimit varchar(255),
                     external_id int
                 );',
-                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, null, null, 'yes', null, null, null)", //phpcs:ignore
-                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)", //phpcs:ignore
-                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)", //phpcs:ignore
+                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, null, null, 'yes', null, null, null)", // phpcs:ignore
+                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)", // phpcs:ignore
+                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)", // phpcs:ignore
             ],
         ],
         'sqlite' => [
@@ -281,9 +281,9 @@ class ModelTest extends TestCase
                     external_id int
                 );',
                 'create unique index crud_table_external_id_uindex on crud_table (external_id);',
-                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)", //phpcs:ignore
-                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", //phpcs:ignore
-                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", //phpcs:ignore
+                "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
+                "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
+                "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
             ],
         ],
     ];
@@ -316,7 +316,7 @@ class ModelTest extends TestCase
 
             if ($configurator->getDriver() === 'pgsql') {
                 $postgresHost = \getenv('POSTGRES_HOST', true);
-                $configurator->setHost(($postgresHost !== false) ? $postgresHost : $this->sgbds[$k]['parameters']['host']); //phpcs:ignore
+                $configurator->setHost(($postgresHost !== false) ? $postgresHost : $this->sgbds[$k]['parameters']['host']); // phpcs:ignore
             }
 
             $this->sgbds[$k]['db'] = new Database($configurator);
@@ -896,7 +896,7 @@ class ModelTest extends TestCase
         }
 
         $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
-        $implem->update(['title' => 'youpie', 'param_to_remove' => 'this will be remove in parametersToRemove function'], 1); //phpcs:ignore
+        $implem->update(['title' => 'youpie', 'param_to_remove' => 'this will be remove in parametersToRemove function'], 1); // phpcs:ignore
 
         $row = $implem->one(1);
         static::assertSame('youpi', $row['title']);
@@ -1055,7 +1055,7 @@ class ModelTest extends TestCase
 
         $implem->addBeforeCreate('b', static function ($sql, $params) {
             static::assertSame('toto', $sql);
-            $sql = 'INSERT INTO crud_table (`title`,`date_start`, `year_start`) VALUES (:title,:date_start, :year_start)'; //phpcs:ignore
+            $sql = 'INSERT INTO crud_table (`title`,`date_start`, `year_start`) VALUES (:title,:date_start, :year_start)'; // phpcs:ignore
             $params['year_start'] = 1956;
 
             static::assertSame('az', $params['title']);

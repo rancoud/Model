@@ -65,11 +65,11 @@ class ErrorWarningTest extends TestCase
 
         $implem->addErrorField('field 2', 'invalid 11');
         static::assertTrue($implem->hasErrorFields());
-        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getErrorFields()); //phpcs:ignore
+        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getErrorFields()); // phpcs:ignore
 
         $implem->addErrorField('field 2', 'invalid 22');
         static::assertTrue($implem->hasErrorFields());
-        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getErrorFields()); //phpcs:ignore
+        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getErrorFields()); // phpcs:ignore
 
         $implem->resetErrorField('field 2');
         static::assertTrue($implem->hasErrorFields());
@@ -96,11 +96,11 @@ class ErrorWarningTest extends TestCase
 
         $implem->addWarningField('field 2', 'invalid 11');
         static::assertTrue($implem->hasWarningFields());
-        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getWarningFields()); //phpcs:ignore
+        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11']], $implem->getWarningFields()); // phpcs:ignore
 
         $implem->addWarningField('field 2', 'invalid 22');
         static::assertTrue($implem->hasWarningFields());
-        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getWarningFields()); //phpcs:ignore
+        static::assertSame(['field 1' => ['invalid 1', 'invalid 2'], 'field 2' => ['invalid 11', 'invalid 22']], $implem->getWarningFields()); // phpcs:ignore
 
         $implem->resetWarningField('field 2');
         static::assertTrue($implem->hasWarningFields());
