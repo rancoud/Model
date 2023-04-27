@@ -289,6 +289,8 @@ abstract class Model extends ErrorWarning
      * @param array $params
      *
      * @return string
+     *
+     * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllSelectAndFillSqlParams(array $params): string
     {
@@ -299,6 +301,8 @@ abstract class Model extends ErrorWarning
      * @param array $params
      *
      * @return string
+     *
+     * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllJoinAndFillSqlParams(array $params): string
     {
@@ -386,7 +390,6 @@ abstract class Model extends ErrorWarning
         $sql = $this->checkNotNullFieldIsPresent($sql);
 
         try {
-            /* @noinspection PhpFieldAssignmentTypeMismatchInspection */
             $this->lastInsertId = $this->database->insert($sql, $this->sqlParams, true);
         } catch (DatabaseException $de) {
             $this->addErrorMessage('Error creating');
@@ -513,6 +516,7 @@ abstract class Model extends ErrorWarning
      * @param string $mode
      *
      * @throws ModelException
+     *
      * @noinspection PhpDocRedundantThrowsInspection
      */
     protected function treatParametersAfterClean(string $mode): void
@@ -525,6 +529,7 @@ abstract class Model extends ErrorWarning
      * @param $params
      *
      * @throws ModelException
+     *
      * @noinspection PhpDocRedundantThrowsInspection
      */
     protected function beforeCallbacks($callbacks, &$sql, &$params): void
@@ -549,6 +554,7 @@ abstract class Model extends ErrorWarning
      * @param mixed ...$params
      *
      * @throws ModelException
+     *
      * @noinspection PhpDocRedundantThrowsInspection
      */
     protected function afterCallbacks($callbacks, ...$params): void
@@ -636,8 +642,8 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string   $name
-     * @param \Closure $callback
+     * @param string         $name
+     * @param \Closure|array $callback
      */
     public function addBeforeCreate(string $name, $callback): void
     {
@@ -645,8 +651,8 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string   $name
-     * @param \Closure $callback
+     * @param string         $name
+     * @param \Closure|array $callback
      */
     public function addAfterCreate(string $name, $callback): void
     {
@@ -654,8 +660,8 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string   $name
-     * @param \Closure $callback
+     * @param string         $name
+     * @param \Closure|array $callback
      */
     public function addBeforeUpdate(string $name, $callback): void
     {
@@ -663,8 +669,8 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string   $name
-     * @param \Closure $callback
+     * @param string         $name
+     * @param \Closure|array $callback
      */
     public function addAfterUpdate(string $name, $callback): void
     {
@@ -672,8 +678,8 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string   $name
-     * @param \Closure $callback
+     * @param string         $name
+     * @param \Closure|array $callback
      */
     public function addBeforeDelete(string $name, $callback): void
     {
@@ -681,8 +687,8 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string   $name
-     * @param \Closure $callback
+     * @param string         $name
+     * @param \Closure|array $callback
      */
     public function addAfterDelete(string $name, $callback): void
     {

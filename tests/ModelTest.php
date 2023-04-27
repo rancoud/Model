@@ -1,7 +1,6 @@
 <?php
 
-/** @noinspection SqlNoDataSourceInspection
- * @noinspection ForgottenDebugOutputInspection
+/**
  * @noinspection SqlDialectInspection
  */
 
@@ -1125,7 +1124,7 @@ class ModelTest extends TestCase
             $sql = 'DELETE FROM crud_table WHERE id =:id AND year_start=:year_start';
             $params['year_start'] = 2056;
 
-            static::assertSame($params['other'], 'done');
+            static::assertSame('done', $params['other']);
             unset($params['other']);
 
             return [$sql, $params];
@@ -1143,11 +1142,6 @@ class ModelTest extends TestCase
         });
 
         $params = ['title' => 'a', 'date_start' => \date('Y-m-d H:i:s')];
-
-        if ($sgbd === 'pgsql') {
-            $implem->usePostgresql();
-            $params['date_start'] = \time();
-        }
 
         $newId = $implem->create($params);
         $row = $implem->one($newId);
@@ -1202,16 +1196,8 @@ class ModelTest extends TestCase
 
         $params = ['title' => 'azert', 'date_start' => \date('Y-m-d H:i:s')];
 
-        if ($sgbd === 'pgsql') {
-            $implem->usePostgresql();
-            $params['date_start'] = \time();
-        }
+        $newId = $implem->create($params);
 
-        try {
-            $newId = $implem->create($params);
-        } catch (Exception $e) {
-            throw $e;
-        }
         $row = $implem->one($newId);
         static::assertSame('azert', $row['title']);
         static::assertSame(2000, $row['year_start']);

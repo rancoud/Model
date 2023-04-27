@@ -39,17 +39,13 @@ class FieldTest extends TestCase
      */
     public function testFieldKeyType(): void
     {
-        try {
-            $field = new Field('int', ['unsigned', 'not_null', 'pk']);
-            static::assertTrue($field->isPrimaryKey());
-            static::assertFalse($field->isForeignKey());
+        $field = new Field('int', ['unsigned', 'not_null', 'pk']);
+        static::assertTrue($field->isPrimaryKey());
+        static::assertFalse($field->isForeignKey());
 
-            $field = new Field('int', ['unsigned', 'not_null', 'fk']);
-            static::assertFalse($field->isPrimaryKey());
-            static::assertTrue($field->isForeignKey());
-        } catch (FieldException $e) {
-            throw $e;
-        }
+        $field = new Field('int', ['unsigned', 'not_null', 'fk']);
+        static::assertFalse($field->isPrimaryKey());
+        static::assertTrue($field->isForeignKey());
     }
 
     /**
@@ -57,26 +53,22 @@ class FieldTest extends TestCase
      */
     public function testFieldDefault(): void
     {
+        $field = new Field('int', ['unsigned', 'not_null', 'pk']);
+        static::assertFalse($field->getDefault());
+
+        $field = new Field('int', ['unsigned', 'not_null', 'pk'], 8);
+        static::assertSame(8, $field->getDefault());
+
+        $countAssert = 1;
+
         try {
-            $field = new Field('int', ['unsigned', 'not_null', 'pk']);
-            static::assertFalse($field->getDefault());
-
-            $field = new Field('int', ['unsigned', 'not_null', 'pk'], 8);
-            static::assertSame(8, $field->getDefault());
-
-            $countAssert = 1;
-
-            try {
-                new Field('varchar', ['email'], '8');
-            } catch (FieldException $fieldException) {
-                static::assertSame('Invalid email value', $fieldException->getMessage());
-                --$countAssert;
-            }
-
-            static::assertSame(0, $countAssert);
-        } catch (FieldException $e) {
-            throw $e;
+            new Field('varchar', ['email'], '8');
+        } catch (FieldException $fieldException) {
+            static::assertSame('Invalid email value', $fieldException->getMessage());
+            --$countAssert;
         }
+
+        static::assertSame(0, $countAssert);
     }
 
     // region Data Provider
@@ -1459,12 +1451,12 @@ class FieldTest extends TestCase
     /**
      * @dataProvider data
      *
-     * @param string fieldType
-     * @param array rules
-     * @param mixed default
-     * @param array input
-     * @param array expected
-     * @param array message
+     * @param string $fieldType
+     * @param array  $rules
+     * @param mixed  $default
+     * @param array  $input
+     * @param array  $expected
+     * @param array  $message
      *
      * @throws FieldException
      */

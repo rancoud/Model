@@ -178,15 +178,15 @@ You can use JsonOutput trait for adding json format for the model.
 ## Field Constructor
 ### Settings
 #### Mandatory
-| Parameter | Type | Description |
-| --- | --- | --- |
-| type | string | type of field, values used : int \| float \| char \| varchar \| text \| date \| datetime \| time \| timestamp \| year |
+| Parameter | Type   | Description                                                                                                           |
+|-----------|--------|-----------------------------------------------------------------------------------------------------------------------|
+| type      | string | type of field, values used : int \| float \| char \| varchar \| text \| date \| datetime \| time \| timestamp \| year |
 
 #### Optionnals
-| Parameter | Type | Default value | Description |
-| --- | --- | --- | --- |
-| rules | array | [] | rules for checking values, values used : pk \| fk \| unsigned \| email \| not_null \| max \| min \| range \| Rancoud\Model\CustomRule |
-| default | mixed | false | default value when none given |
+| Parameter | Type  | Default value | Description                                                                                                                           |
+|-----------|-------|---------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| rules     | array | []            | rules for checking values, values used : pk \| fk \| unsigned \| email \| not_null \| max \| min \| range \| Rancoud\Model\CustomRule |
+| default   | mixed | false         | default value when none given                                                                                                         |
 
 ## Field Methods
 * isPrimaryKey(): bool  
@@ -198,8 +198,8 @@ You can use JsonOutput trait for adding json format for the model.
 ## Model Constructor
 ### Settings
 #### Mandatory
-| Parameter | Type | Description |
-| --- | --- | --- |
+| Parameter | Type                       | Description       |
+|-----------|----------------------------|-------------------|
 | $database | \Rancoud\Database\Database | Database Instance |
 
 ## Model Methods
