@@ -31,7 +31,7 @@ class Helper
             return false;
         }
 
-        return (int) ($args[self::$rowsCount]) === 1;
+        return (int) $args[self::$rowsCount] === 1;
     }
 
     /**
@@ -45,7 +45,7 @@ class Helper
             return true;
         }
 
-        return (int) ($args[self::$noLimit]) !== 1;
+        return (int) $args[self::$noLimit] !== 1;
     }
 
     /**

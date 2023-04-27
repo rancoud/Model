@@ -36,15 +36,15 @@ class Field
 
     protected array $range = [null, null];
 
-    protected string $patternTime = '[0-2]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}\:[0-5]{1}[0-9]{1}';
-    protected string $patternDate = '[1-9]{1}[0-9]{3}\-[0-1]{1}[0-9]{1}\-[0-3]{1}[0-9]{1}';
+    protected string $patternTime = '[0-2][0-9]:[0-5][0-9]:[0-5][0-9]';
+    protected string $patternDate = '[1-9][0-9]{3}-[0-1][0-9]-[0-3][0-9]';
 
     /**
      * Field constructor.
      *
      * @param string $type
      * @param array  $rules
-     * @param bool   $default
+     * @param mixed  $default
      *
      * @throws FieldException
      */
@@ -234,7 +234,7 @@ class Field
     public function formatValue($value)
     {
         if ($value === false) {
-            return $this->applyDefault($value);
+            return $this->applyDefault(false);
         }
 
         if ($this->notNull === false && $value === null) {
@@ -410,7 +410,7 @@ class Field
             throw new FieldException('Invalid time value');
         }
 
-        $hour = (int) (\mb_substr($time, 0, 2));
+        $hour = (int) \mb_substr($time, 0, 2);
         if ($hour > 23) {
             throw new FieldException('Invalid time value');
         }
@@ -423,7 +423,7 @@ class Field
      *
      * @throws FieldException
      *
-     * @return false|int|string
+     * @return false|string
      */
     protected function convertToTimestamp($value)
     {
@@ -622,9 +622,9 @@ class Field
      *
      * @throws FieldException
      *
-     * @return mixed
+     * @return string
      */
-    protected function applyRuleEmail(string $value)
+    protected function applyRuleEmail(string $value): string
     {
         $pos = \mb_strpos($value, '@');
         $length = \mb_strlen($value);
