@@ -22,7 +22,7 @@
     },
     "require": {
         "php": ">=7.4.0",
-        "rancoud/database": "^5.0 || ^6.0",
+        "rancoud/database": "^6.0",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*"
