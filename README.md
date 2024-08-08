@@ -245,4 +245,4 @@ You can use JsonOutput trait for adding json format for the model.
 * isValidFieldForOrderBy(field: string, [validFields: array = []]): bool  
 
 ## How to Dev
-`docker-compose build && docker-compose run lib composer ci` for launching tests
+`docker compose build && docker compose run lib composer ci` for launching tests
