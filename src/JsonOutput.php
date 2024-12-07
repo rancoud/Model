@@ -16,7 +16,7 @@ trait JsonOutput
      *
      * @return string
      */
-    public function getJson(int $id = null): string
+    public function getJson(?int $id = null): string
     {
         if ($id !== null) {
             return \json_encode($this->getOneJson($id), \JSON_THROW_ON_ERROR);

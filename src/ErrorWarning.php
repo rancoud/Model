@@ -75,7 +75,7 @@ class ErrorWarning
     /**
      * @param string|null $field
      */
-    protected function resetErrorField(string $field = null): void
+    protected function resetErrorField(?string $field = null): void
     {
         if ($field === null) {
             $this->errorFields = [];
@@ -149,7 +149,7 @@ class ErrorWarning
     /**
      * @param string|null $field
      */
-    protected function resetWarningField(string $field = null): void
+    protected function resetWarningField(?string $field = null): void
     {
         if ($field === null) {
             $this->warningFields = [];

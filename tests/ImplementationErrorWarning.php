@@ -49,7 +49,7 @@ class ImplementationErrorWarning extends ErrorWarning
     /**
      * @param string|null $field
      */
-    public function resetErrorField(string $field = null): void
+    public function resetErrorField(?string $field = null): void
     {
         parent::resetErrorField($field);
     }
@@ -66,7 +66,7 @@ class ImplementationErrorWarning extends ErrorWarning
     /**
      * @param string|null $field
      */
-    public function resetWarningField(string $field = null): void
+    public function resetWarningField(?string $field = null): void
     {
         parent::resetWarningField($field);
     }
