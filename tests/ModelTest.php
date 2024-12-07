@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace tests;
 
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Rancoud\Database\Configurator;
 use Rancoud\Database\Database;
@@ -287,7 +288,7 @@ class ModelTest extends TestCase
         ],
     ];
 
-    public function sgbds(): array
+    public static function sgbds(): array
     {
         return [
             'mysql'      => ['mysql'],
@@ -345,6 +346,7 @@ class ModelTest extends TestCase
      *
      * @throws FieldException
      */
+    #[DataProvider('sgbds')]
     public function testCreateUpdateDeleteCleanErrorFields(string $sgbd): void
     {
         $implem = new ImplementModel($this->sgbds[$sgbd]['db']);
@@ -416,6 +418,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testCreateModelExceptionEmptySql(string $sgbd): void
     {
         $countAssert = 2;
@@ -439,6 +442,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testCreateModelExceptionMissingRequiredFields(string $sgbd): void
     {
         $countAssert = 3;
@@ -464,6 +468,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testCreateModelExceptionInvalidValues(string $sgbd): void
     {
         $countAssert = 3;
@@ -489,6 +494,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testCreateModelExceptionErrorSql(string $sgbd): void
     {
         $countAssert = 2;
@@ -517,6 +523,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testCreateModelExceptionHackInvalidField(string $sgbd): void
     {
         $countAssert = 2;
@@ -542,6 +549,7 @@ class ModelTest extends TestCase
      *
      * @throws ModelException
      */
+    #[DataProvider('sgbds')]
     public function testCreate(string $sgbd): void
     {
         $sqls = $this->sqlQueries[$sgbd]['create'];
@@ -580,6 +588,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testAllModelExceptionErrorSql(string $sgbd): void
     {
         $countAssert = 2;
@@ -622,6 +631,7 @@ class ModelTest extends TestCase
      *
      * @throws ModelException
      */
+    #[DataProvider('sgbds')]
     public function testAll(string $sgbd): void
     {
         $sqls = $this->sqlQueries[$sgbd]['all'];
@@ -656,6 +666,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testOneModelExceptionNoPrimaryKey(string $sgbd): void
     {
         $countAssert = 2;
@@ -680,6 +691,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testOneModelExceptionInvalidPrimaryKey(string $sgbd): void
     {
         $countAssert = 2;
@@ -705,6 +717,7 @@ class ModelTest extends TestCase
      *
      * @throws FieldException
      */
+    #[DataProvider('sgbds')]
     public function testOneModelExceptionErrorSelect(string $sgbd): void
     {
         $countAssert = 2;
@@ -731,6 +744,7 @@ class ModelTest extends TestCase
      *
      * @throws ModelException
      */
+    #[DataProvider('sgbds')]
     public function testOne(string $sgbd): void
     {
         $sqls = $this->sqlQueries[$sgbd]['all'];
@@ -758,6 +772,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testUpdateModelExceptionNoPrimaryKey(string $sgbd): void
     {
         $countAssert = 2;
@@ -782,6 +797,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testUpdateModelExceptionEmptySql(string $sgbd): void
     {
         $countAssert = 2;
@@ -805,6 +821,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testUpdateModelExceptionInvalidValues(string $sgbd): void
     {
         $countAssert = 3;
@@ -832,6 +849,7 @@ class ModelTest extends TestCase
      *
      * @throws FieldException
      */
+    #[DataProvider('sgbds')]
     public function testUpdateModelExceptionErrorSql(string $sgbd): void
     {
         $countAssert = 2;
@@ -861,6 +879,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testUpdateModelExceptionHackInvalidField(string $sgbd): void
     {
         $countAssert = 2;
@@ -886,6 +905,7 @@ class ModelTest extends TestCase
      *
      * @throws ModelException
      */
+    #[DataProvider('sgbds')]
     public function testUpdate(string $sgbd): void
     {
         $sqls = $this->sqlQueries[$sgbd]['all'];
@@ -911,6 +931,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testDeleteModelExceptionNoPrimaryKey(string $sgbd): void
     {
         $countAssert = 2;
@@ -937,6 +958,7 @@ class ModelTest extends TestCase
      *
      * @throws FieldException
      */
+    #[DataProvider('sgbds')]
     public function testDeleteModelExceptionErrorSql(string $sgbd): void
     {
         $countAssert = 4;
@@ -972,6 +994,7 @@ class ModelTest extends TestCase
      *
      * @param string $sgbd
      */
+    #[DataProvider('sgbds')]
     public function testDeleteModelExceptionInvalidValues(string $sgbd): void
     {
         $countAssert = 3;
@@ -999,6 +1022,7 @@ class ModelTest extends TestCase
      *
      * @throws ModelException
      */
+    #[DataProvider('sgbds')]
     public function testDelete(string $sgbd): void
     {
         $sqls = $this->sqlQueries[$sgbd]['all'];
@@ -1027,6 +1051,7 @@ class ModelTest extends TestCase
      * @throws ModelException
      * @throws FieldException
      */
+    #[DataProvider('sgbds')]
     public function testCallbacks(string $sgbd): void
     {
         if ($sgbd === 'pgsql') {
@@ -1175,6 +1200,7 @@ class ModelTest extends TestCase
      * @throws ModelException
      * @throws FieldException
      */
+    #[DataProvider('sgbds')]
     public function testCallbacksWithClass(string $sgbd): void
     {
         if ($sgbd === 'pgsql') {
