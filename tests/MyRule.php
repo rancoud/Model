@@ -10,11 +10,7 @@ use Rancoud\Model\FieldException;
 class MyRule extends CustomRule
 {
     /**
-     * @param $value
-     *
      * @throws FieldException
-     *
-     * @return mixed
      */
     public function applyRule($value)
     {

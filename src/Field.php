@@ -15,7 +15,6 @@ class Field
 {
     protected string $type;
 
-    /** @var mixed */
     protected $default = false;
 
     protected array $rules;
@@ -28,10 +27,8 @@ class Field
 
     protected array $enumValues = [];
 
-    /** @var mixed */
     protected $min;
 
-    /** @var mixed */
     protected $max;
 
     protected array $range = [null, null];
@@ -42,10 +39,6 @@ class Field
     /**
      * Field constructor.
      *
-     * @param string $type
-     * @param array  $rules
-     * @param mixed  $default
-     *
      * @throws FieldException
      */
     public function __construct(string $type, array $rules = [], $default = false)
@@ -55,33 +48,22 @@ class Field
         $this->setDefault($default);
     }
 
-    /**
-     * @return bool
-     */
     public function isPrimaryKey(): bool
     {
         return $this->isPKey;
     }
 
-    /**
-     * @return bool
-     */
     public function isForeignKey(): bool
     {
         return $this->isFKey;
     }
 
-    /**
-     * @return bool
-     */
     public function isNotNull(): bool
     {
         return $this->notNull;
     }
 
     /**
-     * @param string $type
-     *
      * @throws FieldException
      */
     protected function setType(string $type): void
@@ -101,9 +83,6 @@ class Field
         $this->type = $type;
     }
 
-    /**
-     * @param string $type
-     */
     protected function treatEnum(string $type): void
     {
         $this->type = 'enum';
@@ -113,8 +92,6 @@ class Field
     }
 
     /**
-     * @param array $rules
-     *
      * @throws FieldException
      */
     protected function setRules(array $rules = []): void
@@ -162,9 +139,6 @@ class Field
         $this->rules = $rules;
     }
 
-    /**
-     * @param string $rule
-     */
     protected function extractMinRule(string $rule): void
     {
         if ($this->type === 'float') {
@@ -174,9 +148,6 @@ class Field
         }
     }
 
-    /**
-     * @param string $rule
-     */
     protected function extractMaxRule(string $rule): void
     {
         if ($this->type === 'float') {
@@ -186,9 +157,6 @@ class Field
         }
     }
 
-    /**
-     * @param string $rule
-     */
     protected function extractRangeRule(string $rule): void
     {
         $range = \mb_substr($rule, 6);
@@ -203,8 +171,6 @@ class Field
     }
 
     /**
-     * @param mixed $default
-     *
      * @throws FieldException
      */
     protected function setDefault($default): void
@@ -216,17 +182,12 @@ class Field
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getDefault()
     {
         return $this->default;
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
      *
      * @return mixed|null
@@ -248,11 +209,7 @@ class Field
     }
 
     /**
-     * @param $value
-     *
      * @throws FieldException
-     *
-     * @return mixed
      */
     protected function convertType($value)
     {
@@ -266,8 +223,6 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
      *
      * @return int|mixed
@@ -292,11 +247,7 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
-     *
-     * @return float
      */
     protected function convertToFloat($value): float
     {
@@ -314,11 +265,7 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function convertToChar($value): string
     {
@@ -328,11 +275,7 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function convertToVarchar($value): string
     {
@@ -342,11 +285,7 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function convertToText($value): string
     {
@@ -356,11 +295,7 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function convertToDate($value): string
     {
@@ -376,11 +311,7 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function convertToDatetime($value): string
     {
@@ -396,11 +327,7 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function convertToTime($value): string
     {
@@ -419,8 +346,6 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
      *
      * @return false|string
@@ -451,8 +376,6 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
      *
      * @return int|mixed
@@ -479,11 +402,7 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function convertToEnum($value): string
     {
@@ -496,12 +415,6 @@ class Field
         return $value;
     }
 
-    /**
-     * @param string $pattern
-     * @param mixed  $value
-     *
-     * @return bool
-     */
     protected function isInvalidPattern(string $pattern, $value): bool
     {
         $matches = [];
@@ -510,19 +423,12 @@ class Field
         return \count($matches[0]) < 1;
     }
 
-    /**
-     * @param int $timestamp
-     *
-     * @return bool
-     */
     protected function isInvalidBoundaryTimestamp(int $timestamp): bool
     {
         return $timestamp < 0 || $timestamp > 2147483647;
     }
 
     /**
-     * @param mixed $value
-     *
      * @return int|mixed
      */
     protected function applyMinMaxRangeInt($value)
@@ -543,11 +449,6 @@ class Field
         return $value;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return float
-     */
     protected function applyMinMaxRangeFloat($value): float
     {
         if ($this->min !== null) {
@@ -567,11 +468,7 @@ class Field
     }
 
     /**
-     * @param string $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function applyMinMaxRangeString(string $value): string
     {
@@ -594,11 +491,6 @@ class Field
         return $value;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return mixed
-     */
     protected function applyRules($value)
     {
         foreach ($this->rules as $rule) {
@@ -618,11 +510,7 @@ class Field
     }
 
     /**
-     * @param string $value
-     *
      * @throws FieldException
-     *
-     * @return string
      */
     protected function applyRuleEmail(string $value): string
     {
@@ -640,8 +528,6 @@ class Field
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws FieldException
      *
      * @return mixed|null

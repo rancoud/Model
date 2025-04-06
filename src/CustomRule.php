@@ -9,10 +9,5 @@ namespace Rancoud\Model;
  */
 abstract class CustomRule
 {
-    /**
-     * @param $value
-     *
-     * @return mixed
-     */
     abstract public function applyRule($value);
 }

@@ -71,8 +71,6 @@ class ImplementModel extends Model
 
     /**
      * @throws ModelException
-     *
-     * @return string
      */
     public function hackCreateSqlFieldsFromParams(): string
     {
@@ -83,8 +81,6 @@ class ImplementModel extends Model
 
     /**
      * @throws ModelException
-     *
-     * @return string
      */
     public function hackUpdateSqlFieldsFromParams(): string
     {

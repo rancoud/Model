@@ -14,25 +14,16 @@ class ErrorWarning
     protected array $warningMessage = [];
     protected array $warningFields = [];
 
-    /**
-     * @return array
-     */
     public function getErrorMessages(): array
     {
         return $this->errorMessage;
     }
 
-    /**
-     * @return bool
-     */
     public function hasErrorMessages(): bool
     {
         return \count($this->errorMessage) > 0;
     }
 
-    /**
-     * @param string $error
-     */
     protected function addErrorMessage(string $error): void
     {
         $this->errorMessage[] = $error;
@@ -43,26 +34,16 @@ class ErrorWarning
         $this->errorMessage = [];
     }
 
-    /**
-     * @return array
-     */
     public function getErrorFields(): array
     {
         return $this->errorFields;
     }
 
-    /**
-     * @return bool
-     */
     public function hasErrorFields(): bool
     {
         return \count($this->errorFields) > 0;
     }
 
-    /**
-     * @param string $field
-     * @param string $reasons
-     */
     protected function addErrorField(string $field, string $reasons): void
     {
         if (!isset($this->errorFields[$field])) {
@@ -72,9 +53,6 @@ class ErrorWarning
         $this->errorFields[$field][] = $reasons;
     }
 
-    /**
-     * @param string|null $field
-     */
     protected function resetErrorField(?string $field = null): void
     {
         if ($field === null) {
@@ -88,25 +66,16 @@ class ErrorWarning
         }
     }
 
-    /**
-     * @return array
-     */
     public function getWarningMessages(): array
     {
         return $this->warningMessage;
     }
 
-    /**
-     * @return bool
-     */
     public function hasWarningMessages(): bool
     {
         return \count($this->warningMessage) > 0;
     }
 
-    /**
-     * @param string $warning
-     */
     protected function addWarningMessage(string $warning): void
     {
         $this->warningMessage[] = $warning;
@@ -117,26 +86,16 @@ class ErrorWarning
         $this->warningMessage = [];
     }
 
-    /**
-     * @return array
-     */
     public function getWarningFields(): array
     {
         return $this->warningFields;
     }
 
-    /**
-     * @return bool
-     */
     public function hasWarningFields(): bool
     {
         return \count($this->warningFields) > 0;
     }
 
-    /**
-     * @param string $field
-     * @param string $reasons
-     */
     protected function addWarningField(string $field, string $reasons): void
     {
         if (!isset($this->warningFields[$field])) {
@@ -146,9 +105,6 @@ class ErrorWarning
         $this->warningFields[$field][] = $reasons;
     }
 
-    /**
-     * @param string|null $field
-     */
     protected function resetWarningField(?string $field = null): void
     {
         if ($field === null) {
