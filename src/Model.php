@@ -38,8 +38,6 @@ abstract class Model extends ErrorWarning
 
     /**
      * Model constructor.
-     *
-     * @param Database $database
      */
     public function __construct(Database $database)
     {
@@ -52,11 +50,6 @@ abstract class Model extends ErrorWarning
 
     abstract protected function setTable(): void;
 
-    /**
-     * @param string $field
-     *
-     * @return bool
-     */
     protected function isValidField(string $field): bool
     {
         return \array_key_exists($field, $this->fields);
@@ -64,8 +57,6 @@ abstract class Model extends ErrorWarning
 
     /**
      * @throws ModelException
-     *
-     * @return string
      */
     protected function getCreateSqlFieldsFromParams(): string
     {
@@ -91,11 +82,7 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string $sql
-     *
      * @throws ModelException
-     *
-     * @return string
      */
     protected function checkNotNullFieldIsPresent(string $sql): string
     {
@@ -130,8 +117,6 @@ abstract class Model extends ErrorWarning
 
     /**
      * @throws ModelException
-     *
-     * @return string
      */
     protected function getUpdateSqlFieldsFromParams(): string
     {
@@ -168,11 +153,7 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param array $params
-     *
      * @throws ModelException
-     *
-     * @return array
      */
     protected function formatValues(array $params): array
     {
@@ -199,9 +180,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param array $params
-     * @param array $validFields
-     *
      * @throws ModelException
      *
      * @return array|int|null
@@ -218,11 +196,7 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param array $params
-     *
      * @throws ModelException
-     *
-     * @return int|null
      */
     protected function allCount(array $params): ?int
     {
@@ -244,12 +218,7 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param array $params
-     * @param array $validFields
-     *
      * @throws ModelException
-     *
-     * @return array
      */
     protected function allRows(array $params, array $validFields = []): array
     {
@@ -286,10 +255,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param array $params
-     *
-     * @return string
-     *
      * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllSelectAndFillSqlParams(array $params): string
@@ -298,10 +263,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param array $params
-     *
-     * @return string
-     *
      * @noinspection PhpUnusedParameterInspection
      */
     protected function getSqlAllJoinAndFillSqlParams(array $params): string
@@ -309,39 +270,23 @@ abstract class Model extends ErrorWarning
         return '';
     }
 
-    /**
-     * @param array $params
-     *
-     * @return string
-     */
     protected function getSqlAllWhereAndFillSqlParams(array $params): string
     {
         return '1=1';
     }
 
-    /**
-     * @return array|null
-     */
     public function getDatabaseErrors(): ?array
     {
         return $this->database->getErrors();
     }
 
-    /**
-     * @return array|null
-     */
     public function getDatabaseLastError(): ?array
     {
         return $this->database->getLastError();
     }
 
     /**
-     * @param mixed $id
-     * @param mixed ...$ids
-     *
      * @throws ModelException
-     *
-     * @return array|null
      */
     public function one($id, ...$ids): ?array
     {
@@ -363,11 +308,7 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param array $args
-     *
      * @throws ModelException
-     *
-     * @return int
      */
     public function create(array $args): int
     {
@@ -401,19 +342,12 @@ abstract class Model extends ErrorWarning
         return $this->lastInsertId;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLastInsertId(): ?int
     {
         return $this->lastInsertId;
     }
 
     /**
-     * @param array $args
-     * @param mixed $id
-     * @param mixed ...$ids
-     *
      * @throws ModelException
      */
     public function update(array $args, $id, ...$ids): void
@@ -449,11 +383,7 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param $ids
-     *
      * @throws ModelException
-     *
-     * @return array
      */
     protected function getWhereWithPrimaryKeys($ids): array
     {
@@ -475,9 +405,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param mixed $id
-     * @param mixed ...$ids
-     *
      * @throws ModelException
      */
     public function delete($id, ...$ids): void
@@ -513,8 +440,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string $mode
-     *
      * @throws ModelException
      *
      * @noinspection PhpDocRedundantThrowsInspection
@@ -524,10 +449,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param $callbacks
-     * @param $sql
-     * @param $params
-     *
      * @throws ModelException
      *
      * @noinspection PhpDocRedundantThrowsInspection
@@ -550,9 +471,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param       $callbacks
-     * @param mixed ...$params
-     *
      * @throws ModelException
      *
      * @noinspection PhpDocRedundantThrowsInspection
@@ -578,9 +496,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param &$sql
-     * @param &$params
-     *
      * @throws ModelException
      */
     protected function beforeCreate(&$sql, &$params): void
@@ -589,9 +504,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param $newId
-     * @param $params
-     *
      * @throws ModelException
      */
     protected function afterCreate($newId, $params): void
@@ -600,9 +512,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param &$sql
-     * @param &$params
-     *
      * @throws ModelException
      */
     protected function beforeUpdate(&$sql, &$params): void
@@ -611,8 +520,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param $params
-     *
      * @throws ModelException
      */
     protected function afterUpdate($params): void
@@ -621,9 +528,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param &$sql
-     * @param &$params
-     *
      * @throws ModelException
      */
     protected function beforeDelete(&$sql, &$params): void
@@ -632,8 +536,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param $params
-     *
      * @throws ModelException
      */
     protected function afterDelete($params): void
@@ -642,7 +544,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string         $name
      * @param \Closure|array $callback
      */
     public function addBeforeCreate(string $name, $callback): void
@@ -651,7 +552,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string         $name
      * @param \Closure|array $callback
      */
     public function addAfterCreate(string $name, $callback): void
@@ -660,7 +560,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string         $name
      * @param \Closure|array $callback
      */
     public function addBeforeUpdate(string $name, $callback): void
@@ -669,7 +568,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string         $name
      * @param \Closure|array $callback
      */
     public function addAfterUpdate(string $name, $callback): void
@@ -678,7 +576,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string         $name
      * @param \Closure|array $callback
      */
     public function addBeforeDelete(string $name, $callback): void
@@ -687,7 +584,6 @@ abstract class Model extends ErrorWarning
     }
 
     /**
-     * @param string         $name
      * @param \Closure|array $callback
      */
     public function addAfterDelete(string $name, $callback): void
@@ -695,49 +591,31 @@ abstract class Model extends ErrorWarning
         $this->callbacksCud['ad'][$name] = $callback;
     }
 
-    /**
-     * @param string $name
-     */
     public function removeBeforeCreate(string $name): void
     {
         unset($this->callbacksCud['bc'][$name]);
     }
 
-    /**
-     * @param string $name
-     */
     public function removeAfterCreate(string $name): void
     {
         unset($this->callbacksCud['ac'][$name]);
     }
 
-    /**
-     * @param string $name
-     */
     public function removeBeforeUpdate(string $name): void
     {
         unset($this->callbacksCud['bu'][$name]);
     }
 
-    /**
-     * @param string $name
-     */
     public function removeAfterUpdate(string $name): void
     {
         unset($this->callbacksCud['au'][$name]);
     }
 
-    /**
-     * @param string $name
-     */
     public function removeBeforeDelete(string $name): void
     {
         unset($this->callbacksCud['bd'][$name]);
     }
 
-    /**
-     * @param string $name
-     */
     public function removeAfterDelete(string $name): void
     {
         unset($this->callbacksCud['ad'][$name]);

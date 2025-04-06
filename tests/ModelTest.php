@@ -342,8 +342,6 @@ class ModelTest extends TestCase
     /**
      * @dataProvider sgbds
      *
-     * @param string $sgbd
-     *
      * @throws FieldException
      */
     #[DataProvider('sgbds')]
@@ -415,8 +413,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionEmptySql(string $sgbd): void
@@ -439,8 +435,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionMissingRequiredFields(string $sgbd): void
@@ -465,8 +459,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionInvalidValues(string $sgbd): void
@@ -491,8 +483,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionErrorSql(string $sgbd): void
@@ -520,8 +510,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionHackInvalidField(string $sgbd): void
@@ -544,8 +532,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws ModelException
      */
@@ -585,8 +571,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testAllModelExceptionErrorSql(string $sgbd): void
@@ -627,8 +611,6 @@ class ModelTest extends TestCase
     /**
      * @dataProvider sgbds
      *
-     * @param string $sgbd
-     *
      * @throws ModelException
      */
     #[DataProvider('sgbds')]
@@ -663,8 +645,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testOneModelExceptionNoPrimaryKey(string $sgbd): void
@@ -688,8 +668,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testOneModelExceptionInvalidPrimaryKey(string $sgbd): void
@@ -712,8 +690,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws FieldException
      */
@@ -739,8 +715,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws ModelException
      */
@@ -769,8 +743,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionNoPrimaryKey(string $sgbd): void
@@ -794,8 +766,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionEmptySql(string $sgbd): void
@@ -818,8 +788,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionInvalidValues(string $sgbd): void
@@ -844,8 +812,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws FieldException
      */
@@ -876,8 +842,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionHackInvalidField(string $sgbd): void
@@ -900,8 +864,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws ModelException
      */
@@ -928,8 +890,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testDeleteModelExceptionNoPrimaryKey(string $sgbd): void
@@ -953,8 +913,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws FieldException
      */
@@ -991,8 +949,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      */
     #[DataProvider('sgbds')]
     public function testDeleteModelExceptionInvalidValues(string $sgbd): void
@@ -1017,8 +973,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws ModelException
      */
@@ -1045,8 +999,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws ModelException
      * @throws FieldException
@@ -1194,8 +1146,6 @@ class ModelTest extends TestCase
 
     /**
      * @dataProvider sgbds
-     *
-     * @param string $sgbd
      *
      * @throws ModelException
      * @throws FieldException

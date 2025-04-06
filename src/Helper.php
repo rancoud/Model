@@ -20,11 +20,6 @@ class Helper
     protected static string $defaultOrderBy = 'id';
     protected static string $defaultOrderByOrder = 'asc';
 
-    /**
-     * @param array $args
-     *
-     * @return bool
-     */
     public static function isRowsCount(array $args): bool
     {
         if (!\array_key_exists(self::$rowsCount, $args)) {
@@ -34,11 +29,6 @@ class Helper
         return (int) $args[self::$rowsCount] === 1;
     }
 
-    /**
-     * @param array $args
-     *
-     * @return bool
-     */
     public static function hasLimit(array $args): bool
     {
         if (!\array_key_exists(self::$noLimit, $args)) {
@@ -48,11 +38,6 @@ class Helper
         return (int) $args[self::$noLimit] !== 1;
     }
 
-    /**
-     * @param array $args
-     *
-     * @return int
-     */
     public static function getPageNumberForSql(array $args): int
     {
         $page = 0;
@@ -68,11 +53,6 @@ class Helper
         return 0;
     }
 
-    /**
-     * @param array $args
-     *
-     * @return int
-     */
     public static function getPageNumberForHuman(array $args): int
     {
         $page = 1;
@@ -88,11 +68,6 @@ class Helper
         return 1;
     }
 
-    /**
-     * @param array $args
-     *
-     * @return int
-     */
     public static function getCountPerPage(array $args): int
     {
         if (!\array_key_exists(self::$count, $args)) {
@@ -107,11 +82,6 @@ class Helper
         return $count;
     }
 
-    /**
-     * @param array $args
-     *
-     * @return array
-     */
     public static function getLimitOffsetCount(array $args): array
     {
         $count = self::getCountPerPage($args);
@@ -120,12 +90,6 @@ class Helper
         return [$count, $count * $page];
     }
 
-    /**
-     * @param array $args
-     * @param array $validFields
-     *
-     * @return array
-     */
     public static function getOrderByOrderField(array $args, array $validFields = []): array
     {
         $fieldsAlreadyTreated = [];
@@ -165,32 +129,16 @@ class Helper
         return $results;
     }
 
-    /**
-     * @param string $field
-     * @param array  $validFields
-     *
-     * @return bool
-     */
     public static function isValidFieldForOrderBy(string $field, array $validFields = []): bool
     {
         return \in_array($field, $validFields, true);
     }
 
-    /**
-     * @param int $value
-     *
-     * @return bool
-     */
     public static function hasInvalidPrimaryKey(int $value): bool
     {
         return $value < 1;
     }
 
-    /**
-     * @param array $orders
-     *
-     * @return string
-     */
     public static function implodeOrder(array $orders): string
     {
         $sql = [];

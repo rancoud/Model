@@ -1452,13 +1452,6 @@ class FieldTest extends TestCase
     /**
      * @dataProvider data
      *
-     * @param string $fieldType
-     * @param array  $rules
-     * @param mixed  $default
-     * @param array  $input
-     * @param array  $expected
-     * @param array  $message
-     *
      * @throws FieldException
      */
     #[DataProvider('data')]

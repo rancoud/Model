@@ -10,11 +10,7 @@ namespace Rancoud\Model;
 trait JsonOutput
 {
     /**
-     * @param int|null $id
-     *
      * @throws \Exception
-     *
-     * @return string
      */
     public function getJson(?int $id = null): string
     {
@@ -25,15 +21,7 @@ trait JsonOutput
         return \json_encode($this->getAllJson(), \JSON_THROW_ON_ERROR);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return array
-     */
     abstract protected function getOneJson(int $id): array;
 
-    /**
-     * @return array
-     */
     abstract protected function getAllJson(): array;
 }
