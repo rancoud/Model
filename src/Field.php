@@ -6,8 +6,6 @@ declare(strict_types=1);
 
 namespace Rancoud\Model;
 
-use DateTime;
-
 /**
  * Class Field.
  */
@@ -15,14 +13,16 @@ class Field
 {
     protected string $type;
 
-    protected $default = false;
+    protected mixed $default = false;
 
     protected array $rules;
 
     protected bool $notNull = false;
 
     protected bool $isKey = false;
+
     protected bool $isPKey = false;
+
     protected bool $isFKey = false;
 
     protected array $enumValues = [];
@@ -34,6 +34,7 @@ class Field
     protected array $range = [null, null];
 
     protected string $patternTime = '[0-2][0-9]:[0-5][0-9]:[0-5][0-9]';
+
     protected string $patternDate = '[1-9][0-9]{3}-[0-1][0-9]-[0-3][0-9]';
 
     /**
@@ -63,9 +64,7 @@ class Field
         return $this->notNull;
     }
 
-    /**
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     protected function setType(string $type): void
     {
         $props = ['int', 'float', 'char', 'varchar', 'text', 'date', 'datetime', 'time', 'timestamp', 'year'];
@@ -91,9 +90,7 @@ class Field
         $this->enumValues = \explode(',', $values);
     }
 
-    /**
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     protected function setRules(array $rules = []): void
     {
         $props = ['pk', 'fk', 'unsigned', 'email', 'not_null', 'max', 'min', 'range'];
@@ -105,21 +102,25 @@ class Field
 
             if (\mb_strpos($rule, 'min:') === 0) {
                 $this->extractMinRule($rule);
+
                 continue;
             }
 
             if (\mb_strpos($rule, 'max:') === 0) {
                 $this->extractMaxRule($rule);
+
                 continue;
             }
 
             if (\mb_strpos($rule, 'range:') === 0) {
                 $this->extractRangeRule($rule);
+
                 continue;
             }
 
             if (!\in_array($rule, $props, true)) {
                 $messageBonus = ', max:int, min:int, range:int,int';
+
                 throw new FieldException('Incorrect Rule. Valid rule: ' . \implode(', ', $props) . $messageBonus);
             }
 
@@ -170,10 +171,8 @@ class Field
         }
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function setDefault($default): void
+    /** @throws FieldException */
+    protected function setDefault(mixed $default): void
     {
         $this->default = $default;
 
@@ -182,7 +181,7 @@ class Field
         }
     }
 
-    public function getDefault()
+    public function getDefault(): mixed
     {
         return $this->default;
     }
@@ -192,7 +191,7 @@ class Field
      *
      * @return mixed|null
      */
-    public function formatValue($value)
+    public function formatValue(mixed $value): mixed
     {
         if ($value === false) {
             return $this->applyDefault(false);
@@ -208,10 +207,8 @@ class Field
         return $this->applyDefault($value);
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertType($value)
+    /** @throws FieldException */
+    protected function convertType(mixed $value): mixed
     {
         if ($value === null && $this->notNull) {
             throw new FieldException('Null not authorized');
@@ -219,15 +216,11 @@ class Field
 
         $function = 'convertTo' . \ucfirst($this->type);
 
-        return $this->$function($value);
+        return $this->{$function}($value);
     }
 
-    /**
-     * @throws FieldException
-     *
-     * @return int|mixed
-     */
-    protected function convertToInt($value)
+    /** @throws FieldException */
+    protected function convertToInt(mixed $value): int
     {
         if (!\is_numeric($value)) {
             throw new FieldException('Invalid int value');
@@ -246,10 +239,8 @@ class Field
         return $this->applyMinMaxRangeInt($value);
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertToFloat($value): float
+    /** @throws FieldException */
+    protected function convertToFloat(mixed $value): float
     {
         if (!\is_numeric($value)) {
             throw new FieldException('Invalid float value');
@@ -264,40 +255,32 @@ class Field
         return $this->applyMinMaxRangeFloat($value);
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertToChar($value): string
+    /** @throws FieldException */
+    protected function convertToChar(mixed $value): string
     {
         $value = (string) $value;
 
         return $this->applyMinMaxRangeString($value);
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertToVarchar($value): string
+    /** @throws FieldException */
+    protected function convertToVarchar(mixed $value): string
     {
         $value = (string) $value;
 
         return $this->applyMinMaxRangeString($value);
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertToText($value): string
+    /** @throws FieldException */
+    protected function convertToText(mixed $value): string
     {
         $value = (string) $value;
 
         return $this->applyMinMaxRangeString($value);
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertToDate($value): string
+    /** @throws FieldException */
+    protected function convertToDate(mixed $value): string
     {
         $date = (string) $value;
 
@@ -305,15 +288,13 @@ class Field
             throw new FieldException('Invalid date value');
         }
 
-        $date = DateTime::createFromFormat('Y-m-d', $date);
+        $date = \DateTimeImmutable::createFromFormat('!Y-m-d', $date);
 
         return $date->format('Y-m-d');
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertToDatetime($value): string
+    /** @throws FieldException */
+    protected function convertToDatetime(mixed $value): string
     {
         $datetime = (string) $value;
 
@@ -321,15 +302,13 @@ class Field
             throw new FieldException('Invalid datetime value');
         }
 
-        $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
+        $datetime = \DateTimeImmutable::createFromFormat('!Y-m-d H:i:s', $datetime);
 
         return $datetime->format('Y-m-d H:i:s');
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertToTime($value): string
+    /** @throws FieldException */
+    protected function convertToTime(mixed $value): string
     {
         $time = (string) $value;
 
@@ -345,12 +324,8 @@ class Field
         return $time;
     }
 
-    /**
-     * @throws FieldException
-     *
-     * @return false|string
-     */
-    protected function convertToTimestamp($value)
+    /** @throws FieldException */
+    protected function convertToTimestamp(mixed $value): string
     {
         if (\is_numeric($value)) {
             $value = (int) $value;
@@ -375,12 +350,8 @@ class Field
         return \date('Y-m-d H:i:s', $timestampInt);
     }
 
-    /**
-     * @throws FieldException
-     *
-     * @return int|mixed
-     */
-    protected function convertToYear($value)
+    /** @throws FieldException */
+    protected function convertToYear(mixed $value): int
     {
         if (!\is_numeric($value)) {
             throw new FieldException('Invalid year value');
@@ -401,10 +372,8 @@ class Field
         return $year;
     }
 
-    /**
-     * @throws FieldException
-     */
-    protected function convertToEnum($value): string
+    /** @throws FieldException */
+    protected function convertToEnum(mixed $value): string
     {
         $value = (string) $value;
 
@@ -415,7 +384,7 @@ class Field
         return $value;
     }
 
-    protected function isInvalidPattern(string $pattern, $value): bool
+    protected function isInvalidPattern(string $pattern, mixed $value): bool
     {
         $matches = [];
         \preg_match_all($pattern, $value, $matches);
@@ -428,10 +397,7 @@ class Field
         return $timestamp < 0 || $timestamp > 2147483647;
     }
 
-    /**
-     * @return int|mixed
-     */
-    protected function applyMinMaxRangeInt($value)
+    protected function applyMinMaxRangeInt(mixed $value): int
     {
         if ($this->min !== null) {
             $value = (int) \max($this->min, $value);
@@ -449,7 +415,7 @@ class Field
         return $value;
     }
 
-    protected function applyMinMaxRangeFloat($value): float
+    protected function applyMinMaxRangeFloat(mixed $value): float
     {
         if ($this->min !== null) {
             $value = (float) \max($this->min, $value);
@@ -467,9 +433,7 @@ class Field
         return $value;
     }
 
-    /**
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     protected function applyMinMaxRangeString(string $value): string
     {
         if (($this->min !== null) && \mb_strlen($value) < $this->min) {
@@ -491,27 +455,26 @@ class Field
         return $value;
     }
 
-    protected function applyRules($value)
+    protected function applyRules(mixed $value): mixed
     {
         foreach ($this->rules as $rule) {
             if ($rule instanceof CustomRule) {
                 $value = $rule->applyRule($value);
+
                 continue;
             }
 
             $function = 'applyRule' . \ucfirst($rule);
 
             if (\method_exists($this, $function)) {
-                $value = $this->$function($value);
+                $value = $this->{$function}($value);
             }
         }
 
         return $value;
     }
 
-    /**
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     protected function applyRuleEmail(string $value): string
     {
         $pos = \mb_strpos($value, '@');
@@ -532,7 +495,7 @@ class Field
      *
      * @return mixed|null
      */
-    protected function applyDefault($value)
+    protected function applyDefault(mixed $value): mixed
     {
         if ($this->notNull && $value === false) {
             if ($this->default === false) {

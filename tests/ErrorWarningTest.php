@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ErrorWarningTest.
+ *
+ * @internal
  */
 class ErrorWarningTest extends TestCase
 {

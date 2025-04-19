@@ -15,6 +15,7 @@ use Rancoud\Model\ModelException;
 class ImplementModel extends Model
 {
     protected array $parametersToRemove = ['param_to_remove'];
+
     protected bool $isHackWrong = false;
 
     public function __construct($database)
@@ -22,9 +23,7 @@ class ImplementModel extends Model
         parent::__construct($database);
     }
 
-    /**
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     protected function setFields(): void
     {
         $this->fields = [
@@ -61,17 +60,13 @@ class ImplementModel extends Model
         \array_shift($this->fields);
     }
 
-    /**
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     public function setWrongPk(): void
     {
         $this->fields['wrong_id'] = new Field('int', ['pk', 'unsigned', 'not_null']);
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     public function hackCreateSqlFieldsFromParams(): string
     {
         $this->sqlParams = ['invalid', 'key' => 'value'];
@@ -79,9 +74,7 @@ class ImplementModel extends Model
         return $this->getCreateSqlFieldsFromParams();
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     public function hackUpdateSqlFieldsFromParams(): string
     {
         $this->sqlParams = ['invalid', 'key' => 'value'];
@@ -89,9 +82,7 @@ class ImplementModel extends Model
         return $this->getUpdateSqlFieldsFromParams();
     }
 
-    /**
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     public function usePostgresql(): void
     {
         $this->fields = [
