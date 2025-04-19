@@ -10,14 +10,23 @@ namespace Rancoud\Model;
 class Helper
 {
     protected static int $countPerPage = 50;
+
     protected static string $rowsCount = 'rows_count';
+
     protected static string $noLimit = 'no_limit';
+
     protected static string $count = 'count';
+
     protected static string $page = 'page';
+
     protected static string $order = 'order';
+
     protected static string $pipeDelimiter = '|';
+
     protected static string $orderDelimiter = ',';
+
     protected static string $defaultOrderBy = 'id';
+
     protected static string $defaultOrderByOrder = 'asc';
 
     public static function isRowsCount(array $args): bool
@@ -103,15 +112,15 @@ class Helper
 
         $results = [];
         foreach ($parts as $part) {
-            $field = \trim($part);
+            $field = \mb_trim($part);
             $order = self::$defaultOrderByOrder;
 
             $subparts = \explode(self::$pipeDelimiter, $part);
             if (\count($subparts) > 1) {
-                $field = \trim($subparts[0]);
+                $field = \mb_trim($subparts[0]);
 
                 if ($subparts[1] === 'asc' || $subparts[1] === 'desc') {
-                    $field = \trim($subparts[0]);
+                    $field = \mb_trim($subparts[0]);
                     $order = $subparts[1];
                 }
             }

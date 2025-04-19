@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class JsonOutputTest.
+ *
+ * @internal
  */
 class JsonOutputTest extends TestCase
 {
@@ -29,9 +31,7 @@ class JsonOutputTest extends TestCase
         ]
     ];
 
-    /**
-     * @throws \Exception
-     */
+    /** @throws \Exception */
     public function testGetOneJson(): void
     {
         $implem = new ImplementationJsonOutput($this->data);
@@ -40,9 +40,7 @@ class JsonOutputTest extends TestCase
         static::assertSame($this->data[0], $data);
     }
 
-    /**
-     * @throws \Exception
-     */
+    /** @throws \Exception */
     public function testGetOneJsonEmpty(): void
     {
         $implem = new ImplementationJsonOutput([]);
@@ -51,9 +49,7 @@ class JsonOutputTest extends TestCase
         static::assertSame([], $data);
     }
 
-    /**
-     * @throws \Exception
-     */
+    /** @throws \Exception */
     public function testGetAllJson(): void
     {
         $implem = new ImplementationJsonOutput($this->data);
@@ -62,9 +58,7 @@ class JsonOutputTest extends TestCase
         static::assertSame($this->data, $data);
     }
 
-    /**
-     * @throws \Exception
-     */
+    /** @throws \Exception */
     public function testGetAllJsonEmpty(): void
     {
         $implem = new ImplementationJsonOutput([]);

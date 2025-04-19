@@ -10,8 +10,11 @@ namespace Rancoud\Model;
 class ErrorWarning
 {
     protected array $errorMessage = [];
+
     protected array $errorFields = [];
+
     protected array $warningMessage = [];
+
     protected array $warningFields = [];
 
     public function getErrorMessages(): array

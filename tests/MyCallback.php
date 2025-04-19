@@ -8,6 +8,8 @@ namespace tests;
 
 /**
  * Class MyCallback.
+ *
+ * @internal
  */
 class MyCallback
 {

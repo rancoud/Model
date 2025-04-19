@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace tests;
 
-use Exception;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Rancoud\Database\Configurator;
@@ -18,12 +17,14 @@ use Rancoud\Model\ModelException;
 
 /**
  * Class ModelTest.
+ *
+ * @internal
  */
 class ModelTest extends TestCase
 {
     protected array $sgbds = [
         'mysql' => [
-            /* @var ?Database $db; */
+            // @var ?Database $db;
             'db'         => null,
             'parameters' => [
                 'driver'       => 'mysql',
@@ -34,7 +35,7 @@ class ModelTest extends TestCase
             ],
         ],
         'pgsql' => [
-            /* @var ?Database $db; */
+            // @var ?Database $db;
             'db'         => null,
             'parameters' => [
                 'driver'        => 'pgsql',
@@ -45,7 +46,7 @@ class ModelTest extends TestCase
             ],
         ],
         'sqlite' => [
-            /* @var ?Database $db; */
+            // @var ?Database $db;
             'db'         => null,
             'parameters' => [
                 'driver'       => 'sqlite',
@@ -177,36 +178,40 @@ class ModelTest extends TestCase
     protected array $sqlQueries = [
         'mysql' => [
             'create' => [
-                'CREATE TABLE `crud_table` (
-                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                  `title` varchar(5) DEFAULT NULL,
-                  `date_start` datetime NOT NULL,
-                  `year_start` year(4) DEFAULT NULL,
-                  `hour_start` time DEFAULT \'00:00:00\',
-                  `hour_stop` time DEFAULT NULL,
-                  `is_visible` enum(\'yes\', \'no\') DEFAULT \'yes\',
-                  `email` varchar(255) DEFAULT NULL,
-                  `nomaxlimit` varchar(255) DEFAULT NULL,
-                  `external_id` int(11) DEFAULT NULL,
-                  PRIMARY KEY (`id`),
-                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;'
+                <<<'EOD'
+                CREATE TABLE `crud_table` (
+                                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                                  `title` varchar(5) DEFAULT NULL,
+                                  `date_start` datetime NOT NULL,
+                                  `year_start` year(4) DEFAULT NULL,
+                                  `hour_start` time DEFAULT '00:00:00',
+                                  `hour_stop` time DEFAULT NULL,
+                                  `is_visible` enum('yes', 'no') DEFAULT 'yes',
+                                  `email` varchar(255) DEFAULT NULL,
+                                  `nomaxlimit` varchar(255) DEFAULT NULL,
+                                  `external_id` int(11) DEFAULT NULL,
+                                  PRIMARY KEY (`id`),
+                                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
+                                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                EOD
             ],
             'all' => [
-                'CREATE TABLE `crud_table` (
-                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                  `title` varchar(5) DEFAULT NULL,
-                  `date_start` datetime NOT NULL,
-                  `year_start` year(4) DEFAULT NULL,
-                  `hour_start` time DEFAULT \'00:00:00\',
-                  `hour_stop` time DEFAULT NULL,
-                  `is_visible` enum(\'yes\', \'no\') DEFAULT \'yes\',
-                  `email` varchar(255) DEFAULT NULL,
-                  `nomaxlimit` varchar(255) DEFAULT NULL,
-                  `external_id` int(11) DEFAULT NULL,
-                  PRIMARY KEY (`id`),
-                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;',
+                <<<'EOD'
+                CREATE TABLE `crud_table` (
+                                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                                  `title` varchar(5) DEFAULT NULL,
+                                  `date_start` datetime NOT NULL,
+                                  `year_start` year(4) DEFAULT NULL,
+                                  `hour_start` time DEFAULT '00:00:00',
+                                  `hour_stop` time DEFAULT NULL,
+                                  `is_visible` enum('yes', 'no') DEFAULT 'yes',
+                                  `email` varchar(255) DEFAULT NULL,
+                                  `nomaxlimit` varchar(255) DEFAULT NULL,
+                                  `external_id` int(11) DEFAULT NULL,
+                                  PRIMARY KEY (`id`),
+                                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
+                                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                EOD,
                 "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
                 "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
                 "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
@@ -215,35 +220,39 @@ class ModelTest extends TestCase
         'pgsql' => [
             'create' => [
                 'CREATE TYPE mood AS ENUM (\'yes\', \'no\');',
-                'create table crud_table
-                (
-                    id SERIAL PRIMARY KEY,
-                    title varchar(5),
-                    date_start timestamp not null,
-                    year_start timestamp,
-                    hour_start time,
-                    hour_stop time,
-                    is_visible mood,
-                    email varchar(255),
-                    nomaxlimit varchar(255),
-                    external_id int
-                );'
+                <<<'EOD'
+                create table crud_table
+                                (
+                                    id SERIAL PRIMARY KEY,
+                                    title varchar(5),
+                                    date_start timestamp not null,
+                                    year_start timestamp,
+                                    hour_start time,
+                                    hour_stop time,
+                                    is_visible mood,
+                                    email varchar(255),
+                                    nomaxlimit varchar(255),
+                                    external_id int
+                                );
+                EOD
             ],
             'all' => [
                 'CREATE TYPE mood AS ENUM (\'yes\', \'no\');',
-                'create table crud_table
-                (
-                    id SERIAL PRIMARY KEY,
-                    title varchar(5),
-                    date_start timestamp not null,
-                    year_start timestamp,
-                    hour_start time,
-                    hour_stop time,
-                    is_visible mood,
-                    email varchar(255),
-                    nomaxlimit varchar(255),
-                    external_id int
-                );',
+                <<<'EOD'
+                create table crud_table
+                                (
+                                    id SERIAL PRIMARY KEY,
+                                    title varchar(5),
+                                    date_start timestamp not null,
+                                    year_start timestamp,
+                                    hour_start time,
+                                    hour_stop time,
+                                    is_visible mood,
+                                    email varchar(255),
+                                    nomaxlimit varchar(255),
+                                    external_id int
+                                );
+                EOD,
                 "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, null, null, 'yes', null, null, null)", // phpcs:ignore
                 "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)", // phpcs:ignore
                 "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)", // phpcs:ignore
@@ -251,35 +260,39 @@ class ModelTest extends TestCase
         ],
         'sqlite' => [
             'create' => [
-                'create table crud_table
-                (
-                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title varchar(5),
-                    date_start datetime not null,
-                    year_start timestamp,
-                    hour_start time default \'00:00:00\' not null,
-                    hour_stop time default NULL,
-                    is_visible text default \'yes\',
-                    email varchar(255),
-                    nomaxlimit varchar(255),
-                    external_id int
-                );',
+                <<<'EOD'
+                create table crud_table
+                                (
+                                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    title varchar(5),
+                                    date_start datetime not null,
+                                    year_start timestamp,
+                                    hour_start time default '00:00:00' not null,
+                                    hour_stop time default NULL,
+                                    is_visible text default 'yes',
+                                    email varchar(255),
+                                    nomaxlimit varchar(255),
+                                    external_id int
+                                );
+                EOD,
                 'create unique index crud_table_external_id_uindex on crud_table (external_id);'
             ],
             'all' => [
-                'create table crud_table
-                (
-                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title varchar(5),
-                    date_start datetime not null,
-                    year_start timestamp,
-                    hour_start time default \'00:00:00\' not null,
-                    hour_stop time default NULL,
-                    is_visible text default \'yes\',
-                    email varchar(255),
-                    nomaxlimit varchar(255),
-                    external_id int
-                );',
+                <<<'EOD'
+                create table crud_table
+                                (
+                                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    title varchar(5),
+                                    date_start datetime not null,
+                                    year_start timestamp,
+                                    hour_start time default '00:00:00' not null,
+                                    hour_stop time default NULL,
+                                    is_visible text default 'yes',
+                                    email varchar(255),
+                                    nomaxlimit varchar(255),
+                                    external_id int
+                                );
+                EOD,
                 'create unique index crud_table_external_id_uindex on crud_table (external_id);',
                 "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
                 "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)", // phpcs:ignore
@@ -288,18 +301,7 @@ class ModelTest extends TestCase
         ],
     ];
 
-    public static function sgbds(): array
-    {
-        return [
-            'mysql'      => ['mysql'],
-            'postgresql' => ['pgsql'],
-            'sqlite'     => ['sqlite']
-        ];
-    }
-
-    /**
-     * @throws \Rancoud\Database\DatabaseException
-     */
+    /** @throws \Rancoud\Database\DatabaseException */
     protected function setUp(): void
     {
         $this->data['mysql'][0]['date_start'] = \date('Y-m-d H:i:s');
@@ -339,11 +341,16 @@ class ModelTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws FieldException
-     */
+    public static function sgbds(): iterable
+    {
+        yield 'mysql'      => ['mysql'];
+
+        yield 'postgresql' => ['pgsql'];
+
+        yield 'sqlite'     => ['sqlite'];
+    }
+
+    /** @throws FieldException */
     #[DataProvider('sgbds')]
     public function testCreateUpdateDeleteCleanErrorFields(string $sgbd): void
     {
@@ -353,7 +360,7 @@ class ModelTest extends TestCase
 
         try {
             $implem->create(['date_start' => '']);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
             --$countAssert;
         }
@@ -363,7 +370,7 @@ class ModelTest extends TestCase
 
         try {
             $implem->create(['date_start' => '']);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
             --$countAssert;
         }
@@ -373,7 +380,7 @@ class ModelTest extends TestCase
 
         try {
             $implem->update(['date_start' => ''], 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
             --$countAssert;
         }
@@ -383,7 +390,7 @@ class ModelTest extends TestCase
 
         try {
             $implem->update(['date_start' => ''], 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             static::assertSame(['date_start' => ['Invalid datetime value']], $implem->getErrorFields());
             --$countAssert;
         }
@@ -394,7 +401,7 @@ class ModelTest extends TestCase
 
         try {
             $implem->delete(1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             static::assertSame(['wrong_id' => ['Null not authorized']], $implem->getErrorFields());
             --$countAssert;
         }
@@ -404,16 +411,13 @@ class ModelTest extends TestCase
 
         try {
             $implem->delete(1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             static::assertSame(['wrong_id' => ['Null not authorized']], $implem->getErrorFields());
             --$countAssert;
         }
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionEmptySql(string $sgbd): void
     {
@@ -433,9 +437,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionMissingRequiredFields(string $sgbd): void
     {
@@ -457,9 +458,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionInvalidValues(string $sgbd): void
     {
@@ -481,9 +479,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionErrorSql(string $sgbd): void
     {
@@ -508,9 +503,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionHackInvalidField(string $sgbd): void
     {
@@ -530,11 +522,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testCreate(string $sgbd): void
     {
@@ -569,9 +557,6 @@ class ModelTest extends TestCase
         static::assertSame($this->data[$sgbd][2], $implem->one(3));
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testAllModelExceptionErrorSql(string $sgbd): void
     {
@@ -608,11 +593,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testAll(string $sgbd): void
     {
@@ -643,9 +624,6 @@ class ModelTest extends TestCase
         static::assertSame([$this->data[$sgbd][2]], $rows);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testOneModelExceptionNoPrimaryKey(string $sgbd): void
     {
@@ -666,9 +644,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testOneModelExceptionInvalidPrimaryKey(string $sgbd): void
     {
@@ -688,11 +663,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     #[DataProvider('sgbds')]
     public function testOneModelExceptionErrorSelect(string $sgbd): void
     {
@@ -713,11 +684,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testOne(string $sgbd): void
     {
@@ -741,9 +708,6 @@ class ModelTest extends TestCase
         static::assertSame([], $row);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionNoPrimaryKey(string $sgbd): void
     {
@@ -764,9 +728,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionEmptySql(string $sgbd): void
     {
@@ -786,9 +747,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionInvalidValues(string $sgbd): void
     {
@@ -810,11 +768,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionErrorSql(string $sgbd): void
     {
@@ -840,9 +794,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionHackInvalidField(string $sgbd): void
     {
@@ -862,11 +813,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testUpdate(string $sgbd): void
     {
@@ -888,9 +835,6 @@ class ModelTest extends TestCase
         static::assertSame('first', $row['title']);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testDeleteModelExceptionNoPrimaryKey(string $sgbd): void
     {
@@ -911,11 +855,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     #[DataProvider('sgbds')]
     public function testDeleteModelExceptionErrorSql(string $sgbd): void
     {
@@ -947,9 +887,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     */
     #[DataProvider('sgbds')]
     public function testDeleteModelExceptionInvalidValues(string $sgbd): void
     {
@@ -971,11 +908,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testDelete(string $sgbd): void
     {
@@ -998,10 +931,8 @@ class ModelTest extends TestCase
     }
 
     /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
      * @throws FieldException
+     * @throws ModelException
      */
     #[DataProvider('sgbds')]
     public function testCallbacks(string $sgbd): void
@@ -1050,7 +981,7 @@ class ModelTest extends TestCase
             return $params;
         });
 
-        $implem->addAfterCreate('b', static function ($newId, $params) {
+        $implem->addAfterCreate('b', static function ($newId, $params): void {
             static::assertSame('done', $params['other']);
         });
 
@@ -1082,7 +1013,7 @@ class ModelTest extends TestCase
             return $params;
         });
 
-        $implem->addAfterUpdate('b', static function ($params) {
+        $implem->addAfterUpdate('b', static function ($params): void {
             static::assertSame('bze', $params['title']);
             static::assertSame(2056, $params['year_start']);
             static::assertSame('done', $params['other']);
@@ -1114,7 +1045,7 @@ class ModelTest extends TestCase
             return $params;
         });
 
-        $implem->addAfterDelete('b', static function ($params) {
+        $implem->addAfterDelete('b', static function ($params): void {
             static::assertSame('done', $params['other_2']);
         });
 
@@ -1145,10 +1076,8 @@ class ModelTest extends TestCase
     }
 
     /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
      * @throws FieldException
+     * @throws ModelException
      */
     #[DataProvider('sgbds')]
     public function testCallbacksWithClass(string $sgbd): void

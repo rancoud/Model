@@ -8,6 +8,8 @@ use Rancoud\Model\JsonOutput;
 
 /**
  * Class ImplementationJsonOutput.
+ *
+ * @internal
  */
 class ImplementationJsonOutput
 {
