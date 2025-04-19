@@ -1616,12 +1616,8 @@ class FieldTest extends TestCase
 
     // endregion
 
-    /**
-     * @dataProvider provideFieldFormatDataCases
-     *
-     * @throws FieldException
-     */
-    #[DataProvider('data')]
+    /** @throws FieldException */
+    #[DataProvider('provideFieldFormatDataCases')]
     public function testFieldFormat(string $fieldType, array $rules, $default, array $input, array $expected, array $message): void // phpcs:ignore
     {
         $rule = new Field($fieldType, $rules, $default);

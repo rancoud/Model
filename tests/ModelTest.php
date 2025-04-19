@@ -350,11 +350,7 @@ class ModelTest extends TestCase
         yield 'sqlite'     => ['sqlite'];
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     #[DataProvider('sgbds')]
     public function testCreateUpdateDeleteCleanErrorFields(string $sgbd): void
     {
@@ -422,7 +418,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionEmptySql(string $sgbd): void
     {
@@ -442,7 +437,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionMissingRequiredFields(string $sgbd): void
     {
@@ -464,7 +458,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionInvalidValues(string $sgbd): void
     {
@@ -486,7 +479,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionErrorSql(string $sgbd): void
     {
@@ -511,7 +503,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testCreateModelExceptionHackInvalidField(string $sgbd): void
     {
@@ -531,11 +522,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testCreate(string $sgbd): void
     {
@@ -570,7 +557,6 @@ class ModelTest extends TestCase
         static::assertSame($this->data[$sgbd][2], $implem->one(3));
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testAllModelExceptionErrorSql(string $sgbd): void
     {
@@ -607,11 +593,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testAll(string $sgbd): void
     {
@@ -642,7 +624,6 @@ class ModelTest extends TestCase
         static::assertSame([$this->data[$sgbd][2]], $rows);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testOneModelExceptionNoPrimaryKey(string $sgbd): void
     {
@@ -663,7 +644,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testOneModelExceptionInvalidPrimaryKey(string $sgbd): void
     {
@@ -683,11 +663,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     #[DataProvider('sgbds')]
     public function testOneModelExceptionErrorSelect(string $sgbd): void
     {
@@ -708,11 +684,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testOne(string $sgbd): void
     {
@@ -736,7 +708,6 @@ class ModelTest extends TestCase
         static::assertSame([], $row);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionNoPrimaryKey(string $sgbd): void
     {
@@ -757,7 +728,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionEmptySql(string $sgbd): void
     {
@@ -777,7 +747,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionInvalidValues(string $sgbd): void
     {
@@ -799,11 +768,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionErrorSql(string $sgbd): void
     {
@@ -829,7 +794,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testUpdateModelExceptionHackInvalidField(string $sgbd): void
     {
@@ -849,11 +813,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testUpdate(string $sgbd): void
     {
@@ -875,7 +835,6 @@ class ModelTest extends TestCase
         static::assertSame('first', $row['title']);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testDeleteModelExceptionNoPrimaryKey(string $sgbd): void
     {
@@ -896,11 +855,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     #[DataProvider('sgbds')]
     public function testDeleteModelExceptionErrorSql(string $sgbd): void
     {
@@ -932,7 +887,6 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /** @dataProvider sgbds */
     #[DataProvider('sgbds')]
     public function testDeleteModelExceptionInvalidValues(string $sgbd): void
     {
@@ -954,11 +908,7 @@ class ModelTest extends TestCase
         static::assertSame(0, $countAssert);
     }
 
-    /**
-     * @dataProvider sgbds
-     *
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     #[DataProvider('sgbds')]
     public function testDelete(string $sgbd): void
     {
@@ -981,8 +931,6 @@ class ModelTest extends TestCase
     }
 
     /**
-     * @dataProvider sgbds
-     *
      * @throws FieldException
      * @throws ModelException
      */
@@ -1128,8 +1076,6 @@ class ModelTest extends TestCase
     }
 
     /**
-     * @dataProvider sgbds
-     *
      * @throws FieldException
      * @throws ModelException
      */
