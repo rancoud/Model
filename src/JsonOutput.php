@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Rancoud\Model;
 
-/**
- * Trait JsonOutput.
- */
 trait JsonOutput
 {
     /** @throws \Exception */

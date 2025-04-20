@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Rancoud\Model;
 
-/**
- * Class ErrorWarning.
- */
 class ErrorWarning
 {
     protected array $errorMessage = [];
