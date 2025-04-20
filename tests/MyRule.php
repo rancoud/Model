@@ -11,7 +11,7 @@ use Rancoud\Model\FieldException;
 class MyRule extends CustomRule
 {
     /** @throws FieldException */
-    public function applyRule($value)
+    public function applyRule(mixed $value): mixed
     {
         if ($value === 'azerty') {
             throw new FieldException('invalid azerty value');

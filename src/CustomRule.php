@@ -6,5 +6,5 @@ namespace Rancoud\Model;
 
 abstract class CustomRule
 {
-    abstract public function applyRule(mixed $value);
+    abstract public function applyRule(mixed $value): mixed;
 }
