@@ -8,6 +8,8 @@ use Rancoud\Model\ErrorWarning;
 
 /**
  * Class ImplementationErrorWarning.
+ *
+ * @internal
  */
 class ImplementationErrorWarning extends ErrorWarning
 {

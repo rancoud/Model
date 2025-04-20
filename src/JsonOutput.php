@@ -9,9 +9,7 @@ namespace Rancoud\Model;
  */
 trait JsonOutput
 {
-    /**
-     * @throws \Exception
-     */
+    /** @throws \Exception */
     public function getJson(?int $id = null): string
     {
         if ($id !== null) {

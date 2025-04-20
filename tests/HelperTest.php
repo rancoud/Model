@@ -9,6 +9,8 @@ use Rancoud\Model\Helper;
 
 /**
  * Class HelperTest.
+ *
+ * @internal
  */
 class HelperTest extends TestCase
 {

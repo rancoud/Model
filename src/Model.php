@@ -36,9 +36,7 @@ abstract class Model extends ErrorWarning
         'ad' => [],
     ];
 
-    /**
-     * Model constructor.
-     */
+    /** Model constructor. */
     public function __construct(Database $database)
     {
         $this->database = $database;
@@ -55,9 +53,7 @@ abstract class Model extends ErrorWarning
         return \array_key_exists($field, $this->fields);
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     protected function getCreateSqlFieldsFromParams(): string
     {
         $sqlFields = $sqlValues = [];
@@ -75,15 +71,14 @@ abstract class Model extends ErrorWarning
 
         if ($sql === '() VALUES ()') {
             $this->addErrorMessage('Insert sql query is empty');
+
             throw new ModelException('ERROR');
         }
 
         return $sql;
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     protected function checkNotNullFieldIsPresent(string $sql): string
     {
         foreach ($this->fields as $key => $field) {
@@ -109,15 +104,14 @@ abstract class Model extends ErrorWarning
 
         if ($this->hasErrorFields()) {
             $this->addErrorMessage('Missing required fields');
+
             throw new ModelException('FIELDS');
         }
 
         return $sql;
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     protected function getUpdateSqlFieldsFromParams(): string
     {
         $sql = [];
@@ -126,6 +120,7 @@ abstract class Model extends ErrorWarning
         foreach ($this->fields as $field => $rule) {
             if ($rule->isPrimaryKey()) {
                 $excludePrimaryKey[] = $field;
+
                 break;
             }
         }
@@ -146,15 +141,14 @@ abstract class Model extends ErrorWarning
 
         if ($str === '') {
             $this->addErrorMessage('Update sql query is empty');
+
             throw new ModelException('ERROR');
         }
 
         return $str;
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     protected function formatValues(array $params): array
     {
         $newParams = [];
@@ -173,18 +167,15 @@ abstract class Model extends ErrorWarning
 
         if ($this->hasErrorFields()) {
             $this->addErrorMessage('Formating values invalid');
+
             throw new ModelException('FIELDS');
         }
 
         return $newParams;
     }
 
-    /**
-     * @throws ModelException
-     *
-     * @return array|int|null
-     */
-    public function all(array $params, array $validFields = [])
+    /** @throws ModelException */
+    public function all(array $params, array $validFields = []): array|int|null
     {
         $this->resetAllErrors();
 
@@ -195,9 +186,7 @@ abstract class Model extends ErrorWarning
         return $this->allRows($params, $validFields);
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     protected function allCount(array $params): ?int
     {
         $sql = [];
@@ -213,13 +202,12 @@ abstract class Model extends ErrorWarning
             return $this->database->count(\implode(' ', $sql), $this->sqlParams);
         } catch (DatabaseException $databaseException) {
             $this->addErrorMessage('Error select count all');
+
             throw new ModelException('ERROR');
         }
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     protected function allRows(array $params, array $validFields = []): array
     {
         $sql = [];
@@ -250,21 +238,18 @@ abstract class Model extends ErrorWarning
             return $rows;
         } catch (DatabaseException $databaseException) {
             $this->addErrorMessage('Error select all');
+
             throw new ModelException('ERROR');
         }
     }
 
-    /**
-     * @noinspection PhpUnusedParameterInspection
-     */
+    /** @noinspection PhpUnusedParameterInspection */
     protected function getSqlAllSelectAndFillSqlParams(array $params): string
     {
         return $this->table . '.*';
     }
 
-    /**
-     * @noinspection PhpUnusedParameterInspection
-     */
+    /** @noinspection PhpUnusedParameterInspection */
     protected function getSqlAllJoinAndFillSqlParams(array $params): string
     {
         return '';
@@ -285,10 +270,8 @@ abstract class Model extends ErrorWarning
         return $this->database->getLastError();
     }
 
-    /**
-     * @throws ModelException
-     */
-    public function one($id, ...$ids): ?array
+    /** @throws ModelException */
+    public function one(mixed $id, mixed ...$ids): ?array
     {
         \array_unshift($ids, $id);
         $this->sqlParams = [];
@@ -303,13 +286,12 @@ abstract class Model extends ErrorWarning
             return $this->formatValues($row);
         } catch (DatabaseException $databaseException) {
             $this->addErrorMessage('Error select one');
+
             throw new ModelException('ERROR');
         }
     }
 
-    /**
-     * @throws ModelException
-     */
+    /** @throws ModelException */
     public function create(array $args): int
     {
         $this->resetAllErrors();
@@ -334,6 +316,7 @@ abstract class Model extends ErrorWarning
             $this->lastInsertId = $this->database->insert($sql, $this->sqlParams, true);
         } catch (DatabaseException $de) {
             $this->addErrorMessage('Error creating');
+
             throw new ModelException('ERROR');
         }
 
@@ -347,10 +330,8 @@ abstract class Model extends ErrorWarning
         return $this->lastInsertId;
     }
 
-    /**
-     * @throws ModelException
-     */
-    public function update(array $args, $id, ...$ids): void
+    /** @throws ModelException */
+    public function update(array $args, mixed $id, mixed ...$ids): void
     {
         $this->resetAllErrors();
 
@@ -376,16 +357,15 @@ abstract class Model extends ErrorWarning
             $this->database->update($sql, $this->sqlParams);
         } catch (DatabaseException $de) {
             $this->addErrorMessage('Error updating');
+
             throw new ModelException('ERROR');
         }
 
         $this->afterUpdate($this->sqlParams);
     }
 
-    /**
-     * @throws ModelException
-     */
-    protected function getWhereWithPrimaryKeys($ids): array
+    /** @throws ModelException */
+    protected function getWhereWithPrimaryKeys(mixed $ids): array
     {
         $sqlWhere = [];
         foreach ($this->fields as $field => $properties) {
@@ -398,16 +378,15 @@ abstract class Model extends ErrorWarning
 
         if (\count($sqlWhere) < 1) {
             $this->addErrorMessage('Error no primary key');
+
             throw new ModelException('ERROR');
         }
 
         return $sqlWhere;
     }
 
-    /**
-     * @throws ModelException
-     */
-    public function delete($id, ...$ids): void
+    /** @throws ModelException */
+    public function delete(mixed $id, mixed ...$ids): void
     {
         $this->resetAllErrors();
 
@@ -424,6 +403,7 @@ abstract class Model extends ErrorWarning
             $this->database->delete($sql, $this->sqlParams);
         } catch (DatabaseException $de) {
             $this->addErrorMessage('Error deleting');
+
             throw new ModelException('ERROR');
         }
 
@@ -444,16 +424,14 @@ abstract class Model extends ErrorWarning
      *
      * @noinspection PhpDocRedundantThrowsInspection
      */
-    protected function treatParametersAfterClean(string $mode): void
-    {
-    }
+    protected function treatParametersAfterClean(string $mode): void {}
 
     /**
      * @throws ModelException
      *
      * @noinspection PhpDocRedundantThrowsInspection
      */
-    protected function beforeCallbacks($callbacks, &$sql, &$params): void
+    protected function beforeCallbacks(array $callbacks, string &$sql, array &$params): void
     {
         foreach ($callbacks as $callback) {
             $ret = null;
@@ -475,7 +453,7 @@ abstract class Model extends ErrorWarning
      *
      * @noinspection PhpDocRedundantThrowsInspection
      */
-    protected function afterCallbacks($callbacks, ...$params): void
+    protected function afterCallbacks(array $callbacks, mixed ...$params): void
     {
         $indexArrayParams = 0;
         if (\count($params) === 2) {
@@ -486,7 +464,7 @@ abstract class Model extends ErrorWarning
             $ret = null;
 
             if (\is_callable($callback)) {
-                $ret = \call_user_func_array($callback, $params);
+                $ret = $callback(...$params);
             }
 
             if (\is_array($ret)) {
@@ -495,98 +473,68 @@ abstract class Model extends ErrorWarning
         }
     }
 
-    /**
-     * @throws ModelException
-     */
-    protected function beforeCreate(&$sql, &$params): void
+    /** @throws ModelException */
+    protected function beforeCreate(string &$sql, array &$params): void
     {
         $this->beforeCallbacks($this->callbacksCud['bc'], $sql, $params);
     }
 
-    /**
-     * @throws ModelException
-     */
-    protected function afterCreate($newId, $params): void
+    /** @throws ModelException */
+    protected function afterCreate(mixed $newId, array $params): void
     {
         $this->afterCallbacks($this->callbacksCud['ac'], $newId, $params);
     }
 
-    /**
-     * @throws ModelException
-     */
-    protected function beforeUpdate(&$sql, &$params): void
+    /** @throws ModelException */
+    protected function beforeUpdate(string &$sql, array &$params): void
     {
         $this->beforeCallbacks($this->callbacksCud['bu'], $sql, $params);
     }
 
-    /**
-     * @throws ModelException
-     */
-    protected function afterUpdate($params): void
+    /** @throws ModelException */
+    protected function afterUpdate(array $params): void
     {
         $this->afterCallbacks($this->callbacksCud['au'], $params);
     }
 
-    /**
-     * @throws ModelException
-     */
-    protected function beforeDelete(&$sql, &$params): void
+    /** @throws ModelException */
+    protected function beforeDelete(string &$sql, array &$params): void
     {
         $this->beforeCallbacks($this->callbacksCud['bd'], $sql, $params);
     }
 
-    /**
-     * @throws ModelException
-     */
-    protected function afterDelete($params): void
+    /** @throws ModelException */
+    protected function afterDelete(array $params): void
     {
         $this->afterCallbacks($this->callbacksCud['ad'], $params);
     }
 
-    /**
-     * @param \Closure|array $callback
-     */
-    public function addBeforeCreate(string $name, $callback): void
+    public function addBeforeCreate(string $name, array|\Closure $callback): void
     {
         $this->callbacksCud['bc'][$name] = $callback;
     }
 
-    /**
-     * @param \Closure|array $callback
-     */
-    public function addAfterCreate(string $name, $callback): void
+    public function addAfterCreate(string $name, array|\Closure $callback): void
     {
         $this->callbacksCud['ac'][$name] = $callback;
     }
 
-    /**
-     * @param \Closure|array $callback
-     */
-    public function addBeforeUpdate(string $name, $callback): void
+    public function addBeforeUpdate(string $name, array|\Closure $callback): void
     {
         $this->callbacksCud['bu'][$name] = $callback;
     }
 
-    /**
-     * @param \Closure|array $callback
-     */
-    public function addAfterUpdate(string $name, $callback): void
+    public function addAfterUpdate(string $name, array|\Closure $callback): void
     {
         $this->callbacksCud['au'][$name] = $callback;
     }
 
-    /**
-     * @param \Closure|array $callback
-     */
-    public function addBeforeDelete(string $name, $callback): void
+    public function addBeforeDelete(string $name, array|\Closure $callback): void
     {
         $this->callbacksCud['bd'][$name] = $callback;
     }
 
-    /**
-     * @param \Closure|array $callback
-     */
-    public function addAfterDelete(string $name, $callback): void
+    public function addAfterDelete(string $name, array|\Closure $callback): void
     {
         $this->callbacksCud['ad'][$name] = $callback;
     }
