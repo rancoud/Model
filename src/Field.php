@@ -6,9 +6,6 @@ declare(strict_types=1);
 
 namespace Rancoud\Model;
 
-/**
- * Class Field.
- */
 class Field
 {
     protected string $type;
@@ -27,9 +24,9 @@ class Field
 
     protected array $enumValues = [];
 
-    protected $min;
+    protected float|int|null $min = null;
 
-    protected $max;
+    protected float|int|null $max = null;
 
     protected array $range = [null, null];
 
@@ -37,11 +34,7 @@ class Field
 
     protected string $patternDate = '[1-9][0-9]{3}-[0-1][0-9]-[0-3][0-9]';
 
-    /**
-     * Field constructor.
-     *
-     * @throws FieldException
-     */
+    /** @throws FieldException */
     public function __construct(string $type, array $rules = [], $default = false)
     {
         $this->setType($type);

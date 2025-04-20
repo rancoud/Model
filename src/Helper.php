@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Rancoud\Model;
 
-/**
- * Class Helper.
- */
 class Helper
 {
     protected static int $countPerPage = 50;

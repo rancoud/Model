@@ -11,11 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Rancoud\Model\Field;
 use Rancoud\Model\FieldException;
 
-/**
- * Class FieldTest.
- *
- * @internal
- */
+/** @internal */
 class FieldTest extends TestCase
 {
     protected array $inputs = [false, null, 'azerty', '-1', '10', 50.50];

@@ -15,11 +15,7 @@ use Rancoud\Database\Database;
 use Rancoud\Model\FieldException;
 use Rancoud\Model\ModelException;
 
-/**
- * Class ModelTest.
- *
- * @internal
- */
+/** @internal */
 class ModelTest extends TestCase
 {
     protected array $sgbds = [

@@ -9,9 +9,7 @@ use Rancoud\Model\FieldException;
 use Rancoud\Model\Model;
 use Rancoud\Model\ModelException;
 
-/**
- * Class ImplementModel.
- */
+/** @internal */
 class ImplementModel extends Model
 {
     protected array $parametersToRemove = ['param_to_remove'];

@@ -9,9 +9,6 @@ namespace Rancoud\Model;
 use Rancoud\Database\Database;
 use Rancoud\Database\DatabaseException;
 
-/**
- * Class Model.
- */
 abstract class Model extends ErrorWarning
 {
     protected Database $database;
@@ -36,7 +33,6 @@ abstract class Model extends ErrorWarning
         'ad' => [],
     ];
 
-    /** Model constructor. */
     public function __construct(Database $database)
     {
         $this->database = $database;
@@ -200,7 +196,7 @@ abstract class Model extends ErrorWarning
 
         try {
             return $this->database->count(\implode(' ', $sql), $this->sqlParams);
-        } catch (DatabaseException $databaseException) {
+        } catch (DatabaseException) {
             $this->addErrorMessage('Error select count all');
 
             throw new ModelException('ERROR');
@@ -236,7 +232,7 @@ abstract class Model extends ErrorWarning
             }
 
             return $rows;
-        } catch (DatabaseException $databaseException) {
+        } catch (DatabaseException) {
             $this->addErrorMessage('Error select all');
 
             throw new ModelException('ERROR');
@@ -284,7 +280,7 @@ abstract class Model extends ErrorWarning
             $row = $this->database->selectRow($sql, $this->sqlParams);
 
             return $this->formatValues($row);
-        } catch (DatabaseException $databaseException) {
+        } catch (DatabaseException) {
             $this->addErrorMessage('Error select one');
 
             throw new ModelException('ERROR');
@@ -314,7 +310,7 @@ abstract class Model extends ErrorWarning
 
         try {
             $this->lastInsertId = $this->database->insert($sql, $this->sqlParams, true);
-        } catch (DatabaseException $de) {
+        } catch (DatabaseException) {
             $this->addErrorMessage('Error creating');
 
             throw new ModelException('ERROR');
@@ -355,7 +351,7 @@ abstract class Model extends ErrorWarning
 
         try {
             $this->database->update($sql, $this->sqlParams);
-        } catch (DatabaseException $de) {
+        } catch (DatabaseException) {
             $this->addErrorMessage('Error updating');
 
             throw new ModelException('ERROR');
@@ -401,7 +397,7 @@ abstract class Model extends ErrorWarning
 
         try {
             $this->database->delete($sql, $this->sqlParams);
-        } catch (DatabaseException $de) {
+        } catch (DatabaseException) {
             $this->addErrorMessage('Error deleting');
 
             throw new ModelException('ERROR');

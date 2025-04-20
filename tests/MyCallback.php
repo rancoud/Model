@@ -6,15 +6,11 @@ declare(strict_types=1);
 
 namespace tests;
 
-/**
- * Class MyCallback.
- *
- * @internal
- */
+/** @internal */
 class MyCallback
 {
     /** @noinspection PhpUnusedParameterInspection */
-    public function before($sql, $params): array
+    public function before(string $sql, array $params): array
     {
         $params['year_start'] = 2000;
 
