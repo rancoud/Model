@@ -21,7 +21,7 @@ class FieldTest extends TestCase
     public function testFieldExceptionInvalidType(): void
     {
         $this->expectException(FieldException::class);
-        $this->expectExceptionMessage('Incorrect Type. Valid type: int, float, char, varchar, text, date, datetime, time, timestamp, year, enum:v1,v2'); // phpcs:ignore
+        $this->expectExceptionMessage('Incorrect Type. Valid type: int, float, char, varchar, text, date, datetime, time, timestamp, year, enum:v1,v2');
 
         new Field('invalid');
     }
@@ -29,7 +29,7 @@ class FieldTest extends TestCase
     public function testFieldExceptionInvalidRule(): void
     {
         $this->expectException(FieldException::class);
-        $this->expectExceptionMessage('Incorrect Rule. Valid rule: pk, fk, unsigned, email, not_null, max, min, range, max:int, min:int, range:int,int'); // phpcs:ignore
+        $this->expectExceptionMessage('Incorrect Rule. Valid rule: pk, fk, unsigned, email, not_null, max, min, range, max:int, min:int, range:int,int');
 
         new Field('int', ['invalid']);
     }
@@ -71,8 +71,6 @@ class FieldTest extends TestCase
 
     public static function provideFieldFormatDataCases(): iterable
     {
-        // phpcs:disable
-
         // char
         yield 'char' => [
             'fieldType' => 'char',
@@ -1606,15 +1604,13 @@ class FieldTest extends TestCase
             'expected'  => [null, null, FieldException::class, '-1', '10', '50.5', ''],
             'message'   => [null, null, 'invalid azerty value', null, null, null, null]
         ];
-
-        // phpcs:enable
     }
 
     // endregion
 
     /** @throws FieldException */
     #[DataProvider('provideFieldFormatDataCases')]
-    public function testFieldFormat(string $fieldType, array $rules, $default, array $input, array $expected, array $message): void // phpcs:ignore
+    public function testFieldFormat(string $fieldType, array $rules, $default, array $input, array $expected, array $message): void
     {
         $rule = new Field($fieldType, $rules, $default);
         for ($i = 0, $max = \count($input); $i < $max; ++$i) {
