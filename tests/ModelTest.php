@@ -172,40 +172,40 @@ class ModelTest extends TestCase
     protected array $sqlQueries = [
         'mysql' => [
             'create' => [
-                <<<'EOD'
+                <<<'SQL'
                 CREATE TABLE `crud_table` (
-                                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                  `title` varchar(5) DEFAULT NULL,
-                                  `date_start` datetime NOT NULL,
-                                  `year_start` year(4) DEFAULT NULL,
-                                  `hour_start` time DEFAULT '00:00:00',
-                                  `hour_stop` time DEFAULT NULL,
-                                  `is_visible` enum('yes', 'no') DEFAULT 'yes',
-                                  `email` varchar(255) DEFAULT NULL,
-                                  `nomaxlimit` varchar(255) DEFAULT NULL,
-                                  `external_id` int(11) DEFAULT NULL,
-                                  PRIMARY KEY (`id`),
-                                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
-                                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                EOD
+                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `title` varchar(5) DEFAULT NULL,
+                  `date_start` datetime NOT NULL,
+                  `year_start` year(4) DEFAULT NULL,
+                  `hour_start` time DEFAULT '00:00:00',
+                  `hour_stop` time DEFAULT NULL,
+                  `is_visible` enum('yes', 'no') DEFAULT 'yes',
+                  `email` varchar(255) DEFAULT NULL,
+                  `nomaxlimit` varchar(255) DEFAULT NULL,
+                  `external_id` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`id`),
+                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                SQL
             ],
             'all' => [
-                <<<'EOD'
+                <<<'SQL'
                 CREATE TABLE `crud_table` (
-                                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                  `title` varchar(5) DEFAULT NULL,
-                                  `date_start` datetime NOT NULL,
-                                  `year_start` year(4) DEFAULT NULL,
-                                  `hour_start` time DEFAULT '00:00:00',
-                                  `hour_stop` time DEFAULT NULL,
-                                  `is_visible` enum('yes', 'no') DEFAULT 'yes',
-                                  `email` varchar(255) DEFAULT NULL,
-                                  `nomaxlimit` varchar(255) DEFAULT NULL,
-                                  `external_id` int(11) DEFAULT NULL,
-                                  PRIMARY KEY (`id`),
-                                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
-                                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                EOD,
+                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `title` varchar(5) DEFAULT NULL,
+                  `date_start` datetime NOT NULL,
+                  `year_start` year(4) DEFAULT NULL,
+                  `hour_start` time DEFAULT '00:00:00',
+                  `hour_stop` time DEFAULT NULL,
+                  `is_visible` enum('yes', 'no') DEFAULT 'yes',
+                  `email` varchar(255) DEFAULT NULL,
+                  `nomaxlimit` varchar(255) DEFAULT NULL,
+                  `external_id` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`id`),
+                  UNIQUE KEY `external_id_UNIQUE` (`external_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                SQL,
                 "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)",
                 "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)",
                 "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)",
@@ -214,39 +214,37 @@ class ModelTest extends TestCase
         'pgsql' => [
             'create' => [
                 'CREATE TYPE mood AS ENUM (\'yes\', \'no\');',
-                <<<'EOD'
-                create table crud_table
-                                (
-                                    id SERIAL PRIMARY KEY,
-                                    title varchar(5),
-                                    date_start timestamp not null,
-                                    year_start timestamp,
-                                    hour_start time,
-                                    hour_stop time,
-                                    is_visible mood,
-                                    email varchar(255),
-                                    nomaxlimit varchar(255),
-                                    external_id int
-                                );
-                EOD
+                <<<'SQL'
+                create table crud_table (
+                    id SERIAL PRIMARY KEY,
+                    title varchar(5),
+                    date_start timestamp not null,
+                    year_start timestamp,
+                    hour_start time,
+                    hour_stop time,
+                    is_visible mood,
+                    email varchar(255),
+                    nomaxlimit varchar(255),
+                    external_id int
+                );
+                SQL
             ],
             'all' => [
                 'CREATE TYPE mood AS ENUM (\'yes\', \'no\');',
-                <<<'EOD'
-                create table crud_table
-                                (
-                                    id SERIAL PRIMARY KEY,
-                                    title varchar(5),
-                                    date_start timestamp not null,
-                                    year_start timestamp,
-                                    hour_start time,
-                                    hour_stop time,
-                                    is_visible mood,
-                                    email varchar(255),
-                                    nomaxlimit varchar(255),
-                                    external_id int
-                                );
-                EOD,
+                <<<'SQL'
+                create table crud_table (
+                    id SERIAL PRIMARY KEY,
+                    title varchar(5),
+                    date_start timestamp not null,
+                    year_start timestamp,
+                    hour_start time,
+                    hour_stop time,
+                    is_visible mood,
+                    email varchar(255),
+                    nomaxlimit varchar(255),
+                    external_id int
+                );
+                SQL,
                 "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, null, null, 'yes', null, null, null)",
                 "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)",
                 "INSERT INTO crud_table VALUES (3, 'third', '2018-08-07 20:06:23', null, null, null, 'yes', null, null, null)",
@@ -254,39 +252,37 @@ class ModelTest extends TestCase
         ],
         'sqlite' => [
             'create' => [
-                <<<'EOD'
-                create table crud_table
-                                (
-                                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
-                                    title varchar(5),
-                                    date_start datetime not null,
-                                    year_start timestamp,
-                                    hour_start time default '00:00:00' not null,
-                                    hour_stop time default NULL,
-                                    is_visible text default 'yes',
-                                    email varchar(255),
-                                    nomaxlimit varchar(255),
-                                    external_id int
-                                );
-                EOD,
+                <<<'SQL'
+                create table crud_table (
+                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title varchar(5),
+                    date_start datetime not null,
+                    year_start timestamp,
+                    hour_start time default '00:00:00' not null,
+                    hour_stop time default NULL,
+                    is_visible text default 'yes',
+                    email varchar(255),
+                    nomaxlimit varchar(255),
+                    external_id int
+                );
+                SQL,
                 'create unique index crud_table_external_id_uindex on crud_table (external_id);'
             ],
             'all' => [
-                <<<'EOD'
-                create table crud_table
-                                (
-                                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
-                                    title varchar(5),
-                                    date_start datetime not null,
-                                    year_start timestamp,
-                                    hour_start time default '00:00:00' not null,
-                                    hour_stop time default NULL,
-                                    is_visible text default 'yes',
-                                    email varchar(255),
-                                    nomaxlimit varchar(255),
-                                    external_id int
-                                );
-                EOD,
+                <<<'SQL'
+                create table crud_table (
+                    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title varchar(5),
+                    date_start datetime not null,
+                    year_start timestamp,
+                    hour_start time default '00:00:00' not null,
+                    hour_stop time default NULL,
+                    is_visible text default 'yes',
+                    email varchar(255),
+                    nomaxlimit varchar(255),
+                    external_id int
+                );
+                SQL,
                 'create unique index crud_table_external_id_uindex on crud_table (external_id);',
                 "INSERT INTO crud_table VALUES (1, 'first', '{{DATE_START}}', null, '00:00:00', null, 'yes', null, null, null)",
                 "INSERT INTO crud_table VALUES (2, 'secon', '2018-08-07 20:06:23', null, '00:00:00', null, 'yes', null, null, null)",
