@@ -6,7 +6,9 @@ namespace tests;
 
 use Rancoud\Model\ErrorWarning;
 
-/** @internal */
+/**
+ * @internal
+ */
 class ImplementationErrorWarning extends ErrorWarning
 {
     public function addErrorMessage(string $error): void

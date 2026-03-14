@@ -7,7 +7,9 @@ namespace tests;
 use PHPUnit\Framework\TestCase;
 use Rancoud\Model\Helper;
 
-/** @internal */
+/**
+ * @internal
+ */
 class HelperTest extends TestCase
 {
     public function testIsTotalCount(): void

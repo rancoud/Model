@@ -6,7 +6,9 @@ namespace tests;
 
 use PHPUnit\Framework\TestCase;
 
-/** @internal */
+/**
+ * @internal
+ */
 class ErrorWarningTest extends TestCase
 {
     public function testErrorMessage(): void
