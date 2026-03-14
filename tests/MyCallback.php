@@ -6,7 +6,9 @@ declare(strict_types=1);
 
 namespace tests;
 
-/** @internal */
+/**
+ * @internal
+ */
 class MyCallback
 {
     /** @noinspection PhpUnusedParameterInspection */

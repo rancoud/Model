@@ -6,7 +6,9 @@ namespace tests;
 
 use Rancoud\Model\JsonOutput;
 
-/** @internal */
+/**
+ * @internal
+ */
 class ImplementationJsonOutput
 {
     use JsonOutput;

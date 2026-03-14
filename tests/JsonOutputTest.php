@@ -6,7 +6,9 @@ namespace tests;
 
 use PHPUnit\Framework\TestCase;
 
-/** @internal */
+/**
+ * @internal
+ */
 class JsonOutputTest extends TestCase
 {
     protected array $data = [

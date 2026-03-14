@@ -7,7 +7,9 @@ namespace tests;
 use Rancoud\Model\CustomRule;
 use Rancoud\Model\FieldException;
 
-/** @internal */
+/**
+ * @internal
+ */
 class MyRule extends CustomRule
 {
     /** @throws FieldException */
