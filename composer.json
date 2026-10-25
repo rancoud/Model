@@ -21,8 +21,8 @@
         }
     },
     "require": {
-        "php": ">=8.4.0",
-        "rancoud/database": "7.0.3",
+        "php": "^8.4.27 || ^8.5.12 || ^8.6.0",
+        "rancoud/database": "7.0.4",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*"
@@ -45,7 +45,7 @@
             "php-cs-fixer fix -vvv"
         ],
         "test": [
-            "phpunit --colors --display-all-issues --coverage-html ./coverage --coverage-clover coverage/clover.xml --coverage-text"
+            "phpunit --colors --display-all-issues --coverage-html ./coverage --coverage-text"
         ]
     }
 }
